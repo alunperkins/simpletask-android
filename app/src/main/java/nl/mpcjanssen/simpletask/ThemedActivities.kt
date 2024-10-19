@@ -33,6 +33,7 @@ abstract class ThemedActionBarActivity : AppCompatActivity() {
 
 abstract class ThemedPreferenceActivity : AppCompatPreferenceActivity() {
 
+    @Deprecated("Deprecated in Java")
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(TodoApplication.config.activeActionBarTheme)
         if (TodoApplication.config.forceEnglish) {

@@ -64,6 +64,7 @@ class HelpScreen : ThemedActionBarActivity() {
 
         wvHelp!!.webViewClient = object : WebViewClient() {
             // Replacement is API >= 21 only
+            @Deprecated("Deprecated in Java")
             @Suppress("OverridingDeprecatedMember")
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 Log.d(TAG, "Loading url: " + url)

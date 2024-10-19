@@ -340,7 +340,8 @@ fun Activity.updateItemsDialog(
                     true -> tasks.forEach {
                         addToTask(it, item)
                     }
-                    // null ->  Nothing to do with indeterminite state
+                    // null ->  Nothing to do with indeterminate state
+                    null -> TODO()
                 }
             }
             val newText = editText.text.toString()

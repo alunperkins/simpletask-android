@@ -63,6 +63,7 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         return attrs.getAttributeValue(namespace, name) ?: defaultValue
     }
 
+    @Deprecated("Deprecated in Java")
     public override fun onBindView(view: View) {
         super.onBindView(view)
 
@@ -146,12 +147,14 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         notifyChanged()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onGetDefaultValue(ta: TypedArray, index: Int): Any {
 
         return ta.getInt(index, DEFAULT_VALUE)
 
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
 
         if (restoreValue) {
@@ -173,11 +176,13 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
     /**
      * make sure that the seekbar is disabled if the preference is disabled
      */
+    @Deprecated("Deprecated in Java")
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         mSeekBar!!.isEnabled = enabled
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {
         super.onDependencyChanged(dependency, disableDependent)
 

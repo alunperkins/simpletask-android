@@ -50,6 +50,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
     private lateinit var localBroadcastManager: LocalBroadcastManager
     private lateinit var m_broadcastReceiver: BroadcastReceiver
 
+    @Deprecated("Deprecated in Java")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
@@ -123,11 +124,13 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
         prefs.unregisterOnSharedPreferenceChangeListener(this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onDestroy() {
         super.onDestroy()
         localBroadcastManager.unregisterReceiver(m_broadcastReceiver)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBuildHeaders(target: MutableList<Header>) {
         val allHeaders = ArrayList<Header>()
         loadHeadersFromResource(R.xml.preference_headers, allHeaders)
@@ -140,10 +143,12 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun isValidFragment(fragmentName: String): Boolean {
         return true
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
         // Respond to the action bar's Up/Home button
@@ -158,6 +163,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
     }
 
     abstract class PrefFragment(val xmlId: Int) : PreferenceFragment() {
+        @Deprecated("Deprecated in Java")
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(xmlId)
@@ -190,6 +196,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
     */
 
     class InterfacePrefFragment : PrefFragment(R.xml.interface_preferences) {
+        @Deprecated("Deprecated in Java")
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             val appendTextPref = findPreference(getString(R.string.share_task_append_text)) as EditTextPreference
@@ -207,6 +214,7 @@ class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPrefer
     class ConfigurationPrefFragment : PrefFragment(R.xml.configuration_preferences)
 
     class OtherPrefFragment : PrefFragment(R.xml.other_preferences) {
+        @Deprecated("Deprecated in Java")
         @RequiresApi(Build.VERSION_CODES.M)
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)

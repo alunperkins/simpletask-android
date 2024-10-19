@@ -44,6 +44,7 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
         setNegativeButtonText(R.string.cancel)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateDialogView(): View {
         val picker = android.widget.TimePicker(context)
         picker.setIs24HourView(DateFormat.is24HourFormat(context))
@@ -55,6 +56,7 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
         Picker handling changed in new versions of Android.
         For now keep using the old version, will updated if it breaks.
      */
+    @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun onBindDialogView(v: View) {
         super.onBindDialogView(v)
@@ -68,6 +70,7 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
     Picker handling changed in new versions of Android.
     For now keep using the old version, will updated if it breaks.
  */
+    @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun onDialogClosed(positiveResult: Boolean) {
         super.onDialogClosed(positiveResult)
@@ -82,10 +85,12 @@ class TimePreference @JvmOverloads constructor(ctx: Context, attrs: AttributeSet
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
         return a.getInt(index, 0)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onSetInitialValue(restoreValue: Boolean, defaultValue: Any?) {
         if (restoreValue) {
             m_minutes = getPersistedInt(0)
