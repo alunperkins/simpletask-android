@@ -10,10 +10,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_actionbar"
-        android:layout_height="wrap_content"
+        style="@style/SimpleToolbar"
         android:layout_width="match_parent"
-        android:minHeight="?android:attr/actionBarSize"
-        style="@style/SimpleToolbar" />
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize" />
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -41,8 +41,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:background="#FF0000"
-                        android:visibility="gone"
                         android:elevation="3dp"
+                        android:visibility="gone"
                         tools:ignore="UnusedAttribute" />
 
                     <View
@@ -50,8 +50,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:background="@android:color/holo_orange_light"
-                        android:visibility="gone"
                         android:elevation="3dp"
+                        android:visibility="gone"
                         tools:ignore="UnusedAttribute" />
 
                     <LinearLayout
@@ -74,12 +74,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/clear_filter"
-                            android:minHeight="0dp"
                             android:minWidth="0dp"
+                            android:minHeight="0dp"
                             android:onClick="onClearClick"
                             android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
                             android:paddingTop="0dp"
+                            android:paddingRight="2dp"
                             android:src="@drawable/cancel_light" />
                     </LinearLayout>
 
@@ -111,16 +111,16 @@
             </FrameLayout>
 
             <ProgressBar
-                android:layout_width="match_parent"
-                android:indeterminate="true"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:id="@+id/sync_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
                 android:visibility="gone" />
 
             <androidx.appcompat.widget.Toolbar
-                style="@style/SimpleSelectionBar"
                 android:id="@+id/toolbar"
+                style="@style/SimpleSelectionBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?android:attr/actionBarSize"
