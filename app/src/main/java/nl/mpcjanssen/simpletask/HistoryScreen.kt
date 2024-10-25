@@ -100,23 +100,31 @@ class HistoryScreen : ThemedActionBarActivity() {
                     showPrev()
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_next -> {
                     showNext()
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_clear_database -> {
                     clearDatabase()
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_share -> {
                     if (history.size == 0) {
                         showToastShort(this@HistoryScreen, "Nothing to share")
                     } else {
-                        shareText(this@HistoryScreen, "Old todo version", history.getOrNull(cursorIdx)?.contents
-                                ?: "Nothing to share")
+                        shareText(
+                            this@HistoryScreen,
+                            "Old todo version",
+                            history.getOrNull(cursorIdx)?.contents
+                                ?: "Nothing to share"
+                        )
                     }
                     return@OnMenuItemClickListener true
                 }
+
                 R.id.menu_share_database -> {
                     shareHistory()
                     return@OnMenuItemClickListener true
