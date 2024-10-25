@@ -42,13 +42,23 @@ class HistoryScreen : ThemedActionBarActivity() {
             setTitle(title)
         }
         setContentView(R.layout.history)
-        doAsync {
+        /**
+         * this `doAsync` is from the anko library which seems to have been deleted from the interwebs
+         * basically it just does some work in a background thread, that's it, that's all
+         * but there might be some subtlety about an ability to return flow to the UI thread
+         * some documentation on what it did:
+         * https://workingdev.net/2018/08/android-using-ankos-doasync-to-do.html
+         * and one suggestion of how to replace it:
+         * https://stackoverflow.com/questions/42628583/how-to-replace-ankos-doasync-uithread-with-kotlin-1-1-0-kotlinx-coroutines-cor
+         */
+//        viewModelScope.launch(Dispatchers.IO)
+//        TODO doAsync {
             history = db.todoFileDao().getAll()
-            uiThread {
+//            uiThread {
                 initToolbar()
                 displayCurrent()
-            }
-        }
+//            }
+//        }
     }
 
 
@@ -115,14 +125,14 @@ class HistoryScreen : ThemedActionBarActivity() {
 
     private fun clearDatabase() {
         Log.i(TAG, "Clearing history database")
-        doAsync {
+//        TODO doAsync {
             db.todoFileDao().deleteAll()
             history = db.todoFileDao().getAll()
-            uiThread {
+//            uiThread {
                 updateMenu()
                 displayCurrent()
-            }
-        }
+//            }
+//        }
     }
 
     private fun showNext() {

@@ -8,10 +8,10 @@ open class ActionQueue(val qName: String) : Thread() {
 
     fun add(description: String, r: () -> Unit) {
         Log.i(qName, "-> $description")
-        doAsync {
+//        TODO doAsync {
             Log.i(qName, "<- $description")
             r.invoke()
-        }
+//        }
     }
 }
 
