@@ -22,13 +22,11 @@ import java.util.Date
 import java.util.Locale
 
 class HistoryScreen : ThemedActionBarActivity() {
-
-
     private var toolbar_menu: Menu? = null
     private var mScroll = 0
     val db = TodoApplication.db
     lateinit var history: List<TodoFile>
-    lateinit var dbFile : File
+    lateinit var dbFile: File
     var cursorIdx = 0
     private var m_app: TodoApplication? = null
 
@@ -53,10 +51,15 @@ class HistoryScreen : ThemedActionBarActivity() {
          */
 //        viewModelScope.launch(Dispatchers.IO)
 //        TODO doAsync {
-            history = db.todoFileDao().getAll()
+//        viewModel.viewModelScope.launch {
+//            history = db.todoFileDao().getAll()
+//            withContext(Dispatchers.Default) {
+//                initToolbar()
+//                displayCurrent()
+//            }
+//        }
 //            uiThread {
-                initToolbar()
-                displayCurrent()
+
 //            }
 //        }
     }
@@ -65,8 +68,10 @@ class HistoryScreen : ThemedActionBarActivity() {
     private fun shareHistory() {
         val shareIntent = Intent(android.content.Intent.ACTION_SEND)
         shareIntent.type = "application/x-sqlite3"
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                "Simpletask History Database")
+        shareIntent.putExtra(
+            android.content.Intent.EXTRA_SUBJECT,
+            "Simpletask History Database"
+        )
         try {
             createCachedDatabase(this, dbFile)
             val fileUri = Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + dbFile.name)
@@ -76,7 +81,6 @@ class HistoryScreen : ThemedActionBarActivity() {
         }
 
         startActivity(Intent.createChooser(shareIntent, "Share History Database"))
-
     }
 
 
@@ -126,11 +130,11 @@ class HistoryScreen : ThemedActionBarActivity() {
     private fun clearDatabase() {
         Log.i(TAG, "Clearing history database")
 //        TODO doAsync {
-            db.todoFileDao().deleteAll()
-            history = db.todoFileDao().getAll()
+//        db.todoFileDao().deleteAll()
+//        history = db.todoFileDao().getAll()
 //            uiThread {
-                updateMenu()
-                displayCurrent()
+        updateMenu()
+        displayCurrent()
 //            }
 //        }
     }
@@ -153,9 +157,7 @@ class HistoryScreen : ThemedActionBarActivity() {
     }
 
     private fun displayCurrent() {
-
         val current = history.getOrNull(cursorIdx)
-
 
         val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
         val fileView = findViewById<TextView>(R.id.history_view)
@@ -168,25 +170,18 @@ class HistoryScreen : ThemedActionBarActivity() {
         dateView.text = format.format(current?.date ?: Date())
         sv.scrollY = mScroll
         updateMenu()
-
-
     }
 
 
     private fun updateMenu() {
         if (toolbar_menu == null) {
             return
+        } else {
+            val prev = toolbar_menu!!.findItem(R.id.menu_prev)
+            val next = toolbar_menu!!.findItem(R.id.menu_next)
+            prev.isEnabled = cursorIdx > 0
+            next.isEnabled = cursorIdx < history.size - 1
         }
-        val prev = toolbar_menu!!.findItem(R.id.menu_prev)
-        val next = toolbar_menu!!.findItem(R.id.menu_next)
-
-        val enablePrev = cursorIdx > 0
-        val enableNext = cursorIdx < history.size - 1
-
-        prev.isEnabled = enablePrev
-        next.isEnabled = enableNext
-
-
     }
 
     companion object {
