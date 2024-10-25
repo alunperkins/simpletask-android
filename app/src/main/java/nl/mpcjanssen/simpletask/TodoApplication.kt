@@ -65,7 +65,7 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * The main activity
+ * The main application
  */
 class TodoApplication : Application() {
 

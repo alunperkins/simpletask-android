@@ -52,6 +52,9 @@ import java.io.File
 import java.util.*
 import android.R.id as androidId
 
+/**
+ * The main activity
+ */
 class Simpletask : ThemedNoActionBarActivity() {
     companion object {
         private val REQUEST_PREFERENCES = 1

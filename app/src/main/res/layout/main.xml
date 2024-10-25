@@ -90,6 +90,7 @@
                         android:scrollbars="vertical" />
                 </LinearLayout>
 
+                <!-- TODO the following two FloatingActionButtons seem to be drawn in the same place, one painting over the other? -->
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab"
