@@ -9,7 +9,7 @@ class UtilTest : TestCase() {
         tasks.add(Task("@Home h:1"))
         tasks.add(Task("@Work h:1"))
         tasks.add(Task("@College h:1"))
-        val headers = addHeaderLines(tasks, ArrayList(listOf("by_context")) , "none", false, null)
+        val headers = addHeaderLines(tasks, ArrayList(listOf("by_context")), "none", false, null)
         assertEquals(6, headers.size)
     }
 
@@ -17,7 +17,7 @@ class UtilTest : TestCase() {
         val tasks = ArrayList<Task>()
         tasks.add(Task("@a @b"))
         tasks.add(Task("@b @a"))
-        val headers = addHeaderLines(tasks, ArrayList(listOf("by_context")) , "none", false, null)
+        val headers = addHeaderLines(tasks, ArrayList(listOf("by_context")), "none", false, null)
         assertEquals(3, headers.size)
     }
 }
