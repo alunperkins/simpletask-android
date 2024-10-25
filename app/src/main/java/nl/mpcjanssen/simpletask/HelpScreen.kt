@@ -14,8 +14,7 @@ import android.view.MenuItem
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import nl.mpcjanssen.simpletask.util.markdownAssetAsHtml
-import nl.mpcjanssen.simpletask.util.Config
-import java.util.*
+import java.util.Stack
 
 class HelpScreen : ThemedActionBarActivity() {
 

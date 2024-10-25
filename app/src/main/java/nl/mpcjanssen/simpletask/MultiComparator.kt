@@ -3,7 +3,7 @@ package nl.mpcjanssen.simpletask
 import android.util.Log
 import nl.mpcjanssen.simpletask.task.Task
 import nl.mpcjanssen.simpletask.util.alfaSort
-import java.util.*
+import java.util.Locale
 
 class MultiComparator(sorts: ArrayList<String>, today: String, caseSensitve: Boolean, createIsThreshold: Boolean, moduleName: String? = null) {
     var comparator : Comparator<Task> = compareBy({ null })

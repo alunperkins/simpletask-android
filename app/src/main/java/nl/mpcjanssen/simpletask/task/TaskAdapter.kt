@@ -2,9 +2,6 @@ package nl.mpcjanssen.simpletask.task
 
 import android.graphics.Color
 import android.graphics.Paint
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.SpannableString
 import android.text.Spanned.*
 import android.text.TextUtils
@@ -15,11 +12,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import nl.mpcjanssen.simpletask.*
 import nl.mpcjanssen.simpletask.databinding.ListHeaderBinding
 import nl.mpcjanssen.simpletask.databinding.ListItemBinding
 import nl.mpcjanssen.simpletask.util.*
-import java.util.ArrayList
 
 class TaskViewHolder(itemView: View, val viewType : Int) : RecyclerView.ViewHolder(itemView)
 

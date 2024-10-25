@@ -1,7 +1,8 @@
 package nl.mpcjanssen.simpletask.task
 
 import nl.mpcjanssen.simpletask.util.addInterval
-import java.util.*
+import java.util.SortedSet
+import java.util.UUID
 import java.util.regex.Pattern
 
 class Task(text: String, defaultPrependedDate: String? = null) {

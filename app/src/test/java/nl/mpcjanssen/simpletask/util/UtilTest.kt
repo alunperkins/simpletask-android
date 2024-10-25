@@ -1,9 +1,7 @@
 package nl.mpcjanssen.simpletask.util
 
 import junit.framework.TestCase
-
 import nl.mpcjanssen.simpletask.task.Task
-import java.util.*
 
 class UtilTest : TestCase() {
     fun testAddHeaderLines() {

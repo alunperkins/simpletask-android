@@ -1,7 +1,5 @@
 package nl.mpcjanssen.simpletask.util
 
-import java.util.*
-
 class ListenerList<L> {
     private val listenerList = ArrayList<L>()
 

@@ -28,19 +28,25 @@
 package nl.mpcjanssen.simpletask
 
 import android.Manifest
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.preference.*
-import android.text.TextUtils
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import android.preference.EditTextPreference
+import android.preference.Preference
+import android.preference.PreferenceActivity
+import android.preference.PreferenceFragment
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
-import java.util.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class Preferences : ThemedPreferenceActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 

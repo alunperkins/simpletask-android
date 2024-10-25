@@ -4,12 +4,17 @@ import android.app.SearchManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
-
-import nl.mpcjanssen.simpletask.task.*
+import nl.mpcjanssen.simpletask.task.ByContextFilter
+import nl.mpcjanssen.simpletask.task.ByPriorityFilter
+import nl.mpcjanssen.simpletask.task.ByProjectFilter
+import nl.mpcjanssen.simpletask.task.ByTextFilter
+import nl.mpcjanssen.simpletask.task.Priority
+import nl.mpcjanssen.simpletask.task.Task
+import nl.mpcjanssen.simpletask.task.TaskFilter
 import nl.mpcjanssen.simpletask.util.join
 import nl.mpcjanssen.simpletask.util.todayAsString
 import org.json.JSONObject
-import java.util.*
+import java.util.Arrays
 
 
 data class NamedQuery(val name: String, val query: Query) {

@@ -32,32 +32,38 @@ package nl.mpcjanssen.simpletask
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.Application
-import android.app.PendingIntent
-import android.app.NotificationManager
 import android.app.NotificationChannel
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.NotificationCompat
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.SystemClock
-import androidx.multidex.MultiDexApplication
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.room.Room
 import nl.mpcjanssen.simpletask.dao.AppDatabase
 import nl.mpcjanssen.simpletask.dao.DB_FILE
 import nl.mpcjanssen.simpletask.dao.TodoFile
-
 import nl.mpcjanssen.simpletask.remote.BackupInterface
 import nl.mpcjanssen.simpletask.remote.FileDialog
 import nl.mpcjanssen.simpletask.remote.FileStore
-import nl.mpcjanssen.simpletask.task.Task
 import nl.mpcjanssen.simpletask.task.TodoList
-import nl.mpcjanssen.simpletask.util.*
-import nl.mpcjanssen.simpletask.Constants
+import nl.mpcjanssen.simpletask.util.Config
+import nl.mpcjanssen.simpletask.util.FileStoreActionQueue
+import nl.mpcjanssen.simpletask.util.TAG
+import nl.mpcjanssen.simpletask.util.appVersion
+import nl.mpcjanssen.simpletask.util.showToastLong
+import nl.mpcjanssen.simpletask.util.todayAsString
 import java.io.File
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class TodoApplication : Application() {
 

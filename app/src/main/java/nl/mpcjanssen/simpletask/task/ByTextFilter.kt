@@ -1,7 +1,7 @@
 package nl.mpcjanssen.simpletask.task
 
 import nl.mpcjanssen.simpletask.Interpreter
-import java.util.*
+import java.util.Locale
 
 /**
  * A applyFilter that matches Tasks containing the specified text

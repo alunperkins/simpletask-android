@@ -32,7 +32,6 @@ package nl.mpcjanssen.simpletask.util
 
 import android.util.Log
 import java.io.*
-import java.lang.Exception
 
 @Throws(IOException::class)
 fun writeToFile(bytes: ByteArray, file: File) {

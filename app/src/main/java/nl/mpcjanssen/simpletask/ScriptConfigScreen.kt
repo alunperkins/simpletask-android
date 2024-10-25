@@ -6,14 +6,20 @@ package nl.mpcjanssen.simpletask
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.annotation.RequiresApi
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import nl.mpcjanssen.simpletask.remote.FileStore
-import nl.mpcjanssen.simpletask.util.*
+import nl.mpcjanssen.simpletask.util.FileStoreActionQueue
+import nl.mpcjanssen.simpletask.util.broadcastRefreshWidgets
+import nl.mpcjanssen.simpletask.util.broadcastTasklistChanged
+import nl.mpcjanssen.simpletask.util.createAlertDialog
+import nl.mpcjanssen.simpletask.util.shareText
+import nl.mpcjanssen.simpletask.util.showToastLong
+import nl.mpcjanssen.simpletask.util.showToastShort
 import java.io.File
 import java.io.IOException
 

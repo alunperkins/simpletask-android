@@ -2,15 +2,17 @@ package nl.mpcjanssen.simpletask
 
 import android.app.ActionBar
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import java.util.*
-import kotlin.collections.ArrayList
+import android.widget.AbsListView
+import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import android.widget.LinearLayout
+import android.widget.ListView
+import androidx.fragment.app.Fragment
 
 class FilterListFragment : Fragment() {
     private var lv: ListView? = null

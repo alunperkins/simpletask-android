@@ -23,15 +23,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
-import androidx.annotation.StyleableRes
-import androidx.core.content.ContextCompat
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -39,10 +30,18 @@ import android.webkit.MimeTypeMap
 import android.widget.*
 import android.widget.AdapterView.OnItemLongClickListener
 import androidx.annotation.RequiresApi
-import androidx.core.content.FileProvider
+import androidx.annotation.StyleableRes
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.view.GravityCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import hirondelle.date4j.DateTime
 import nl.mpcjanssen.simpletask.adapters.DrawerAdapter
 import nl.mpcjanssen.simpletask.databinding.MainBinding
@@ -51,8 +50,6 @@ import nl.mpcjanssen.simpletask.task.*
 import nl.mpcjanssen.simpletask.util.*
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.text.toInt
 import android.R.id as androidId
 
 class Simpletask : ThemedNoActionBarActivity() {

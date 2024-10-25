@@ -24,7 +24,7 @@
  */
 package nl.mpcjanssen.simpletask.task
 
-import java.util.*
+import java.util.Locale
 
 enum class Priority {
 
