@@ -64,21 +64,25 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+/**
+ * The main activity
+ */
 class TodoApplication : Application() {
 
     private lateinit var androidUncaughtExceptionHandler: Thread.UncaughtExceptionHandler
     lateinit var localBroadCastManager: LocalBroadcastManager
     private lateinit var m_broadcastReceiver: BroadcastReceiver
 
-
     override fun onCreate() {
         super.onCreate()
         app = this
         config = Config(app)
         todoList = TodoList(config)
-        db = Room.databaseBuilder(this,
-                AppDatabase::class.java, DB_FILE).fallbackToDestructiveMigration()
-                .build()
+        db = Room.databaseBuilder(
+            this,
+            AppDatabase::class.java, DB_FILE
+        ).fallbackToDestructiveMigration()
+            .build()
         if (config.forceEnglish) {
             val conf = resources.configuration
             conf.locale = Locale.ENGLISH
@@ -106,12 +110,14 @@ class TodoApplication : Application() {
                         updateWidgets()
                         updatePinnedNotifications()
                     }
+
                     intent.action == Constants.BROADCAST_UPDATE_WIDGETS -> {
                         Log.i(TAG, "Refresh widgets from broadcast")
                         redrawWidgets()
                         updateWidgets()
                         updatePinnedNotifications()
                     }
+
                     intent.action == Constants.BROADCAST_FILE_SYNC -> loadTodoList("From BROADCAST_FILE_SYNC")
                 }
             }
@@ -128,7 +134,7 @@ class TodoApplication : Application() {
 
     private fun setupUncaughtExceptionHandler() {
         // save original Uncaught exception handler
-        androidUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
+        androidUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()!!
         // Handle all uncaught exceptions for logging.
         // After that call the default uncaught exception handler
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
@@ -153,20 +159,26 @@ class TodoApplication : Application() {
         Log.i(TAG, "Scheduling daily UI updateCache alarm, first at ${calendar.time}")
         val intent = Intent(this, AlarmReceiver::class.java)
         intent.putExtra(Constants.ALARM_REASON_EXTRA, Constants.ALARM_NEW_DAY)
-        val pi = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT  or PendingIntent.FLAG_IMMUTABLE)
+        val pi = PendingIntent.getBroadcast(
+            this, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         val am = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY, pi)
+        am.setRepeating(
+            AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY, pi
+        )
     }
 
     fun restart() {
         val mStartActivity = Intent(this, Simpletask::class.java)
         val mPendingIntentId = 123456
-        val mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId, mStartActivity,
-                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val mPendingIntent = PendingIntent.getActivity(
+            this, mPendingIntentId, mStartActivity,
+            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         val am = this.getSystemService(ALARM_SERVICE) as AlarmManager
-        am.set(AlarmManager.RTC, System.currentTimeMillis() + 100,mPendingIntent)
+        am.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
     }
 
     private fun scheduleRepeating() {
@@ -175,12 +187,16 @@ class TodoApplication : Application() {
         Log.i(TAG, "Scheduling task list reload")
         val intent = Intent(this, AlarmReceiver::class.java)
         intent.putExtra(Constants.ALARM_REASON_EXTRA, Constants.ALARM_RELOAD)
-        val pi = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val pi = PendingIntent.getBroadcast(
+            this, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val am = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 60 * 1000,
-                15 * 60 * 1000, pi)
+        am.setRepeating(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 15 * 60 * 1000,
+            15 * 60 * 1000, pi
+        )
     }
 
     override fun onTerminate() {
@@ -208,7 +224,12 @@ class TodoApplication : Application() {
 
     fun updateWidgets() {
         val mgr = AppWidgetManager.getInstance(applicationContext)
-        for (appWidgetId in mgr.getAppWidgetIds(ComponentName(applicationContext, MyAppWidgetProvider::class.java))) {
+        for (appWidgetId in mgr.getAppWidgetIds(
+            ComponentName(
+                applicationContext,
+                MyAppWidgetProvider::class.java
+            )
+        )) {
             mgr.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widgetlv)
             Log.i(TAG, "Updating widget: $appWidgetId")
         }
@@ -216,7 +237,8 @@ class TodoApplication : Application() {
 
     fun redrawWidgets() {
         val appWidgetManager = AppWidgetManager.getInstance(applicationContext)
-        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this, MyAppWidgetProvider::class.java))
+        val appWidgetIds =
+            appWidgetManager.getAppWidgetIds(ComponentName(this, MyAppWidgetProvider::class.java))
         Log.i(TAG, "Redrawing widgets ")
         if (appWidgetIds.isNotEmpty()) {
             MyAppWidgetProvider().onUpdate(this, appWidgetManager, appWidgetIds)
@@ -225,21 +247,25 @@ class TodoApplication : Application() {
 
     fun updatePinnedNotifications() {
         Log.i(TAG, "Updating pinned notifications")
-        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.getActiveNotifications().forEach { 
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.getActiveNotifications().forEach {
             val taskId = it.notification.extras.getString(Constants.EXTRA_TASK_ID)
             if (taskId != null) {
                 val taskText = TodoApplication.todoList.getTaskWithId(taskId)?.text
-                val notification = NotificationCompat.Builder(this, it.notification).setContentTitle(taskText).build()
+                val notification =
+                    NotificationCompat.Builder(this, it.notification).setContentTitle(taskText)
+                        .build()
                 notificationManager.notify(it.id, notification)
             }
-        }       
+        }
     }
 
     fun clearTodoFile() {
         config.clearCache()
         config.setTodoFile(null)
     }
+
     fun startLogin(caller: Activity) {
         val loginActivity = FileStore.loginActivity()?.java
         loginActivity?.let {
@@ -284,11 +310,12 @@ class TodoApplication : Application() {
     companion object {
         private val TAG = TodoApplication::class.java.simpleName
         fun atLeastAPI(api: Int): Boolean = android.os.Build.VERSION.SDK_INT >= api
-        lateinit var app : TodoApplication
-        lateinit var config : Config
+        lateinit var app: TodoApplication
+        lateinit var config: Config
         lateinit var todoList: TodoList
-        lateinit var db : AppDatabase
+        lateinit var db: AppDatabase
     }
+
     var today: String = todayAsString
 }
 
@@ -297,12 +324,12 @@ object Backupper : BackupInterface {
     override fun backup(file: File, lines: List<String>) {
         val start = SystemClock.elapsedRealtime()
         val now = Date().time
-        val fileToBackup = TodoFile(lines.joinToString ("\n"), file.canonicalPath, now)
-        val dao =  TodoApplication.db.todoFileDao()
-        if(dao.insert(fileToBackup) == -1L) {
+        val fileToBackup = TodoFile(lines.joinToString("\n"), file.canonicalPath, now)
+        val dao = TodoApplication.db.todoFileDao()
+        if (dao.insert(fileToBackup) == -1L) {
             dao.update(fileToBackup)
         }
-        dao.removeBefore( now - 2 * 24 * 60 * 60 * 1000)
+        dao.removeBefore(now - 2 * 24 * 60 * 60 * 1000)
         val end = SystemClock.elapsedRealtime()
         Log.d(TAG, "Backing up of tasks took ${end - start} ms")
     }

@@ -21,15 +21,22 @@ data class NamedQuery(val name: String, val query: Query) {
 
     fun saveInPrefs(prefs: SharedPreferences) {
         query.saveInPrefs(prefs)
-        prefs.edit().apply { putString(INTENT_TITLE,name) }.apply()
+        prefs.edit().apply { putString(INTENT_TITLE, name) }.apply()
     }
 
     companion object {
         val INTENT_TITLE = "TITLE"
-        fun initFromPrefs(prefs: SharedPreferences, module: String, fallbackTitle: String ) : NamedQuery {
+        fun initFromPrefs(
+            prefs: SharedPreferences,
+            module: String,
+            fallbackTitle: String
+        ): NamedQuery {
             val query = Query(prefs, luaModule = module)
             val name = prefs.getString(INTENT_TITLE, null)
-                    ?: JSONObject(prefs.getString(Query.INTENT_JSON, "{}")!!).optString(INTENT_TITLE, fallbackTitle)
+                ?: JSONObject(prefs.getString(Query.INTENT_JSON, "{}")!!).optString(
+                    INTENT_TITLE,
+                    fallbackTitle
+                )
 
             return NamedQuery(name, query)
         }
@@ -78,8 +85,10 @@ data class Query(val luaModule: String) {
 
     val prefill
         get() : String {
-            val prefillLists = if (!contextsNot && contexts.size == 1 && contexts[0] != "-") "@${contexts[0]}" else ""
-            val prefillTags = if (!projectsNot && projects.size == 1 && projects[0] != "-") "+${projects[0]}" else ""
+            val prefillLists =
+                if (!contextsNot && contexts.size == 1 && contexts[0] != "-") "@${contexts[0]}" else ""
+            val prefillTags =
+                if (!projectsNot && projects.size == 1 && projects[0] != "-") "+${projects[0]}" else ""
             return " $prefillLists $prefillTags".trimEnd()
         }
 
@@ -129,30 +138,55 @@ data class Query(val luaModule: String) {
         contextsNot = json.optBoolean(INTENT_CONTEXTS_FILTER_NOT)
         hideCompleted = json.optBoolean(INTENT_HIDE_COMPLETED_FILTER)
         hideFuture = json.optBoolean(
-                INTENT_HIDE_FUTURE_FILTER)
+            INTENT_HIDE_FUTURE_FILTER
+        )
         hideLists = json.optBoolean(
-                INTENT_HIDE_LISTS_FILTER)
+            INTENT_HIDE_LISTS_FILTER
+        )
         hideTags = json.optBoolean(
-                INTENT_HIDE_TAGS_FILTER)
+            INTENT_HIDE_TAGS_FILTER
+        )
         hideCreateDate = json.optBoolean(
-                INTENT_HIDE_CREATE_DATE_FILTER)
+            INTENT_HIDE_CREATE_DATE_FILTER
+        )
         hideHidden = json.optBoolean(
-                INTENT_HIDE_HIDDEN_FILTER)
+            INTENT_HIDE_HIDDEN_FILTER
+        )
         createIsThreshold = json.optBoolean(
-                INTENT_CREATE_AS_THRESHOLD)
+            INTENT_CREATE_AS_THRESHOLD
+        )
         search = json.optString(SearchManager.QUERY)
         if (sorts != null && sorts != "") {
             m_sorts = ArrayList(
-                    Arrays.asList(*sorts.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+                Arrays.asList(
+                    *sorts.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
+                )
+            )
         }
         if (prios != null && prios != "") {
-            priorities = Priority.toPriority(Arrays.asList(*prios.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            priorities = Priority.toPriority(
+                Arrays.asList(
+                    *prios.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
+                )
+            )
         }
         if (tags != null && tags != "") {
-            this.projects = ArrayList(Arrays.asList(*tags.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            this.projects = ArrayList(
+                Arrays.asList(
+                    *tags.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
+                )
+            )
         }
         if (lists != null && lists != "") {
-            this.contexts = ArrayList(Arrays.asList(*lists.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+            this.contexts = ArrayList(
+                Arrays.asList(
+                    *lists.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
+                )
+            )
         }
         return this
     }
@@ -162,7 +196,17 @@ data class Query(val luaModule: String) {
                 || !search.isNullOrEmpty() || Interpreter.hasFilterCallback(luaModule)
     }
 
-    fun getTitle(visible: Int, total: Int, prio: CharSequence, tag: CharSequence, list: CharSequence, search: CharSequence, script: CharSequence, filterApplied: CharSequence, noFilter: CharSequence): String {
+    fun getTitle(
+        visible: Int,
+        total: Int,
+        prio: CharSequence,
+        tag: CharSequence,
+        list: CharSequence,
+        search: CharSequence,
+        script: CharSequence,
+        filterApplied: CharSequence,
+        noFilter: CharSequence
+    ): String {
         var filterTitle = "" + filterApplied
         if (hasFilter()) {
             filterTitle = "($visible/$total) $filterTitle"
@@ -213,8 +257,10 @@ data class Query(val luaModule: String) {
             sorts = ArrayList<String>()
             if (defaultSort == null) return sorts
             for (type in defaultSort) {
-                sorts.add(NORMAL_SORT + SORT_SEPARATOR
-                        + type)
+                sorts.add(
+                    NORMAL_SORT + SORT_SEPARATOR
+                            + type
+                )
             }
 
         }
@@ -270,7 +316,7 @@ data class Query(val luaModule: String) {
 
         val today = todayAsString
         try {
-            return  items.filter {
+            return items.filter {
                 if (showSelected && TodoApplication.todoList.isSelected(it)) {
                     return@filter true
                 }
@@ -391,36 +437,64 @@ data class Query(val luaModule: String) {
             scriptTestTask = intent.getStringExtra(INTENT_SCRIPT_TEST_TASK_FILTER)
 
             prioritiesNot = intent.getBooleanExtra(
-                    INTENT_PRIORITIES_FILTER_NOT, false)
+                INTENT_PRIORITIES_FILTER_NOT, false
+            )
             projectsNot = intent.getBooleanExtra(
-                    INTENT_PROJECTS_FILTER_NOT, false)
+                INTENT_PROJECTS_FILTER_NOT, false
+            )
             contextsNot = intent.getBooleanExtra(
-                    INTENT_CONTEXTS_FILTER_NOT, false)
+                INTENT_CONTEXTS_FILTER_NOT, false
+            )
             hideCompleted = intent.getBooleanExtra(
-                    INTENT_HIDE_COMPLETED_FILTER, false)
+                INTENT_HIDE_COMPLETED_FILTER, false
+            )
             hideFuture = intent.getBooleanExtra(
-                    INTENT_HIDE_FUTURE_FILTER, false)
+                INTENT_HIDE_FUTURE_FILTER, false
+            )
             hideLists = intent.getBooleanExtra(
-                    INTENT_HIDE_LISTS_FILTER, false)
+                INTENT_HIDE_LISTS_FILTER, false
+            )
             hideTags = intent.getBooleanExtra(
-                    INTENT_HIDE_TAGS_FILTER, false)
+                INTENT_HIDE_TAGS_FILTER, false
+            )
             hideCreateDate = intent.getBooleanExtra(
-                    INTENT_HIDE_CREATE_DATE_FILTER, false)
+                INTENT_HIDE_CREATE_DATE_FILTER, false
+            )
             hideHidden = intent.getBooleanExtra(
-                    INTENT_HIDE_HIDDEN_FILTER, true)
+                INTENT_HIDE_HIDDEN_FILTER, true
+            )
             search = intent.getStringExtra(SearchManager.QUERY)
             if (sorts != null && sorts != "") {
                 m_sorts = ArrayList(
-                        Arrays.asList(*sorts.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+                    Arrays.asList(
+                        *sorts.split(INTENT_EXTRA_DELIMITERS.toRegex())
+                            .dropLastWhile { it.isEmpty() }.toTypedArray()
+                    )
+                )
             }
             if (prios != null && prios != "") {
-                priorities = Priority.toPriority(Arrays.asList(*prios.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+                priorities = Priority.toPriority(
+                    Arrays.asList(
+                        *prios.split(INTENT_EXTRA_DELIMITERS.toRegex())
+                            .dropLastWhile { it.isEmpty() }.toTypedArray()
+                    )
+                )
             }
             if (projects != null && projects != "") {
-                this.projects = ArrayList(Arrays.asList(*projects.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+                this.projects = ArrayList(
+                    Arrays.asList(
+                        *projects.split(INTENT_EXTRA_DELIMITERS.toRegex())
+                            .dropLastWhile { it.isEmpty() }.toTypedArray()
+                    )
+                )
             }
             if (contexts != null && contexts != "") {
-                this.contexts = ArrayList(Arrays.asList(*contexts.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
+                this.contexts = ArrayList(
+                    Arrays.asList(
+                        *contexts.split(INTENT_EXTRA_DELIMITERS.toRegex())
+                            .dropLastWhile { it.isEmpty() }.toTypedArray()
+                    )
+                )
             }
         }
         return this
@@ -433,12 +507,28 @@ data class Query(val luaModule: String) {
         } else {
             // Older non JSON version of applyFilter. Use legacy loading
             m_sorts = ArrayList<String>()
-            m_sorts!!.addAll(Arrays.asList(*prefs.getString(INTENT_SORT_ORDER, "")!!.split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()))
-            contexts = ArrayList(prefs.getStringSet(
-                    INTENT_CONTEXTS_FILTER, null) ?: emptySet<String>())
-            priorities = Priority.toPriority(ArrayList(prefs.getStringSet(INTENT_PRIORITIES_FILTER, null) ?: emptySet<String>()))
-            projects = ArrayList(prefs.getStringSet(
-                    INTENT_PROJECTS_FILTER, null) ?: emptySet<String>())
+            m_sorts!!.addAll(
+                Arrays.asList(
+                    *prefs.getString(INTENT_SORT_ORDER, "")!!
+                        .split(INTENT_EXTRA_DELIMITERS.toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
+                )
+            )
+            contexts = ArrayList(
+                prefs.getStringSet(
+                    INTENT_CONTEXTS_FILTER, null
+                ) ?: emptySet<String>()
+            )
+            priorities = Priority.toPriority(
+                ArrayList(
+                    prefs.getStringSet(INTENT_PRIORITIES_FILTER, null) ?: emptySet<String>()
+                )
+            )
+            projects = ArrayList(
+                prefs.getStringSet(
+                    INTENT_PROJECTS_FILTER, null
+                ) ?: emptySet<String>()
+            )
             contextsNot = prefs.getBoolean(INTENT_CONTEXTS_FILTER_NOT, false)
             prioritiesNot = prefs.getBoolean(INTENT_PRIORITIES_FILTER_NOT, false)
             projectsNot = prefs.getBoolean(INTENT_PROJECTS_FILTER_NOT, false)

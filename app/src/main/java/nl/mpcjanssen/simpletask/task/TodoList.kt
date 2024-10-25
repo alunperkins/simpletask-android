@@ -63,7 +63,6 @@ class TodoList(val config: Config) {
     }
 
     val priorities: ArrayList<Priority>
-
         get() {
             val res = HashSet<Priority>()
             todoItems.forEach {
@@ -75,7 +74,6 @@ class TodoList(val config: Config) {
         }
 
     val contexts: List<String>
-
         get() {
             val lists = mLists
             if (lists != null) {
@@ -83,7 +81,7 @@ class TodoList(val config: Config) {
             }
             val res = HashSet<String>()
             todoItems.forEach { t ->
-                t.lists?.let {res.addAll(it)}
+                t.lists?.let { res.addAll(it) }
 
             }
             val newLists = res.toMutableList()
@@ -92,7 +90,6 @@ class TodoList(val config: Config) {
         }
 
     val projects: List<String>
-
         get() {
             val tags = mTags
             if (tags != null) {
@@ -100,7 +97,7 @@ class TodoList(val config: Config) {
             }
             val res = HashSet<String>()
             todoItems.forEach { t ->
-                t.tags?.let {res.addAll(it)}
+                t.tags?.let { res.addAll(it) }
 
             }
             val newTags = res.toMutableList()
@@ -169,22 +166,20 @@ class TodoList(val config: Config) {
     }
 
     val selectedTasks: List<Task>
-
         get() {
             return todoItems.toList().filter { it.selected }
         }
 
-    val fileFormat : String =  todoItems.toList().joinToString(separator = "\n", transform = {
+    val fileFormat: String = todoItems.toList().joinToString(separator = "\n", transform = {
         it.inFileFormat(config.useUUIDs)
     })
 
-
-
-
-    fun notifyTasklistChanged(todoFile: File,
-            save: Boolean,
-            refreshMainUI: Boolean = true,
-            forceKeepSelection: Boolean = false) {
+    fun notifyTasklistChanged(
+        todoFile: File,
+        save: Boolean,
+        refreshMainUI: Boolean = true,
+        forceKeepSelection: Boolean = false
+    ) {
         Log.d(tag, "Notified changed")
         if (save) {
             save(FileStore, todoFile, eol = config.eol)
@@ -213,7 +208,13 @@ class TodoList(val config: Config) {
 
     fun getMultiComparator(filter: Query, caseSensitive: Boolean): MultiComparator {
         val sorts = filter.getSort(config.defaultSorts)
-        return MultiComparator(sorts, TodoApplication.app.today, caseSensitive, filter.createIsThreshold, filter.luaModule)
+        return MultiComparator(
+            sorts,
+            TodoApplication.app.today,
+            caseSensitive,
+            filter.createIsThreshold,
+            filter.luaModule
+        )
     }
 
     fun getSortedTasks(filter: Query, caseSensitive: Boolean): Pair<List<Task>, Int> {
@@ -293,13 +294,13 @@ class TodoList(val config: Config) {
         broadcastUpdateStateIndicator(TodoApplication.app.localBroadCastManager)
         val lines = todoItems.toList().let {
             config.todoList = it
-           it.map {
+            it.map {
                 it.inFileFormat(config.useUUIDs)
             }
         }
         // Update cache
         FileStoreActionQueue.add("Backup") {
-                Backupper.backup(todoFile, lines)
+            Backupper.backup(todoFile, lines)
         }
         runOnMainThread {
             timer?.apply { cancel() }
@@ -308,7 +309,8 @@ class TodoList(val config: Config) {
                     broadcastFileSyncStart(TodoApplication.app.localBroadCastManager)
                     try {
                         Log.i(tag, "Saving todo list, size ${lines.size}")
-                        val newFile = fileStore.saveTasksToFile(todoFile, lines, eol = eol).canonicalPath
+                        val newFile =
+                            fileStore.saveTasksToFile(todoFile, lines, eol = eol).canonicalPath
 
                         if (config.changesPending) {
                             // Remove the red bar
@@ -319,7 +321,10 @@ class TodoList(val config: Config) {
                             // The file was written under another name
                             // Usually this means the was a conflict.
                             Log.i(tag, "Filename was changed remotely. New name is: $newFile")
-                            showToastLong(TodoApplication.app, "Filename was changed remotely. New name is: $newFile")
+                            showToastLong(
+                                TodoApplication.app,
+                                "Filename was changed remotely. New name is: $newFile"
+                            )
                             TodoApplication.app.switchTodoFile(File(newFile))
                         }
 
@@ -340,6 +345,7 @@ class TodoList(val config: Config) {
                     Log.d(tag, "Executing pending Save")
                     saveAction()
                 }
+
                 override fun onTick(p0: Long) {
                     Log.d(tag, "Scheduled save in $p0")
                 }
@@ -355,7 +361,11 @@ class TodoList(val config: Config) {
         FileStoreActionQueue.add("Append to file") {
             broadcastFileSyncStart(TodoApplication.app.localBroadCastManager)
             try {
-                FileStore.appendTaskToFile(doneFile, tasks.map {it.inFileFormat(useUUIDs = TodoApplication.config.useUUIDs)}, eol)
+                FileStore.appendTaskToFile(
+                    doneFile,
+                    tasks.map { it.inFileFormat(useUUIDs = TodoApplication.config.useUUIDs) },
+                    eol
+                )
                 removeAll(tasks)
                 notifyTasklistChanged(todoFile, save = true, refreshMainUI = true)
             } catch (e: Exception) {
@@ -437,7 +447,7 @@ class TodoList(val config: Config) {
     }
 
 
-    fun each (callback : (Task) -> Unit) {
+    fun each(callback: (Task) -> Unit) {
         todoItems.forEach { callback.invoke(it) }
     }
 

@@ -49,38 +49,44 @@ val todayAsString: String
     get() = DateTime.today(TimeZone.getDefault()).format(Constants.DATE_FORMAT)
 
 val mdParser: Parser = Parser.builder().build()
-val htmlRenderer : HtmlRenderer = HtmlRenderer.builder().build()
+val htmlRenderer: HtmlRenderer = HtmlRenderer.builder().build()
 
 fun runOnMainThread(r: Runnable) {
     val handler = Handler(Looper.getMainLooper())
     handler.post(r)
 }
 
-fun getString (resId : Int) : String {
+fun getString(resId: Int): String {
     return TodoApplication.app.getString(resId)
 }
 
-fun showConfirmationDialog(cxt: Context,
-                           msgid: Int,
-                           okListener: DialogInterface.OnClickListener,
-                           titleid: Int) {
+fun showConfirmationDialog(
+    cxt: Context,
+    msgid: Int,
+    okListener: DialogInterface.OnClickListener,
+    titleid: Int
+) {
     val builder = AlertDialog.Builder(cxt)
     builder.setTitle(titleid)
     showConfirmationDialog(msgid, okListener, builder)
 }
 
-fun showConfirmationDialog(cxt: Context,
-                           msgid: Int,
-                           okListener: DialogInterface.OnClickListener,
-                           title: CharSequence?) {
+fun showConfirmationDialog(
+    cxt: Context,
+    msgid: Int,
+    okListener: DialogInterface.OnClickListener,
+    title: CharSequence?
+) {
     val builder = AlertDialog.Builder(cxt)
-    title?.let{ builder.setTitle(it)}
+    title?.let { builder.setTitle(it) }
     showConfirmationDialog(msgid, okListener, builder)
 }
 
-private fun showConfirmationDialog(msgid: Int,
-                           okListener: DialogInterface.OnClickListener,
-                           builder: AlertDialog.Builder) {
+private fun showConfirmationDialog(
+    msgid: Int,
+    okListener: DialogInterface.OnClickListener,
+    builder: AlertDialog.Builder
+) {
     val show = TodoApplication.config.showConfirmationDialogs
     builder.setMessage(msgid)
     builder.setPositiveButton(android.R.string.ok, okListener)
@@ -132,7 +138,13 @@ fun createParentDirectory(dest: File?) {
     }
 }
 
-fun addHeaderLines(visibleTasks: List<Task>, sorts: List<String>, no_header: String, createIsThreshold : Boolean, moduleName : String?): List<VisibleLine> {
+fun addHeaderLines(
+    visibleTasks: List<Task>,
+    sorts: List<String>,
+    no_header: String,
+    createIsThreshold: Boolean,
+    moduleName: String?
+): List<VisibleLine> {
     var firstGroupSortIndex = 0
     if (sorts.size > 1 && sorts[0].contains("completed") || sorts[0].contains("future")) {
         firstGroupSortIndex++
@@ -182,7 +194,13 @@ fun addHeaderLines(visibleTasks: List<Task>, sorts: List<String>, no_header: Str
 
 fun addHeaderLines(visibleTasks: List<Task>, filter: Query, no_header: String): List<VisibleLine> {
     val sorts = filter.getSort(TodoApplication.config.defaultSorts)
-    return addHeaderLines(visibleTasks, sorts, no_header, filter.createIsThreshold, filter.luaModule)
+    return addHeaderLines(
+        visibleTasks,
+        sorts,
+        no_header,
+        filter.createIsThreshold,
+        filter.luaModule
+    )
 }
 
 fun join(s: Collection<String>?, delimiter: String): String {
@@ -203,18 +221,22 @@ fun setColor(ss: SpannableString, color: Int, items: List<String>) {
     for (item in items) {
         val i = data.indexOf(item)
         if (i != -1) {
-            ss.setSpan(ForegroundColorSpan(color), i,
-                    i + item.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(
+                ForegroundColorSpan(color), i,
+                i + item.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
     }
 }
 
 fun setColor(ss: SpannableString, color: Int) {
 
-    ss.setSpan(ForegroundColorSpan(color), 0,
-            ss.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    ss.setSpan(
+        ForegroundColorSpan(color), 0,
+        ss.length,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
 }
 
 fun addInterval(dateTimeStr: String?, interval: String): DateTime? {
@@ -229,9 +251,11 @@ fun addBusinessDays(originalDate: DateTime, days: Int): DateTime {
             6 -> { // Friday
                 date = date.plusDays(3)
             }
+
             7 -> { // Saturdau
                 date = date.plusDays(2)
             }
+
             else -> {
                 date = date.plusDays(1)
             }
@@ -257,7 +281,7 @@ fun addInterval(date: DateTime?, interval: String): DateTime? {
     }
     if (m.groupCount() == 2) {
         val amountStr = m.group(1)
-        amount = if (amountStr == "")  1 else  Integer.parseInt(m.group(1))
+        amount = if (amountStr == "") 1 else Integer.parseInt(m.group(1))
         type = m.group(2).toLowerCase(Locale.getDefault())
     } else {
         return newDate
@@ -298,13 +322,13 @@ fun createAlertDialog(act: Activity, titleId: Int, alert: String): AlertDialog {
 
 @SuppressLint("InflateParams")
 fun Activity.updateItemsDialog(
-        title: String,
-        tasks: List<Task>,
-        allItems: Collection<String>,
-        retrieveFromTask: (Task) -> Set<String>?,
-        addToTask: (Task, String) -> Unit,
-        removeFromTask: (Task, String) -> Unit,
-        positiveButtonListener: () -> Unit
+    title: String,
+    tasks: List<Task>,
+    allItems: Collection<String>,
+    retrieveFromTask: (Task) -> Set<String>?,
+    addToTask: (Task, String) -> Unit,
+    removeFromTask: (Task, String) -> Unit,
+    positiveButtonListener: () -> Unit
 ) {
     val view = layoutInflater.inflate(R.layout.update_items_dialog, null, false)
     val itemAdapter = ItemDialogAdapter(tasks, allItems, retrieveFromTask)
@@ -333,9 +357,10 @@ fun Activity.updateItemsDialog(
             val updatedValues = itemAdapter.changedItems()
             updatedValues.forEach { (item, value) ->
                 when (value) {
-                    false -> tasks.forEach { 
+                    false -> tasks.forEach {
                         removeFromTask(it, item)
                     }
+
                     true -> tasks.forEach {
                         addToTask(it, item)
                     }
@@ -395,8 +420,10 @@ fun createDeferDialog(act: Activity, titleId: Int, listener: InputDialogListener
 }
 
 @Throws(IOException::class)
-fun createCachedFile(context: Context, fileName: String,
-                     content: String) {
+fun createCachedFile(
+    context: Context, fileName: String,
+    content: String
+) {
 
     val cacheFile = File(context.cacheDir, fileName)
     if (cacheFile.createNewFile()) {
@@ -436,15 +463,15 @@ fun createCachedDatabase(context: Context, dbFile: File) {
 }
 
 fun alfaSort(
-        items: Collection<String>,
-        caseSensitive: Boolean = TodoApplication.config.sortCaseSensitive,
-        prefix: String? = null
+    items: Collection<String>,
+    caseSensitive: Boolean = TodoApplication.config.sortCaseSensitive,
+    prefix: String? = null
 ): ArrayList<String> {
-    val sorted = items.sortedWith ( compareBy<String> {
+    val sorted = items.sortedWith(compareBy<String> {
         if (caseSensitive) it else it.toLowerCase(Locale.getDefault())
     })
     if (prefix != null) {
-        val result = ArrayList<String>(sorted.size+1)
+        val result = ArrayList<String>(sorted.size + 1)
         result.add(prefix)
         result.addAll(sorted)
         return result
@@ -455,7 +482,8 @@ fun alfaSort(
 
 fun appVersion(ctx: Context): String {
     val packageInfo = ctx.packageManager.getPackageInfo(
-            ctx.packageName, 0)
+        ctx.packageName, 0
+    )
     return "Simpletask " + BuildConfig.FLAVOR + " v" + packageInfo.versionName + " (" + BuildConfig.VERSION_CODE + ")" + " Git: " + BuildConfig.GIT_VERSION
 }
 
@@ -467,8 +495,10 @@ fun shareText(act: Activity, subject: String, text: String) {
 
     val shareIntent = Intent(android.content.Intent.ACTION_SEND)
     shareIntent.type = "text/plain"
-    shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-            subject)
+    shareIntent.putExtra(
+        android.content.Intent.EXTRA_SUBJECT,
+        subject
+    )
 
     // If text is small enough SEND it directly
     if (text.length < 50000) {
@@ -477,9 +507,12 @@ fun shareText(act: Activity, subject: String, text: String) {
 
         // Create a cache file to pass in EXTRA_STREAM
         try {
-            createCachedFile(act,
-                    Constants.SHARE_FILE_NAME, text)
-            val fileUri = Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + Constants.SHARE_FILE_NAME)
+            createCachedFile(
+                act,
+                Constants.SHARE_FILE_NAME, text
+            )
+            val fileUri =
+                Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + Constants.SHARE_FILE_NAME)
             shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, fileUri)
         } catch (e: Exception) {
             Log.w(TAG, "Failed to create file for sharing")
@@ -499,7 +532,10 @@ fun showLoadingOverlay(act: Activity, visibleDialog: Dialog?, show: Boolean): Di
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setContentView(R.layout.loading)
             val pr = findViewById<ProgressBar>(R.id.progress)
-            pr?.indeterminateDrawable?.setColorFilter(-16737844, android.graphics.PorterDuff.Mode.MULTIPLY)
+            pr?.indeterminateDrawable?.setColorFilter(
+                -16737844,
+                android.graphics.PorterDuff.Mode.MULTIPLY
+            )
             window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
             setCancelable(false)
             show()
@@ -534,10 +570,13 @@ fun markdownAssetAsHtml(ctxt: Context, name: String): String {
         }
     }
     // Change issue numbers to links
-    markdown = markdown.replace("(\\s)(#)([0-9]+)".toRegex(), "$1[$2$3](https://github.com/mpcjanssen/simpletask-android/issues/$3)")
+    markdown = markdown.replace(
+        "(\\s)(#)([0-9]+)".toRegex(),
+        "$1[$2$3](https://github.com/mpcjanssen/simpletask-android/issues/$3)"
+    )
     val document = mdParser.parse(markdown)
     val html =
-            """
+        """
             <html>
             <head>
             <link rel='stylesheet' type='text/css' href='css/base.css'>
@@ -598,7 +637,11 @@ fun getRelativeDueDate(task: Task, app: TodoApplication): SpannableString? {
  * @return String representing the relative date
  */
 
-private fun getRelativeDate(app: TodoApplication, prefix: String, dateString: String): SpannableString? {
+private fun getRelativeDate(
+    app: TodoApplication,
+    prefix: String,
+    dateString: String
+): SpannableString? {
     val date = dateString.toDateTime() ?: return null
     val now = DateTime.today(TimeZone.getDefault())
     val days = date.numDaysFrom(now)
@@ -700,9 +743,9 @@ fun broadcastUpdateStateIndicator(broadcastManager: LocalBroadcastManager) {
 fun createShortcut(ctxt: Context, id: String, name: String, icon: Int, target: Intent) {
     val iconRes = IconCompat.createWithResource(ctxt, icon)
     val pinShortcutInfo = ShortcutInfoCompat.Builder(ctxt, "$id.$name")
-            .setIcon(iconRes)
-            .setShortLabel(name)
-            .setIntent(target)
-            .build()
+        .setIcon(iconRes)
+        .setShortLabel(name)
+        .setIntent(target)
+        .build()
     ShortcutManagerCompat.requestPinShortcut(ctxt, pinShortcutInfo, null)
 }

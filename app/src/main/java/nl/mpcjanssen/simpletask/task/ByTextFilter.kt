@@ -6,7 +6,11 @@ import java.util.Locale
 /**
  * A applyFilter that matches Tasks containing the specified text
  */
-class ByTextFilter(val moduleName : String, searchText: String?, internal val isCaseSensitive: Boolean) : TaskFilter {
+class ByTextFilter(
+    val moduleName: String,
+    searchText: String?,
+    internal val isCaseSensitive: Boolean
+) : TaskFilter {
     val text = searchText ?: ""
 
     private val parts: List<String>

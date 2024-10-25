@@ -24,7 +24,7 @@ public class MyAppWidgetProvider extends AppWidgetProvider {
     // Create unique numbers for every widget pendingIntent
     // Otherwise the will overwrite each other
     private final static int FROM_WIDGETS_START = 1;
-    private static final String TAG = "MyAppWidgetProvider" ;
+    private static final String TAG = "MyAppWidgetProvider";
 
     private static void putFilterExtras(Intent target, @NonNull SharedPreferences preferences, int widgetId) {
         // Log.d(tag, "putFilter extras  for appwidget " + widgetId);
@@ -32,9 +32,9 @@ public class MyAppWidgetProvider extends AppWidgetProvider {
         filter.saveInIntent(target);
     }
 
-	private static RemoteViews updateView(int widgetId, @NonNull Context ctx) {
+    private static RemoteViews updateView(int widgetId, @NonNull Context ctx) {
         SharedPreferences preferences = ctx.getSharedPreferences("" + widgetId, 0);
-        RemoteViews view ;
+        RemoteViews view;
         SharedPreferences appPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         ColorDrawable listColor;
         ColorDrawable headerColor;
@@ -46,7 +46,7 @@ public class MyAppWidgetProvider extends AppWidgetProvider {
             listColor = new ColorDrawable(ContextCompat.getColor(ctx, R.color.black));
             headerColor = new ColorDrawable(ContextCompat.getColor(ctx, R.color.gray87));
         } else {
-		    view = new RemoteViews(ctx.getPackageName(), R.layout.appwidget);
+            view = new RemoteViews(ctx.getPackageName(), R.layout.appwidget);
             listColor = new ColorDrawable(ContextCompat.getColor(ctx, R.color.white));
             headerColor = new ColorDrawable(ContextCompat.getColor(ctx, R.color.simple_primary));
         }
@@ -54,13 +54,13 @@ public class MyAppWidgetProvider extends AppWidgetProvider {
         int header_transparency = appPreferences.getInt("widget_header_transparency", 0);
         int background_transparency = appPreferences.getInt("widget_background_transparency", 0);
 
-        int header_alpha = ((100-header_transparency)*255)/100;
-        int background_alpha = ((100-background_transparency)*255)/100;
+        int header_alpha = ((100 - header_transparency) * 255) / 100;
+        int background_alpha = ((100 - background_transparency) * 255) / 100;
         headerColor.setAlpha(header_alpha);
         listColor.setAlpha(background_alpha);
 
-        view.setInt(R.id.widgetlv,"setBackgroundColor",listColor.getColor());
-        view.setInt(R.id.header,"setBackgroundColor",headerColor.getColor());
+        view.setInt(R.id.widgetlv, "setBackgroundColor", listColor.getColor());
+        view.setInt(R.id.header, "setBackgroundColor", headerColor.getColor());
 
         Intent intent = new Intent(ctx, AppWidgetService.class);
         // Add the app widget ID to the intent extras.
@@ -72,56 +72,56 @@ public class MyAppWidgetProvider extends AppWidgetProvider {
         NamedQuery filter = NamedQuery.Companion.initFromPrefs(preferences, "widget" + widgetId, "no name");
 
 
-        view.setTextViewText(R.id.title,filter.getName());
+        view.setTextViewText(R.id.title, filter.getName());
 
         // Make sure we use different intents for the different pendingIntents or
         // they will replace each other
-        
+
         Intent appIntent;
 
-        appIntent = new Intent(ctx,Simpletask.class);
+        appIntent = new Intent(ctx, Simpletask.class);
         appIntent.setAction(Constants.INTENT_START_FILTER);
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, FROM_LIST_VIEW, appIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         view.setPendingIntentTemplate(R.id.widgetlv, pendingIntent);
 
-        appIntent = new Intent(ctx,Simpletask.class);
+        appIntent = new Intent(ctx, Simpletask.class);
         appIntent.setAction(Constants.INTENT_START_FILTER);
         putFilterExtras(appIntent, preferences, widgetId);
-        pendingIntent = PendingIntent.getActivity(ctx, FROM_WIDGETS_START+widgetId, appIntent,
+        pendingIntent = PendingIntent.getActivity(ctx, FROM_WIDGETS_START + widgetId, appIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        view.setOnClickPendingIntent(R.id.title,pendingIntent);
+        view.setOnClickPendingIntent(R.id.title, pendingIntent);
 
-        appIntent = new Intent(ctx,AddTask.class);
+        appIntent = new Intent(ctx, AddTask.class);
         putFilterExtras(appIntent, preferences, widgetId);
-        pendingIntent = PendingIntent.getActivity(ctx, FROM_WIDGETS_START+widgetId , appIntent,
+        pendingIntent = PendingIntent.getActivity(ctx, FROM_WIDGETS_START + widgetId, appIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        view.setOnClickPendingIntent(R.id.widgetadd,pendingIntent);
+        view.setOnClickPendingIntent(R.id.widgetadd, pendingIntent);
 
-        appIntent = new Intent(ctx,FilterActivity.class);
+        appIntent = new Intent(ctx, FilterActivity.class);
         appIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
         appIntent.putExtra(Constants.EXTRA_WIDGET_RECONFIGURE, true);
         appIntent.putExtra(Constants.EXTRA_WIDGET_ID, widgetId);
         filter.getQuery().saveInIntent(appIntent);
-        pendingIntent = PendingIntent.getActivity(ctx, FROM_WIDGETS_START+widgetId , appIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT |  PendingIntent.FLAG_IMMUTABLE);
-        view.setOnClickPendingIntent(R.id.widgetconfig,pendingIntent);
+        pendingIntent = PendingIntent.getActivity(ctx, FROM_WIDGETS_START + widgetId, appIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        view.setOnClickPendingIntent(R.id.widgetconfig, pendingIntent);
         return view;
-	}
-	
-	@Override
-	public void onUpdate(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager,
-			@NonNull int[] appWidgetIds) {
+    }
+
+    @Override
+    public void onUpdate(@NonNull Context context, @NonNull AppWidgetManager appWidgetManager,
+                         @NonNull int[] appWidgetIds) {
         for (int widgetId : appWidgetIds) {
             Log.d(TAG, "onUpdate " + widgetId);
-			RemoteViews views = updateView(widgetId, context);
-			appWidgetManager.updateAppWidget(widgetId, views);
+            RemoteViews views = updateView(widgetId, context);
+            appWidgetManager.updateAppWidget(widgetId, views);
 
             // Need to updateCache the listView to redraw the listItems when
             // Changing the theme
-            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId,R.id.widgetlv);
-		}
-	}
+            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.widgetlv);
+        }
+    }
 
     @Override
     public void onDeleted(@NonNull Context context, @NonNull int[] appWidgetIds) {
@@ -147,7 +147,7 @@ public class MyAppWidgetProvider extends AppWidgetProvider {
         // Construct the RemoteViews object.  It takes the package name (in our case, it's our
         // package, but it needs this because on the other side it's the widget host inflating
         // the layout from our package).
-        RemoteViews views = updateView(appWidgetId,context);
+        RemoteViews views = updateView(appWidgetId, context);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 }

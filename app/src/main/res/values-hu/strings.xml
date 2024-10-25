@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="invalid_context">Érvénytelen listanév</string>
+<resources>
+    <string name="invalid_context">Érvénytelen listanév</string>
     <string name="invalid_project">Érvénytelen címke</string>
     <string name="added_task">Feladat hozzáadva</string>
     <string name="add_task_failed">Nem sikerült hozzáadni a feladatot</string>
@@ -256,7 +257,7 @@
     <string name="delete_task_message">Ezt nem lehet visszavonni. Biztos ezt akarod?</string>
     <string name="logout_message">Győződj meg róla, hogy minden módosítás szinkronizált-e a dropboxszal, illetve ha nem használsz dropboxot, akkor megosztottad-e a teljes feladatlistád.
 \n Minden nem szinkronizált módosítás el fog veszni, amikor kilépsz.</string>
-     <string name="dropbox_open">Győződj meg róla, hogy minden módosítás szinkronizált-e a dropboxszal, illetve ha nem használsz dropboxot, akkor megosztottad-e a teljes feladatlistád.
+    <string name="dropbox_open">Győződj meg róla, hogy minden módosítás szinkronizált-e a dropboxszal, illetve ha nem használsz dropboxot, akkor megosztottad-e a teljes feladatlistád.
 \n Minden nem szinkronizált módosítás el fog veszni, amikor másik fájlt nyitsz meg.</string>
     <string name="delete_task_confirm">Törlés</string>
 
@@ -278,7 +279,7 @@
     <string name="by_due_date">Határidő szerint</string>
     <string name="by_threshold_date">Aktiválás dátuma szerint</string>
     <string name="by_completion_date">Befejezés dátuma szerint</string>
-	
+
     <string name="filter_select_all">Mindent kijelöl</string>
     <string name="filter_clear_all">Szűrő törlése</string>
     <string name="filter_invert">Szűrő megfordítása</string>

@@ -23,12 +23,12 @@ interface IFileStore {
     @Throws(IOException::class)
     fun loadTasksFromFile(file: File): List<String>
 
-    fun needSync(file: File) : Boolean
+    fun needSync(file: File): Boolean
 
     fun todoNameChanged()
 
     // Save the tasks and return the new remote Filename
-    fun saveTasksToFile(file: File, lines: List<String>, eol: String) : File
+    fun saveTasksToFile(file: File, lines: List<String>, eol: String): File
 
     // Handle login and logout
     fun loginActivity(): KClass<*>?
@@ -68,7 +68,7 @@ interface IFileStore {
 
 // Generic file entry class for use in File dialogs
 data class FileEntry(val file: File, val isFolder: Boolean) {
-    constructor(fileName: String, isFolder: Boolean) : this (File(fileName), isFolder)
+    constructor(fileName: String, isFolder: Boolean) : this(File(fileName), isFolder)
 }
 
 

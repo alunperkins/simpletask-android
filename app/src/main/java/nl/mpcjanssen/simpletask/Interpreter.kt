@@ -19,7 +19,7 @@ import org.luaj.vm2.lib.OneArgFunction
 import org.luaj.vm2.lib.jse.JsePlatform
 import java.util.TimeZone
 
-object Interpreter :  AbstractInterpreter() {
+object Interpreter : AbstractInterpreter() {
     private val globals = JsePlatform.standardGlobals()!!
     const val tag = "LuaInterp"
 
@@ -153,10 +153,15 @@ object Interpreter :  AbstractInterpreter() {
     override fun onAddCallback(t: Task): Task? {
         val callback = globals.get(ON_ADD_NAME)
         val result = executeCallback(callback, t)
-        return if (result!=null) Task(result) else null
+        return if (result != null) Task(result) else null
     }
 
-    override fun onTextSearchCallback(moduleName: String, input: String, search: String, caseSensitive: Boolean): Boolean? {
+    override fun onTextSearchCallback(
+        moduleName: String,
+        input: String,
+        search: String,
+        caseSensitive: Boolean
+    ): Boolean? {
         val module = getModule(moduleName)
         if (module == LuaValue.NIL) {
             return null
@@ -164,7 +169,11 @@ object Interpreter :  AbstractInterpreter() {
         val onFilter = module.get(ON_TEXTSEARCH_NAME)
         if (!onFilter.isnil()) {
             try {
-                val result = onFilter.invoke(LuaString.valueOf(input), LuaString.valueOf(search), LuaBoolean.valueOf(caseSensitive)).arg1()
+                val result = onFilter.invoke(
+                    LuaString.valueOf(input),
+                    LuaString.valueOf(search),
+                    LuaBoolean.valueOf(caseSensitive)
+                ).arg1()
                 return result.toboolean()
             } catch (e: LuaError) {
                 Log.d(TAG, "Lua execution failed " + e.message)

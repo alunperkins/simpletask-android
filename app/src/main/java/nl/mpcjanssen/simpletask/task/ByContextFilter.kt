@@ -28,8 +28,8 @@ package nl.mpcjanssen.simpletask.task
  * A applyFilter that matches Tasks containing the specified contexts
  */
 class ByContextFilter(
-        private val contexts: List<String>,
-        private val not: Boolean
+    private val contexts: List<String>,
+    private val not: Boolean
 ) : TaskFilter {
 
     override fun apply(task: Task): Boolean {

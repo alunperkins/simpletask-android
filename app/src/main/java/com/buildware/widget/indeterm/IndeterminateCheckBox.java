@@ -16,6 +16,7 @@ import nl.mpcjanssen.simpletask.R;
 /**
  * A CheckBox with additional 3rd "indeterminate" state.
  * By default it is in "determinate" (checked or unchecked) state.
+ *
  * @author Svetlozar Kostadinov (sevarbg@gmail.com)
  */
 public class IndeterminateCheckBox extends AppCompatCheckBox
@@ -39,9 +40,9 @@ public class IndeterminateCheckBox extends AppCompatCheckBox
          *
          * @param checkBox The checkbox view whose state has changed.
          * @param newState The new state of checkBox. Value meanings:
-         *              null = indeterminate state
-         *              true = checked state
-         *              false = unchecked state
+         *                 null = indeterminate state
+         *                 true = checked state
+         *                 false = unchecked state
          */
         void onStateChanged(IndeterminateCheckBox checkBox, @Nullable Boolean newState);
     }

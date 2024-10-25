@@ -53,19 +53,28 @@ private enum class EvtStatus {
 data class EvtKey(val dtStart: Long, val title: String)
 
 private class Evt(
-        var id: Long,
-        var dtStart: Long,
-        var title: String,
-        var description: String,
-        var remID: Long = -1,
-        var remMinutes: Long = -1,
-        var status: EvtStatus = EvtStatus.DELETE) {
+    var id: Long,
+    var dtStart: Long,
+    var title: String,
+    var description: String,
+    var remID: Long = -1,
+    var remMinutes: Long = -1,
+    var status: EvtStatus = EvtStatus.DELETE
+) {
 
     constructor(cursor: Cursor) // Create from a db record
             : this(cursor.getLong(0), cursor.getLong(2), cursor.getString(3), cursor.getString(4))
 
     constructor(date: DateTime, title: String, desc: String) // Create from a Task
-            : this(-1, date.getMilliseconds(CalendarSync.UTC), title, desc, -1, -1, EvtStatus.INSERT) {
+            : this(
+        -1,
+        date.getMilliseconds(CalendarSync.UTC),
+        title,
+        desc,
+        -1,
+        -1,
+        EvtStatus.INSERT
+    ) {
 
         val localZone = Calendar.getInstance().timeZone
         val remMargin = TodoApplication.config.reminderDays * 1440
@@ -75,8 +84,18 @@ private class Evt(
         // Reminder data:
         // Only create reminder if it's in the future, otherwise it would go off immediately
         // NOTE: DateTime.minus()/plus() only accept values >=0 and <10000 (goddamnit date4j!), hence the division.
-        var remDate = date.minus(0, 0, 0, remMargin / 60, remMargin % 60, 0, 0, DateTime.DayOverflow.Spillover)
-        remDate = remDate.plus(0, 0, 0, remDT.hour, remDT.minute, 0, 0, DateTime.DayOverflow.Spillover)
+        var remDate = date.minus(
+            0,
+            0,
+            0,
+            remMargin / 60,
+            remMargin % 60,
+            0,
+            0,
+            DateTime.DayOverflow.Spillover
+        )
+        remDate =
+            remDate.plus(0, 0, 0, remDT.hour, remDT.minute, 0, 0, DateTime.DayOverflow.Spillover)
         if (remDate.isInTheFuture(localZone)) {
             remID = 0L // 0 = reminder entry to be created
             remMinutes = remDate.numSecondsFrom(date) / 60
@@ -94,48 +113,66 @@ private class Evt(
     }
 
     override fun equals(other: Any?) =
-            if (other !is Evt) {
-                false
-            }  else {
+        if (other !is Evt) {
+            false
+        } else {
             dtStart == other.dtStart &&
                     title == other.title &&
                     description == other.description &&
-                    remMinutes == other.remMinutes }
+                    remMinutes == other.remMinutes
+        }
 
     @TargetApi(16)
     fun addOp(list: ArrayList<ContentProviderOperation>, calID: Long) {
         if (status == EvtStatus.DELETE) {
             val args = arrayOf(id.toString())
-            list.add(ContentProviderOperation.newDelete(Events.CONTENT_URI)
+            list.add(
+                ContentProviderOperation.newDelete(Events.CONTENT_URI)
                     .withSelection(Events._ID + "=?", args)
-                    .build())
+                    .build()
+            )
             if (remID >= 0) {
                 val remArgs = arrayOf(remID.toString())
-                list.add(ContentProviderOperation.newDelete(Reminders.CONTENT_URI)
+                list.add(
+                    ContentProviderOperation.newDelete(Reminders.CONTENT_URI)
                         .withSelection(Reminders._ID + "=?", remArgs)
-                        .build())
+                        .build()
+                )
             }
         } else if (status == EvtStatus.INSERT) {
-            list.add(ContentProviderOperation.newInsert(Events.CONTENT_URI)
+            list.add(
+                ContentProviderOperation.newInsert(Events.CONTENT_URI)
                     .withValue(Events.CALENDAR_ID, calID)
                     .withValue(Events.TITLE, title)
                     .withValue(Events.DTSTART, dtStart)
-                    .withValue(Events.DTEND, dtStart + 24 * 60 * 60 * 1000) // Needs to be set to DTSTART +24h, otherwise reminders don't work
+                    .withValue(
+                        Events.DTEND,
+                        dtStart + 24 * 60 * 60 * 1000
+                    ) // Needs to be set to DTSTART +24h, otherwise reminders don't work
                     .withValue(Events.ALL_DAY, 1)
                     .withValue(Events.DESCRIPTION, description)
                     .withValue(Events.EVENT_TIMEZONE, CalendarSync.UTC.id)
                     .withValue(Events.STATUS, Events.STATUS_CONFIRMED)
-                    .withValue(Events.HAS_ATTENDEE_DATA, true) // If this is not set, Calendar app is confused about Event.STATUS
+                    .withValue(
+                        Events.HAS_ATTENDEE_DATA,
+                        true
+                    ) // If this is not set, Calendar app is confused about Event.STATUS
                     .withValue(Events.CUSTOM_APP_PACKAGE, TodoApplication.app.packageName)
-                    .withValue(Events.CUSTOM_APP_URI, Uri.withAppendedPath(Simpletask.URI_SEARCH, title).toString())
-                    .build())
+                    .withValue(
+                        Events.CUSTOM_APP_URI,
+                        Uri.withAppendedPath(Simpletask.URI_SEARCH, title).toString()
+                    )
+                    .build()
+            )
             if (remID >= 0) {
                 val evtIdx = list.size - 1
-                list.add(ContentProviderOperation.newInsert(Reminders.CONTENT_URI)
+                list.add(
+                    ContentProviderOperation.newInsert(Reminders.CONTENT_URI)
                         .withValueBackReference(Reminders.EVENT_ID, evtIdx)
                         .withValue(Reminders.MINUTES, remMinutes)
                         .withValue(Reminders.METHOD, Reminders.METHOD_ALERT)
-                        .build())
+                        .build()
+                )
             }
         }
     }
@@ -166,7 +203,13 @@ private class SyncStats(val inserts: Long, val keeps: Long, val deletes: Long)
 private class EvtMap private constructor() : HashMap<EvtKey, LinkedList<Evt>>() {
     @SuppressLint("MissingPermission")
     constructor(cr: ContentResolver, calID: Long) : this() {
-        val evtPrj = arrayOf(Events._ID, Events.CALENDAR_ID, Events.DTSTART, Events.TITLE, Events.DESCRIPTION)
+        val evtPrj = arrayOf(
+            Events._ID,
+            Events.CALENDAR_ID,
+            Events.DTSTART,
+            Events.TITLE,
+            Events.DESCRIPTION
+        )
         val evtSel = "${Events.CALENDAR_ID} = ?"
         val evtArgs = arrayOf(calID.toString())
 
@@ -174,14 +217,14 @@ private class EvtMap private constructor() : HashMap<EvtKey, LinkedList<Evt>>() 
         val remSel = "${Reminders.EVENT_ID} = ?"
 
         val evts = cr.query(Events.CONTENT_URI, evtPrj, evtSel, evtArgs, null)
-                ?: throw IllegalArgumentException("null cursor")
+            ?: throw IllegalArgumentException("null cursor")
         while (evts.moveToNext()) {
             val evt = Evt(evts)
 
             // Try to find a matching reminder
             val remArgs = arrayOf(evt.id.toString())
             val rem = cr.query(Reminders.CONTENT_URI, remPrj, remSel, remArgs, null)
-                    ?: throw IllegalArgumentException("null cursor")
+                ?: throw IllegalArgumentException("null cursor")
             if (rem.count > 0) {
                 rem.moveToFirst()
                 evt.remID = rem.getLong(0)
@@ -224,25 +267,25 @@ private class EvtMap private constructor() : HashMap<EvtKey, LinkedList<Evt>>() 
 
     fun mergeTask(task: Task) {
 
-            if (task.isCompleted()) return
+        if (task.isCompleted()) return
 
-            var text: String? = null
+        var text: String? = null
 
-            // Check due date:
-            var dt = task.dueDate?.toDateTime()
-            if (TodoApplication.config.isSyncDues && dt != null) {
-                text = task.showParts(CalendarSync.TASK_TOKENS)
-                val evt = Evt(dt, text, TodoApplication.app.getString(R.string.calendar_sync_desc_due))
-                mergeEvt(evt)
-            }
+        // Check due date:
+        var dt = task.dueDate?.toDateTime()
+        if (TodoApplication.config.isSyncDues && dt != null) {
+            text = task.showParts(CalendarSync.TASK_TOKENS)
+            val evt = Evt(dt, text, TodoApplication.app.getString(R.string.calendar_sync_desc_due))
+            mergeEvt(evt)
+        }
 
-            // Check threshold date:
-            dt = task.thresholdDate?.toDateTime()
-            if (TodoApplication.config.isSyncThresholds && dt != null) {
-                if (text == null) text = task.showParts(CalendarSync.TASK_TOKENS)
-                val evt = Evt(dt, text, TodoApplication.app.getString(R.string.calendar_sync_desc_thre))
-                mergeEvt(evt)
-            }
+        // Check threshold date:
+        dt = task.thresholdDate?.toDateTime()
+        if (TodoApplication.config.isSyncThresholds && dt != null) {
+            if (text == null) text = task.showParts(CalendarSync.TASK_TOKENS)
+            val evt = Evt(dt, text, TodoApplication.app.getString(R.string.calendar_sync_desc_thre))
+            mergeEvt(evt)
+        }
     }
 
     @SuppressLint("NewApi")
@@ -274,10 +317,10 @@ object CalendarSync {
     private val ACCOUNT_NAME = "Simpletask Calendar"
     private val ACCOUNT_TYPE = ACCOUNT_TYPE_LOCAL
     private val CAL_URI = Calendars.CONTENT_URI.buildUpon()
-            .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
-            .appendQueryParameter(Calendars.ACCOUNT_NAME, ACCOUNT_NAME)
-            .appendQueryParameter(Calendars.ACCOUNT_TYPE, ACCOUNT_TYPE)
-            .build()
+        .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
+        .appendQueryParameter(Calendars.ACCOUNT_NAME, ACCOUNT_NAME)
+        .appendQueryParameter(Calendars.ACCOUNT_TYPE, ACCOUNT_TYPE)
+        .build()
     private val CAL_NAME = "simpletask_reminders_v34SsjC7mwK9WSVI"
     private val CAL_COLOR = Color.BLUE // Chosen arbitrarily...
 
@@ -289,6 +332,7 @@ object CalendarSync {
         when (it) {
             is CompletedToken, is CreateDateToken, is CompletedDateToken, is PriorityToken, is ThresholdDateToken,
             is DueDateToken, is HiddenToken, is RecurrenceToken -> false
+
             else -> true
         }
     }
@@ -314,8 +358,10 @@ object CalendarSync {
         val selection = Calendars.NAME + " = ?"
         val args = arrayOf(CAL_NAME)
         /* Check for calendar permission */
-        val permissionCheck = ContextCompat.checkSelfPermission(TodoApplication.app,
-                Manifest.permission.WRITE_CALENDAR)
+        val permissionCheck = ContextCompat.checkSelfPermission(
+            TodoApplication.app,
+            Manifest.permission.WRITE_CALENDAR
+        )
 
         if (permissionCheck == PackageManager.PERMISSION_DENIED) {
             if (TodoApplication.config.isSyncDues || TodoApplication.config.isSyncThresholds) {
@@ -326,7 +372,7 @@ object CalendarSync {
         }
 
         val cursor = m_cr.query(CAL_URI, projection, selection, args, null)
-                ?: throw IllegalArgumentException("null cursor")
+            ?: throw IllegalArgumentException("null cursor")
         if (cursor.count == 0) {
             cursor.close()
             return -1
@@ -343,7 +389,10 @@ object CalendarSync {
             put(Calendars.ACCOUNT_NAME, ACCOUNT_NAME)
             put(Calendars.ACCOUNT_TYPE, ACCOUNT_TYPE)
             put(Calendars.NAME, CAL_NAME)
-            put(Calendars.CALENDAR_DISPLAY_NAME, TodoApplication.app.getString(R.string.calendar_disp_name))
+            put(
+                Calendars.CALENDAR_DISPLAY_NAME,
+                TodoApplication.app.getString(R.string.calendar_disp_name)
+            )
             put(Calendars.CALENDAR_COLOR, CAL_COLOR)
             put(Calendars.CALENDAR_ACCESS_LEVEL, Calendars.CAL_ACCESS_READ)
             put(Calendars.OWNER_ACCOUNT, ACCOUNT_NAME)
@@ -385,7 +434,8 @@ object CalendarSync {
 
             if (calID < 0) {
                 addCalendar()
-                calID = findCalendar() // Re-find the calendar, this is needed to verify it has been added
+                calID =
+                    findCalendar() // Re-find the calendar, this is needed to verify it has been added
                 if (calID < 0) {
                     // This happens when CM privacy guard disallows to write calendar (1)
                     // OR it allows to write calendar but disallows reading it (2).
@@ -403,10 +453,13 @@ object CalendarSync {
                 evtmap.mergeTask(it)
             }
             val stats = evtmap.apply(m_cr, calID)
-            Log.d(TAG, "Sync finished: ${stats.inserts} inserted, ${stats.keeps} unchanged, ${stats.deletes} deleted")
+            Log.d(
+                TAG,
+                "Sync finished: ${stats.inserts} inserted, ${stats.keeps} unchanged, ${stats.deletes} deleted"
+            )
         } catch (e: SecurityException) {
 
-            Log.e(TAG, "No calendar access permissions granted", e )
+            Log.e(TAG, "No calendar access permissions granted", e)
         } catch (e: Exception) {
             Log.e(TAG, "Calendar error", e)
         }

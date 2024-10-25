@@ -29,7 +29,11 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
         initPreference(context, attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
         initPreference(context, attrs)
     }
 
@@ -59,7 +63,12 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
 
     }
 
-    private fun getAttributeStringValue(attrs: AttributeSet, namespace: String, name: String, defaultValue: String): String {
+    private fun getAttributeStringValue(
+        attrs: AttributeSet,
+        namespace: String,
+        name: String,
+        defaultValue: String
+    ): String {
         return attrs.getAttributeValue(namespace, name) ?: defaultValue
     }
 
@@ -79,8 +88,10 @@ class SeekBarPreference : Preference, OnSeekBarChangeListener {
                 }
                 // remove the existing seekbar (there may not be one) and add ours
                 newContainer.removeAllViews()
-                newContainer.addView(mSeekBar, ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT)
+                newContainer.addView(
+                    mSeekBar, ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
         } catch (ex: Exception) {
             Log.e(TAG, "Error binding view: " + ex.toString())

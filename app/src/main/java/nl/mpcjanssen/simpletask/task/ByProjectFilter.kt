@@ -28,8 +28,8 @@ package nl.mpcjanssen.simpletask.task
  * A applyFilter that matches Tasks containing the specified projects
  */
 class ByProjectFilter(
-        private val projects: List<String>,
-        private val not: Boolean
+    private val projects: List<String>,
+    private val not: Boolean
 ) : TaskFilter {
 
     override fun apply(task: Task): Boolean {
@@ -41,6 +41,6 @@ class ByProjectFilter(
         /*
          * Match tasks without project if applyFilter contains "-"
 		 */
-        return match || (input.tags == null  && projects.contains("-"))
+        return match || (input.tags == null && projects.contains("-"))
     }
 }

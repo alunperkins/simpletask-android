@@ -33,7 +33,7 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
             }
             return currentFilter
         }
-        set (newFilter) {
+        set(newFilter) {
             _filter = newFilter
         }
 
@@ -41,13 +41,13 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
         Log.d(TAG, "Creating view for widget: " + widgetId)
     }
 
-    fun moduleName () : String {
+    fun moduleName(): String {
         return "widget$widgetId"
     }
 
     fun updateFilter(): Query {
-	    Log.d (TAG, "Getting applyFilter from preferences for widget $widgetId")
-	    val preferences = TodoApplication.app.getSharedPreferences("" + widgetId, 0)
+        Log.d(TAG, "Getting applyFilter from preferences for widget $widgetId")
+        val preferences = TodoApplication.app.getSharedPreferences("" + widgetId, 0)
         val filter = Query(preferences, luaModule = moduleName())
         Log.d(TAG, "Retrieved widget $widgetId query")
 
@@ -69,7 +69,10 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
         filter = currentFilter
 
         val newVisibleTasks = ArrayList<Task>()
-        val (tasks, _) = TodoApplication.todoList.getSortedTasks(currentFilter, TodoApplication.config.sortCaseSensitive)
+        val (tasks, _) = TodoApplication.todoList.getSortedTasks(
+            currentFilter,
+            TodoApplication.config.sortCaseSensitive
+        )
         newVisibleTasks.addAll(tasks)
         Log.d(TAG, "Widget $widgetId: setFilteredTasks returned ${newVisibleTasks.size} tasks")
         visibleTasks = newVisibleTasks
@@ -106,7 +109,9 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
                 else -> true
             }
         }
-        val txt = Interpreter.onDisplayCallback(currentFilter.luaModule, task) ?: task.showParts(tokensToShowFilter).trim { it <= ' ' }
+        val txt = Interpreter.onDisplayCallback(currentFilter.luaModule, task) ?: task.showParts(
+            tokensToShowFilter
+        ).trim { it <= ' ' }
         val ss = SpannableString(txt)
 
         if (TodoApplication.config.isDarkWidgetTheme) {
@@ -127,10 +132,18 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
 
         val prioColor: Int
         when (task.priority) {
-            Priority.A -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_red_dark)
-            Priority.B -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_orange_dark)
-            Priority.C -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_green_dark)
-            Priority.D -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.simple_blue_dark)
+            Priority.A -> prioColor =
+                ContextCompat.getColor(TodoApplication.app, R.color.simple_red_dark)
+
+            Priority.B -> prioColor =
+                ContextCompat.getColor(TodoApplication.app, R.color.simple_orange_dark)
+
+            Priority.C -> prioColor =
+                ContextCompat.getColor(TodoApplication.app, R.color.simple_green_dark)
+
+            Priority.D -> prioColor =
+                ContextCompat.getColor(TodoApplication.app, R.color.simple_blue_dark)
+
             else -> prioColor = ContextCompat.getColor(TodoApplication.app, R.color.gray67)
         }
         if (prioColor != 0) {
@@ -172,7 +185,10 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
             //rv.setViewPadding(R.prefName.tasktext,
             //        4, 4, 4, 0);
         }
-        rv.setOnClickFillInIntent(R.id.taskline, createSelectedIntent(TodoApplication.todoList.getTaskIndex(task)))
+        rv.setOnClickFillInIntent(
+            R.id.taskline,
+            createSelectedIntent(TodoApplication.todoList.getTaskIndex(task))
+        )
         return rv
     }
 
@@ -180,14 +196,20 @@ data class AppWidgetRemoteViewsFactory(val intent: Intent) : RemoteViewsService.
         rv.setTextColor(R.id.tasktext, ContextCompat.getColor(TodoApplication.app, R.color.black))
         rv.setTextColor(R.id.taskage, ContextCompat.getColor(TodoApplication.app, R.color.gray67))
         rv.setTextColor(R.id.taskdue, ContextCompat.getColor(TodoApplication.app, R.color.gray67))
-        rv.setTextColor(R.id.taskthreshold, ContextCompat.getColor(TodoApplication.app, R.color.gray67))
+        rv.setTextColor(
+            R.id.taskthreshold,
+            ContextCompat.getColor(TodoApplication.app, R.color.gray67)
+        )
     }
 
     private fun itemForDarkTheme(rv: RemoteViews) {
         rv.setTextColor(R.id.tasktext, ContextCompat.getColor(TodoApplication.app, R.color.white))
         rv.setTextColor(R.id.taskage, ContextCompat.getColor(TodoApplication.app, R.color.gray67))
         rv.setTextColor(R.id.taskdue, ContextCompat.getColor(TodoApplication.app, R.color.gray67))
-        rv.setTextColor(R.id.taskthreshold, ContextCompat.getColor(TodoApplication.app, R.color.gray67))
+        rv.setTextColor(
+            R.id.taskthreshold,
+            ContextCompat.getColor(TodoApplication.app, R.color.gray67)
+        )
     }
 
     override fun getViewAt(position: Int): RemoteViews? {

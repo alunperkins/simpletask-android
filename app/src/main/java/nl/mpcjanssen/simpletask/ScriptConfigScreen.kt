@@ -25,7 +25,7 @@ import java.io.IOException
 
 class ScriptConfigScreen : ThemedActionBarActivity() {
 
-    private lateinit var scriptEdit : EditText
+    private lateinit var scriptEdit: EditText
     private var mMenu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,26 +63,31 @@ class ScriptConfigScreen : ThemedActionBarActivity() {
             android.R.id.home -> {
                 finish()
             }
+
             R.id.lua_config_run -> {
                 runScript()
             }
+
             R.id.lua_config_help -> {
                 val intent = Intent(this, HelpScreen::class.java)
                 intent.putExtra(Constants.EXTRA_HELP_PAGE, "script")
                 startActivityForResult(intent, 0)
             }
+
             R.id.lua_config_share -> {
                 shareText(this, getString(R.string.lua_config_screen), script)
             }
+
             R.id.lua_config_import -> {
                 val filename = if (FileStore.isEncrypted) "config.lua.jenc"
-                                else "config.lua"
+                else "config.lua"
                 val importFile = File(TodoApplication.config.todoFile.parentFile, filename)
                 importLuaConfig(importFile)
             }
+
             R.id.lua_config_export -> {
                 val filename = if (FileStore.isEncrypted) "config.lua.jenc"
-                                else "config.lua"
+                else "config.lua"
                 exportLuaConfig(File(TodoApplication.config.todoFile.parentFile, filename))
             }
         }
@@ -98,7 +103,7 @@ class ScriptConfigScreen : ThemedActionBarActivity() {
         }
     }
 
-    private fun exportLuaConfig (exportFile: File) {
+    private fun exportLuaConfig(exportFile: File) {
         FileStoreActionQueue.add("Export Lua config") {
             TodoApplication.config.luaConfig = script
             try {
@@ -112,7 +117,7 @@ class ScriptConfigScreen : ThemedActionBarActivity() {
 
     }
 
-    private fun importLuaConfig (importFile: File) {
+    private fun importLuaConfig(importFile: File) {
         FileStoreActionQueue.add("Import Lua config") {
             try {
                 FileStore.readFile(importFile) { contents ->

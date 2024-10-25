@@ -13,7 +13,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val lbm = LocalBroadcastManager.getInstance(context)
         Log.i(TAG, "Executing Alarm callback")
         if (Constants.ALARM_RELOAD == intent.getStringExtra(Constants.ALARM_REASON_EXTRA)) {
-            broadcastFileSync( lbm )
+            broadcastFileSync(lbm)
         } else {
             TodoApplication.todoList.reload("Alarm")
         }

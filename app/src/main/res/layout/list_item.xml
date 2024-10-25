@@ -24,24 +24,22 @@ You should have received a copy of the GNU General Public License along with Tod
 -->
 
 <!--suppress ALL -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:id="@+id/taskline"
     android:clickable="true"
-    android:longClickable="true"
-    >
+    android:longClickable="true">
+
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:clickable="true"
         android:id="@+id/checkBox"
-        android:layout_alignParentStart="true"
-        />
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/taskdragarea"
@@ -52,8 +50,7 @@ You should have received a copy of the GNU General Public License along with Tod
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dip"
         android:layout_centerVertical="true"
-        android:padding="5dip"
-        />
+        android:padding="5dip" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -61,8 +58,8 @@ You should have received a copy of the GNU General Public License along with Tod
         android:paddingLeft="4dip"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/checkBox"
-        android:layout_toStartOf="@id/taskdragarea"
-        >
+        android:layout_toStartOf="@id/taskdragarea">
+
         <TextView
             android:id="@+id/tasktext"
             android:focusable="false"
@@ -70,14 +67,14 @@ You should have received a copy of the GNU General Public License along with Tod
             android:layout_height="wrap_content"
             android:paddingLeft="0dip"
             android:paddingRight="4dip"
-            android:paddingTop="4dip"
-            />
+            android:paddingTop="4dip" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:id="@+id/datebar" 
-            >
+            android:id="@+id/datebar">
+
             <TextView
                 android:id="@+id/taskage"
                 android:focusable="false"
@@ -85,8 +82,8 @@ You should have received a copy of the GNU General Public License along with Tod
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dip"
                 android:paddingBottom="4dip"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/taskdue"
                 android:focusable="false"
@@ -94,8 +91,8 @@ You should have received a copy of the GNU General Public License along with Tod
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dip"
                 android:paddingBottom="4dip"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/taskthreshold"
                 android:focusable="false"
@@ -103,8 +100,7 @@ You should have received a copy of the GNU General Public License along with Tod
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dip"
                 android:paddingBottom="4dip"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

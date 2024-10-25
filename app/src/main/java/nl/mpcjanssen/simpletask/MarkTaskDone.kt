@@ -11,7 +11,7 @@ import nl.mpcjanssen.simpletask.util.todayAsString
 class MarkTaskDone : Service() {
     val TAG = "MarkTaskDone"
 
-    public override fun onStartCommand (intent: Intent, flags: Int, startId: Int): Int {
+    public override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         Log.d(TAG, "onStartCommand()")
         val taskId = intent.getStringExtra(Constants.EXTRA_TASK_ID)
         if (taskId == null) {
@@ -22,7 +22,7 @@ class MarkTaskDone : Service() {
 
         val todoList = TodoApplication.todoList
         val task = todoList.getTaskWithId(taskId)
-        if (task == null ) {
+        if (task == null) {
             Log.e(TAG, "task with id '$taskId' not found in todo list")
             return START_STICKY_COMPATIBILITY
         }

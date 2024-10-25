@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
-
 public class FilterOtherFragment extends Fragment {
 
     final static String TAG = FilterOtherFragment.class.getSimpleName();
@@ -124,6 +123,7 @@ public class FilterOtherFragment extends Fragment {
             return !cbHideLists.isChecked();
         }
     }
+
     public boolean getHideTags() {
         Bundle arguments = getArguments();
         if (cbHideCompleted == null) {
@@ -132,6 +132,7 @@ public class FilterOtherFragment extends Fragment {
             return !cbHideTags.isChecked();
         }
     }
+
     public boolean getHideCreateDate() {
         Bundle arguments = getArguments();
         if (cbHideCreateDate == null) {

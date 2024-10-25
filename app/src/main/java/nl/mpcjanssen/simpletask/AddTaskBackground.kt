@@ -79,7 +79,10 @@ class AddTaskBackground : Activity() {
             } else if (Constants.INTENT_BACKGROUND_TASK == action) {
                 Log.d(TAG, "Adding background task")
                 if (intent.hasExtra(Constants.EXTRA_BACKGROUND_TASK)) {
-                    addBackgroundTask(intent.getStringExtra(Constants.EXTRA_BACKGROUND_TASK) ?: "", append_text)
+                    addBackgroundTask(
+                        intent.getStringExtra(Constants.EXTRA_BACKGROUND_TASK) ?: "",
+                        append_text
+                    )
                 } else {
                     Log.w(TAG, "Task was not in extras")
                 }
@@ -108,15 +111,25 @@ class AddTaskBackground : Activity() {
         Log.d(TAG, "Adding background tasks to todolist $todoList")
 
         val rawLines = sharedText.split("\r\n|\r|\n".toRegex()).filterNot(String::isBlank)
-        val lines = if (appendText.isBlank()) { rawLines } else {
+        val lines = if (appendText.isBlank()) {
+            rawLines
+        } else {
             rawLines.map { "$it $appendText" }
         }
         val tasks = lines.map { text ->
-            if (TodoApplication.config.hasPrependDate) { Task(text, todayAsString) } else { Task(text) }
+            if (TodoApplication.config.hasPrependDate) {
+                Task(text, todayAsString)
+            } else {
+                Task(text)
+            }
         }
 
         todoList.add(tasks, TodoApplication.config.hasAppendAtEnd)
-        todoList.notifyTasklistChanged(TodoApplication.config.todoFile, save = true, refreshMainUI = true)
+        todoList.notifyTasklistChanged(
+            TodoApplication.config.todoFile,
+            save = true,
+            refreshMainUI = true
+        )
         showToastShort(TodoApplication.app, R.string.task_added)
         if (TodoApplication.config.hasShareTaskShowsEdit) {
             todoList.editTasks(this, tasks, "")

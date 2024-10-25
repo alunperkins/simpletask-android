@@ -47,10 +47,14 @@ class AddTaskShortcut : ThemedNoActionBarActivity() {
 
         val intent = Intent()
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME,
-                getString(R.string.shortcut_addtask_name))
-        val iconResource = Intent.ShortcutIconResource.fromContext(this,
-                R.drawable.ic_launcher)
+        intent.putExtra(
+            Intent.EXTRA_SHORTCUT_NAME,
+            getString(R.string.shortcut_addtask_name)
+        )
+        val iconResource = Intent.ShortcutIconResource.fromContext(
+            this,
+            R.drawable.ic_launcher
+        )
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconResource)
 
         setResult(Activity.RESULT_OK, intent)

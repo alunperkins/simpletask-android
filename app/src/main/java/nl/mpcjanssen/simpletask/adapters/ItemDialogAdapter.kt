@@ -12,9 +12,9 @@ import nl.mpcjanssen.simpletask.util.alfaSort
 
 // Provide a suitable constructor (depends on the kind of dataset)
 class ItemDialogAdapter(
-        tasks: List<Task>,
-        allItems: Collection<String>,
-        retrieveFromTask: (Task) -> Set<String>?
+    tasks: List<Task>,
+    allItems: Collection<String>,
+    retrieveFromTask: (Task) -> Set<String>?
 ) : RecyclerView.Adapter<ItemDialogAdapter.ViewHolder>() {
 
     private val mItems: MutableList<Item>
@@ -32,7 +32,7 @@ class ItemDialogAdapter(
         /* val itemAdapter = ItemDialogAdapter(sortedAllItems, onAll, onSome) */
 
         mItems = sortedItems.map { item ->
-            val state = when(item) {
+            val state = when (item) {
                 in onAll -> true
                 in onSome -> null
                 else -> false
@@ -75,10 +75,13 @@ class ItemDialogAdapter(
     }
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ItemDialogAdapter.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ItemDialogAdapter.ViewHolder {
         // create a new view
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.keep_dialog_item, parent, false)
+        val v =
+            LayoutInflater.from(parent.context).inflate(R.layout.keep_dialog_item, parent, false)
         // set the view's size, margins, paddings and layout parameters
 
         val vh = ViewHolder(v)
@@ -94,7 +97,7 @@ class ItemDialogAdapter(
         // - replace the contents of the view with that element
         holder.mCheckBox.setOnStateChangedListener(null)
         holder.mCheckBox.text = item.item
-        holder.mCheckBox.setIndeterminateUsed(item.initialState==null)
+        holder.mCheckBox.setIndeterminateUsed(item.initialState == null)
         holder.mCheckBox.state = item.state
         holder.mCheckBox.setOnStateChangedListener { _, b ->
             Log.i("ItemAdapter", "state chaged $position:$item, new state: $b")

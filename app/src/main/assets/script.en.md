@@ -2,9 +2,11 @@ Scripting with Lua
 ==================
 
 Simpletask embeds a Lua scripting engine that can be used for configuration and callbacks.
-The configuration is read whenever you restart the app or when you change it in the Lua Config screen.
+The configuration is read whenever you restart the app or when you change it in the Lua Config
+screen.
 The callbacks are executed when certain events occur (such as filtering).
-Both the configuration and callbacks will call specific Lua functions, see below for the details of the supported callbacks.
+Both the configuration and callbacks will call specific Lua functions, see below for the details of
+the supported callbacks.
 
 All code (config and callbacks) will be executed in the same Lua interpreter.
 This way you can define helper functions in the config and use them in callbacks.
@@ -13,14 +15,14 @@ This way you can define helper functions in the config and use them in callbacks
 
 To change existing (app and widget) filters to the 8.0 format do the following.
 
-Add `function onFilter(t,f,e)` before and `end` after the existing script. Prefix all fields with `f.` i.e. `due` -> `f.due`. Example:
+Add `function onFilter(t,f,e)` before and `end` after the existing script. Prefix all fields
+with `f.` i.e. `due` -> `f.due`. Example:
 
     if due~=nil then
         return os.time() >= due;
     end
     --- tasks with no due date are not overdue.
     return false;
-
 
 becomes
 
@@ -32,7 +34,6 @@ becomes
         return false;
     end
 
-
 Helper functions
 ================
 
@@ -43,7 +44,6 @@ Shows `string` as an Android toast. Useful for debugging scripts.
 ### `log (string) -> nil`
 
 Logs `string` to the Android logcat logging with info level and tag `LuaInterp`.
-
 
 ### Notes
 
@@ -60,7 +60,7 @@ Most functions get passed the same collection of parameters:
 * `fields`: Parts of the task converted to different types (such as a timestamp for `createdate`)
     * `completed`: Boolean indicating if the task is completed.
     * `completiondate`: The completion date in seconds of the task or `nil` if not set.
-    * `createdate`: The created date  in seconds of the task or `nil` if not set.
+    * `createdate`: The created date in seconds of the task or `nil` if not set.
     * `due`: The due date in seconds or `nil` if not set.
     * `lists`: A table with the lists of the task as keys. `fields.lists` itself will never be `nil`
     * `priority`: The priority of the task as string.
@@ -69,9 +69,9 @@ Most functions get passed the same collection of parameters:
     * `task`: The full task as string.
     * `threshold`: The threshold date in seconds or `nil` if not set.
     * `text`: The text entered when the task was created.
-* `extensions`: A table with the Todo.txt extensions (`key:val`)of the task as key value pairs. There is only one entry for every key, this is to make use easier. If you need multiple `key:val` pairs with the same key, you can parse the task in Lua.
-
-
+* `extensions`: A table with the Todo.txt extensions (`key:val`)of the task as key value pairs.
+  There is only one entry for every key, this is to make use easier. If you need multiple `key:val`
+  pairs with the same key, you can parse the task in Lua.
 
 ### `onFilter (task, fields, extensions) -> boolean`
 
@@ -85,13 +85,15 @@ Called for every task as part of filtering the todo list.
 ### Notes
 
 * If there is a Lua error in the callback, it behaves as if it had returned `true`
-* Considering this function is called a lot (for every task in the list) it should be fast. If it is too slow Simpletask might give ANRs.
-* You should define the `onFilter` function in the filter (not in the configuration). Defining it in the main configuration will not work, if the Filter script is empty, the `onFilter` function will be undefined.
+* Considering this function is called a lot (for every task in the list) it should be fast. If it is
+  too slow Simpletask might give ANRs.
+* You should define the `onFilter` function in the filter (not in the configuration). Defining it in
+  the main configuration will not work, if the Filter script is empty, the `onFilter` function will
+  be undefined.
 
 ### `onGroup (task, fields, extensions) -> string`
 
 Called for every task as part of filtering the todo list.
-
 
 ### Returns
 
@@ -100,15 +102,17 @@ Called for every task as part of filtering the todo list.
 ### Notes
 
 * If there is a Lua error in the callback, it behaves as if it had returned `""`
-* Considering this function is called a lot (for every task in the list) it should be fast. If it is too slow Simpletask might give ANRs.
-* You should define the `onGroup` function in the filter (not in the configuration). Defining it in the main configuration will not work, if the Filter script is empty, the `onGroup` function will be undefined.
-
+* Considering this function is called a lot (for every task in the list) it should be fast. If it is
+  too slow Simpletask might give ANRs.
+* You should define the `onGroup` function in the filter (not in the configuration). Defining it in
+  the main configuration will not work, if the Filter script is empty, the `onGroup` function will
+  be undefined.
 
 ### `onSort (task, fields, extensions) -> string`
 
-Called for every task as part of sorting the todo list. This function should return a string for every task. This string
+Called for every task as part of sorting the todo list. This function should return a string for
+every task. This string
 is then used to sort the tasks.
-
 
 ### Returns
 
@@ -117,10 +121,11 @@ is then used to sort the tasks.
 ### Notes
 
 * If there is a Lua error in the callback, it behaves as if it had returned `""`
-* Considering this function is called a lot (for every task in the list) it should be fast. If it is too slow Simpletask might give ANRs.
-* You should define the `onSort` function in the filter (not in the configuration). Defining it in the main configuration will not work, if the Filter script is empty, the `onGroup` function will be undefined.
-
-
+* Considering this function is called a lot (for every task in the list) it should be fast. If it is
+  too slow Simpletask might give ANRs.
+* You should define the `onSort` function in the filter (not in the configuration). Defining it in
+  the main configuration will not work, if the Filter script is empty, the `onGroup` function will
+  be undefined.
 
 ### `onDisplay (task, fields, extensions) -> string`
 
@@ -133,8 +138,11 @@ Called for every task before it is displayed.
 ### Notes
 
 * If there is a Lua error in the callback, it behaves as if it had returned `""`
-* Considering this function is called a lot (for every task in the list) it should be fast. If it is too slow Simpletask might give ANRs.
-* You should define the `onDisplay` function in the filter (not in the configuration). Defining it in the main configuration will not work, if the Filter script is empty, the `onDisplay` function will be undefined.
+* Considering this function is called a lot (for every task in the list) it should be fast. If it is
+  too slow Simpletask might give ANRs.
+* You should define the `onDisplay` function in the filter (not in the configuration). Defining it
+  in the main configuration will not work, if the Filter script is empty, the `onDisplay` function
+  will be undefined.
 
 ### `onAdd (task, fields, extensions) -> string`
 
@@ -147,7 +155,8 @@ Called for every task before it is added.
 ### Notes
 
 * If there is a Lua error in the callback, the original task text is saved.
-* You should define the `onAdd` callback in the main Lua configuration as it is not filter specific. Defining it in a filter will not work.
+* You should define the `onAdd` callback in the main Lua configuration as it is not filter specific.
+  Defining it in a filter will not work.
 
 ### `onTextSearch (taskText, searchText, caseSensitive) -> boolean`
 
@@ -167,7 +176,8 @@ Called for every task as when searching for text.
 ### Notes
 
 * If there is a Lua error in the callback, it behaves as if it had returned `true`
-* Considering this function is called a lot (for every task in the list) it should be fast. If it is too slow Simpletask might give ANRs.
+* Considering this function is called a lot (for every task in the list) it should be fast. If it is
+  too slow Simpletask might give ANRs.
 
 Configuration
 =============
@@ -209,7 +219,8 @@ The font size of the main task list in SP as a float.
 Examples
 ========
 
-The following code will show only overdue tasks where tasks without a due date, will never be overdue.
+The following code will show only overdue tasks where tasks without a due date, will never be
+overdue.
 
     function onFilter(t,f,e)
        if f.due~=nil then
@@ -245,7 +256,6 @@ The 8.0.0 fuzzy search in Lua:
         return res~=nil
     end
 
-
 A group callback to group by list with custom empty header:
 
     function onGroup(t,f,e)
@@ -255,7 +265,7 @@ A group callback to group by list with custom empty header:
             return next(f.lists)
         end
     end
-    
+
 Don't group at all and don't show any headers (regardless of sort order)
 
     function onGroup()
@@ -275,7 +285,8 @@ A callback to modify the display of a task:
 Learning Lua
 ============
 
-Googling should turn up plenty of good resources. [*Programming in Lua*](https://www.lua.org/pil/contents.html) should cover almost everything.
+Googling should turn up plenty of good resources. [*Programming in
+Lua*](https://www.lua.org/pil/contents.html) should cover almost everything.
 
 
 

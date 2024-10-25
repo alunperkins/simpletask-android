@@ -1,35 +1,40 @@
 Intents
 =======
 
-Simpletask unterstützt einige Android-Intents, die von anderen Apps (z. B. Tasker) verwendet werden können, um Aufgaben zu erstellen oder Listen anzuzeigen.
+Simpletask unterstützt einige Android-Intents, die von anderen Apps (z. B. Tasker) verwendet werden
+können, um Aufgaben zu erstellen oder Listen anzuzeigen.
 
 Neue Aufgabe im Hintergrund
 ---------------------------
 
-Um eine Aufgabe im Hintergrund zu erstellen, also ohne Simpletask anzuzeigen, kann dieser Intent verwendet werden:
+Um eine Aufgabe im Hintergrund zu erstellen, also ohne Simpletask anzuzeigen, kann dieser Intent
+verwendet werden:
 
--   Intent action: `nl.mpcjanssen.simpletask.BACKGROUND_TASK`
--   Intent string extra: `task`
+- Intent action: `nl.mpcjanssen.simpletask.BACKGROUND_TASK`
+- Intent string extra: `task`
 
 Der Intent übergibt zusätzlich die Zeichenkette `task`, welche die zu erstellende Aufgabe enthält.
 
-Zum Beispiel kann mit Tasker eine neue Aufgabe erstellt werden, indem man folgende Aktion definiert: 
+Zum Beispiel kann mit Tasker eine neue Aufgabe erstellt werden, indem man folgende Aktion definiert:
 
--   Action: `nl.mpcjanssen.simpletask.BACKGROUND_TASK`
--   Cat: Default
--   Mime Type: text/\*
--   Extra: task: `<Aufgabentext mit möglichen Variablen> +tasker`
--   Target: Activity
+- Action: `nl.mpcjanssen.simpletask.BACKGROUND_TASK`
+- Cat: Default
+- Mime Type: text/\*
+- Extra: task: `<Aufgabentext mit möglichen Variablen> +tasker`
+- Target: Activity
 
-Ich füge das `+tasker`-Tag hinzu, um später die von Tasker erstellten Aufgaben schneller filtern zu können.
+Ich füge das `+tasker`-Tag hinzu, um später die von Tasker erstellten Aufgaben schneller filtern zu
+können.
 
 Öffnen mit aktiviertem Filter
 -----------------------------
 
 Um Simpletask mit einem bestimmten Filter zu öffnen, kann folgender Intent genutzt werden:
 
--   Intent action: `nl.mpcjanssen.simpletask.START_WITH_FILTER`
--   Intent extras: Die folgenden Extras können als Teil des Intents hinzugefügt werden. Beachten Sie, dass die Namen derzeit noch die ursprüngliche Namensgebung, also Contexts und Projects widerspiegeln.
+- Intent action: `nl.mpcjanssen.simpletask.START_WITH_FILTER`
+- Intent extras: Die folgenden Extras können als Teil des Intents hinzugefügt werden. Beachten Sie,
+  dass die Namen derzeit noch die ursprüngliche Namensgebung, also Contexts und Projects
+  widerspiegeln.
 
 <table>
 <colgroup>
@@ -95,7 +100,8 @@ Um Simpletask mit einem bestimmten Filter zu öffnen, kann folgender Intent genu
 
 ### Sortierung
 
-SORTS enthält eine mit Kommas oder '' getrennte Liste von Sortierschlüsseln und deren Richtung mit einem `!` dazwischen, also `<Richtung>!<Sortierschlüssel>`.
+SORTS enthält eine mit Kommas oder '' getrennte Liste von Sortierschlüsseln und deren Richtung mit
+einem `!` dazwischen, also `<Richtung>!<Sortierschlüssel>`.
 
 #### Richtung
 
@@ -104,23 +110,29 @@ SORTS enthält eine mit Kommas oder '' getrennte Liste von Sortierschlüsseln un
 
 #### Sortierschlüssel
 
-Siehe Liste in [hier](https://github.com/mpcjanssen/simpletask-android/blob/master/app/src/main/res/values/donottranslate.xml#L45-59)
+Siehe Liste
+in [hier](https://github.com/mpcjanssen/simpletask-android/blob/master/app/src/main/res/values/donottranslate.xml#L45-59)
+
 #### Beispiel
 
-- Die Sortierung `+!completed,+!alphabetical` sortiert abgeschlossene Aufgaben ans Ende und dann alphabetisch.
-- Die Sortierung `+!completed,-!alphabetical` sortiert abgeschlossene Aufgaben ans Ende und dann alphabetisch in umgekehrter Richtung.
+- Die Sortierung `+!completed,+!alphabetical` sortiert abgeschlossene Aufgaben ans Ende und dann
+  alphabetisch.
+- Die Sortierung `+!completed,-!alphabetical` sortiert abgeschlossene Aufgaben ans Ende und dann
+  alphabetisch in umgekehrter Richtung.
 
 ### Beispiel für Tasker
 
--   Action: `nl.mpcjanssen.simpletask.START_WITH_FILTER`
--   Cat: `Default`
--   Mime Type:
--   Extra: `CONTEXTS:Office,Online`
--   Extra: `SORTS:+!completed,+!alphabetical`
--   Target: `Activity`
+- Action: `nl.mpcjanssen.simpletask.START_WITH_FILTER`
+- Cat: `Default`
+- Mime Type:
+- Extra: `CONTEXTS:Office,Online`
+- Extra: `SORTS:+!completed,+!alphabetical`
+- Target: `Activity`
 
-Aufgrund von Einschränkungen in Tasker können nur bis zu zwei Extras hinzugefügt werden. Stattdessen können Sie den am-shell-Befehl verwenden, also beispielsweise:
+Aufgrund von Einschränkungen in Tasker können nur bis zu zwei Extras hinzugefügt werden. Stattdessen
+können Sie den am-shell-Befehl verwenden, also beispielsweise:
 
     am start -a nl.mpcjanssen.simpletask.START_WITH_FILTER -e SORTS +!completed,+!alphabetical -e PROJECTS project1,project2 -e CONTEXTS @errands,@computer --ez CONTEXTSnot true -c android.intent.category.DEFAULT -S
 
-Das `-S` am Ende wird sicherstellen, dass die App korrekt neu gestartet wird, wenn sie bereits sichtbar ist. Dagegen scheint das `-S` mit Tasker nicht zu funktionieren.
+Das `-S` am Ende wird sicherstellen, dass die App korrekt neu gestartet wird, wenn sie bereits
+sichtbar ist. Dagegen scheint das `-S` mit Tasker nicht zu funktionieren.

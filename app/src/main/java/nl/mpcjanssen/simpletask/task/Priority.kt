@@ -54,8 +54,7 @@ enum class Priority {
             val upper = s?.toUpperCase(Locale.US) ?: return NONE
             try {
                 return valueOf(upper)
-            }
-            catch (e: IllegalArgumentException) {
+            } catch (e: IllegalArgumentException) {
                 return NONE
             }
         }

@@ -35,7 +35,7 @@ class CachedFileProvider : ContentProvider() {
         // Check incoming Uri against the matcher
         when (uriMatcher!!.match(uri)) {
 
-        // If it returns 1 - then it matches the Uri defined in onCreate
+            // If it returns 1 - then it matches the Uri defined in onCreate
             1 -> {
                 context?.let {
 
@@ -49,11 +49,14 @@ class CachedFileProvider : ContentProvider() {
                     // Create & return a ParcelFileDescriptor pointing to the file
                     // Note: I don't care what mode they ask for - they're only getting
                     // read only
-                    return ParcelFileDescriptor.open(fileLocation, ParcelFileDescriptor.MODE_READ_ONLY)
+                    return ParcelFileDescriptor.open(
+                        fileLocation,
+                        ParcelFileDescriptor.MODE_READ_ONLY
+                    )
                 } ?: throw FileNotFoundException("Context is null")
             }
 
-        // Otherwise unrecognised Uri
+            // Otherwise unrecognised Uri
             else -> {
                 Log.d(TAG, "Unsupported uri: '$uri'.")
                 throw FileNotFoundException("Unsupported uri: " + uri.toString())
@@ -65,8 +68,10 @@ class CachedFileProvider : ContentProvider() {
     // Not supported / used / required for this example
     // //////////////////////////////////////////////////////////////
 
-    override fun update(uri: Uri, contentvalues: ContentValues?, s: String?,
-                        `as`: Array<String>?): Int {
+    override fun update(
+        uri: Uri, contentvalues: ContentValues?, s: String?,
+        `as`: Array<String>?
+    ): Int {
         return 0
     }
 
@@ -85,8 +90,10 @@ class CachedFileProvider : ContentProvider() {
         return "text/plain"
     }
 
-    override fun query(uri: Uri, projection: Array<String>?, s: String?, as1: Array<String>?,
-                       s1: String? ): Cursor? {
+    override fun query(
+        uri: Uri, projection: Array<String>?, s: String?, as1: Array<String>?,
+        s1: String?
+    ): Cursor? {
         return null
     }
 

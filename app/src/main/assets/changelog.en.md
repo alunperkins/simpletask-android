@@ -31,7 +31,8 @@
 
 - Use proper storage folder for Android Q+
 - Prevent double slashes for #1097.
-- Don't switch the todo file when changes are pending. It will lead to data loss and is a possible cause of #1098.
+- Don't switch the todo file when changes are pending. It will lead to data loss and is a possible
+  cause of #1098.
 - Clear the cache when switching todo files.
 
 ### Added
@@ -59,7 +60,6 @@ Test release for F-Droid
 ### Added
 
 - Introduce a file provider for `root://` references. Needed for #833.
-
 
 ### Updated
 
@@ -105,14 +105,12 @@ Test release for F-Droid
 - Fixed archiving when `done.txt` is opened.
 - Removed thread synchronisation to fix slow startup. Fixes #1043.
 
-
-
 ## 10.4.0
 
 ### Fixed
 
 - Ensure only one load operation of the list occurs at the same time. Fixes #1027.
-- Remove Lua caching. Fixes #1029. 
+- Remove Lua caching. Fixes #1029.
 
 ## 10.3.3
 
@@ -125,7 +123,8 @@ Test release for F-Droid
 ### Added
 
 - Add support for automatic task UUIDs for #806.
-- Add dedicated "Share link" target to be able to share a content link to text files. Workaround for #1013.
+- Add dedicated "Share link" target to be able to share a content link to text files. Workaround for
+  #1013.
 - Schedule save with a countdown timer to batch multiple changes.
 - Reload task list before adding background task.
 
@@ -140,7 +139,7 @@ Test release for F-Droid
 - Properly restore scroll position. Fixes #941.
 - Set proper User Agent for Nextcloud. Fixes #973.
 
-###  Changed
+### Changed
 
 - Several translation updates.
 
@@ -152,7 +151,8 @@ Nextcloud only emergency release
 
 ### Fixed
 
-- Properly handle multiple clicks on completion context item when `keep selection` is enabled for #942.
+- Properly handle multiple clicks on completion context item when `keep selection` is enabled for
+  #942.
 - Include all alphanumerical tokens in the Lua text field for #909.
 
 ### Added
@@ -183,7 +183,6 @@ Nextcloud only emergency release
 
 - More consistently apply case sensitive sorting.
 
-
 ## 10.2.6
 
 ### Fixed
@@ -200,7 +199,6 @@ Nextcloud only emergency release
 
 - Prevent creating unnecessary objects for reduced memory usage.
 
-
 ## 10.2.4
 
 ### Fixed
@@ -210,7 +208,6 @@ Nextcloud only emergency release
 ### Changed
 
 - Only archive visible or selected tasks #131.
-
 
 ## 10.2.3
 
@@ -239,7 +236,7 @@ Nextcloud only emergency release
 
 ### Removed
 
-- Don't use Android Account Manager for Nextcloud credentials. 
+- Don't use Android Account Manager for Nextcloud credentials.
   It sometimes fails for some unknown reasons.
 
 10.2.0
@@ -254,8 +251,6 @@ Nextcloud only emergency release
 - Extend the range of tokens included for alpha sort.
 - Merged #906 (Strubbl), add more precise documentation on hidden tasks
 - Store saved filters in preferences, this should fix most issues with saved filters.
-
-
 
 10.1.16
 -------
@@ -287,12 +282,10 @@ Nextcloud only emergency release
 - Setup interpreter in query. Fixes Lua filtering.
 - Fix filtering from intent. Fixes queries from widgets and shortcuts.
 
-
 10.1.11
 -------
 
 - Fix JSON crash.
-
 
 10.1.10
 -------
@@ -349,14 +342,12 @@ Nextcloud only emergency release
 - Fix filtering from FilterActivity.
 - Revert to old filter button behaviour.
 
-
 10.1.0
 ------
 
 - Update app labels for #851.
 - Fix creating saved filter shortcut on Oreo.
 - Don't add all task tokens to callbacks for better Lua performance. **incompatibility**
-
 
 10.0.8
 ------
@@ -383,7 +374,7 @@ Nextcloud only emergency release
 10.0.6
 ------
 
--  Merge pull request #807 (aligitor). Hungarian translation of the help file "Versions".
+- Merge pull request #807 (aligitor). Hungarian translation of the help file "Versions".
 
 10.0.5
 ------
@@ -410,7 +401,6 @@ Nextcloud only emergency release
 
 - Fix race condition when updating drawers. Fixes #798.
 
-
 10.0.0
 ------
 
@@ -423,11 +413,10 @@ Nextcloud only emergency release
 - Select the task by index in the todolist, not by index in the view. Fixes #733.
 - Translation updates (ddsanti, vistausss,
 
-
 9.1.3
 -----
 
--  Add some padding for "Invert filter". Fixes #792.
+- Add some padding for "Invert filter". Fixes #792.
 
 9.1.2
 -----
@@ -463,10 +452,12 @@ Nextcloud only emergency release
 - Set prefill from widget filter. Fixes #732.
 - Merge #774 (Geehu). Add onDisplay() feature.
 - Merge #775 (Geehu). Move filter clear button to right-side of screen.
-- Merge #777 (Geehu). If 'Invert filter' is active, do not include list or tag when creating a new task.
+- Merge #777 (Geehu). If 'Invert filter' is active, do not include list or tag when creating a new
+  task.
 - Merge #779 (Geehu). Ensure "Create is threshold" remains checked after switching away from page.
 - Merge #781 (Geehu). Observe theme on Help pages.
-- Lua, added tokens in the field parameters and a `print_table` diagnostic function for use in onDisplay.
+- Lua, added tokens in the field parameters and a `print_table` diagnostic function for use in
+  onDisplay.
 - Fix offline Dropbox use.
 - Log exceptions when saving to Dropbox in the application log.
 - Inform the user if a save to Dropbox failed.
@@ -500,7 +491,8 @@ Nextcloud only emergency release
 - Fix `root://` links on N and provide proper mime-type.
 - Target API23 to prevent issues with `file://` links.
 - Use Kotlin Android extension to access views.
-- Merged: Use diffing algorithm when syncing calendar. Should improve stability and perfromance (#752 vojtechkral)
+- Merged: Use diffing algorithm when syncing calendar. Should improve stability and perfromance (
+  #752 vojtechkral)
 - Split new list and tags on whitespace. Fixes #750.
 - Don't show filter bar if there is no `onFilter` callback.
 - Don't prefill tasks if the only filtering is for no tags or lists. Fixes #753.
@@ -514,7 +506,8 @@ Nextcloud only emergency release
 
 - Merged: Updated Japanese translation (naofum).
 - Merged: Updated Dutch translation (vistausss).
-- Shallow copy the todolist before filter or looping over it. Prevents Concurrent Modification Exceptions.
+- Shallow copy the todolist before filter or looping over it. Prevents Concurrent Modification
+  Exceptions.
 - Merged: Fix README headers. (smichel17)
 - Clear tasks to edit when closing AddTask. Fixes #738.
 - Allow forced refresh for cloudless as workaround for #735.
@@ -523,7 +516,6 @@ Nextcloud only emergency release
 - Reorganized sources to standard.
 - Merged: clean up phrasing of Color preference (smichel)
 - Merged: Add buttons to get the app (Poussinou)
-
 
 9.0.1
 -----
@@ -551,8 +543,8 @@ Nextcloud only emergency release
 - Don't clear selection after changes.
 - Don't use a database backend for caching the todos. It complicates the code.
 - Reduce spacing in drawes. Fixes #703.
-- Updated translations from weblate (Many thanks to: Michal Čihař, naofum, David Di Santi, wldmr, amjr, Heimen Stoffels, luisfsr)
-
+- Updated translations from weblate (Many thanks to: Michal Čihař, naofum, David Di Santi, wldmr,
+  amjr, Heimen Stoffels, luisfsr)
 
 8.3.1
 -----
@@ -568,7 +560,7 @@ Nextcloud only emergency release
 -----
 
 - Removed tablet view for now. It needs a complete redesign.
-- Lots of UI changes. Many thanks to smichel17 for implementing them. 
+- Lots of UI changes. Many thanks to smichel17 for implementing them.
 - Don't refilter task list when closing drawers or selection for #568.
 - Close filter drawer after selecting an item.
 - Close drawers when pressing back.
@@ -591,8 +583,7 @@ Nextcloud only emergency release
 - Keep selected items visible regardless of filter. Fixes #43.
 - Merged: Fix grouping when `Create is threshold` is selected. Fixes #445. (#540 djibux)
 - Fix build. (mailed patch from LukeG)
-- Allow simultaneous installation of release and debug builds (smichel17) 
-
+- Allow simultaneous installation of release and debug builds (smichel17)
 
 8.2.2
 -----
@@ -631,7 +622,8 @@ Nextcloud only emergency release
 - Don't recreate activities when changing font size preference, fixes #441.
 - Refactored selection and moves some menus to actionbar. Fixes #481.
 - Always show checkboxes for code simplification and fuller toolbar.
-- Always show complete and uncomplete context actions (in menu) for Select all -> (un)complete use case.
+- Always show complete and uncomplete context actions (in menu) for Select all -> (un)complete use
+  case.
 - Set the proper toolbar popup theme. Fixes #463.
 - Create new tasks with a proper line number for file order sorting. Fixes #499.
 - Use a separate Lua interpreter for every filter, fixes #502.
@@ -643,13 +635,15 @@ Nextcloud only emergency release
 -----
 
 - Merged updated German translation. (#490 twickr).
-- Add all task list activities (modification and reading) in the todoQueue to prevent race conditions.
+- Add all task list activities (modification and reading) in the todoQueue to prevent race
+  conditions.
 - Add Todo History in the main menu.
 - Add link to scripting help from Lua Config screen for #488.
 - Add black theme for application.
 - Restore last active filter tab.
 - Greatly improve selection performance. Fixes #491.
-- When selection active, updateCache the selected state of task when closing it with the back button. Fixes #491.
+- When selection active, updateCache the selected state of task when closing it with the back
+  button. Fixes #491.
 - Removed last visual task updateCache artifacts. Fixes #474.
 
 8.0.6
@@ -662,12 +656,14 @@ Nextcloud only emergency release
 
 - Restore task list font size in Settings.
 - Remove unimplemented font selector.
-- Run widget scripting code in a separate context to prevent interference between apps and widgets. Fixes #486.
+- Run widget scripting code in a separate context to prevent interference between apps and widgets.
+  Fixes #486.
 - Allow reconfiguration of widgets. Fixes #90.
 - Fix crash with reversed sort for non MM devices.
 - Add explanation to change 7.x to 8.0 Lua filters. See scripting help.
 - Handle selected state of a task in the ListView adapter.
-- Switched to RecyclerView. Fixes erratic completion feedback #474 and improves selection smoothness.
+- Switched to RecyclerView. Fixes erratic completion feedback #474 and improves selection
+  smoothness.
 - Executing actions always requires a long click.
 
 8.0.4
@@ -695,12 +691,15 @@ Nextcloud only emergency release
 -----
 
 - **INCOMPATIBLE CHANGE**: Define Lua scripts as callbacks for #349.
-- **INCOMPATIBLE CHANGE**: Represent lists and tags as Lua table keys instead of Lua arrays for #349.
-- **INCOMPATIBLE CHANGE**: Removed text size from settings. It's much easier and more flexible to set it from Lua.
+- **INCOMPATIBLE CHANGE**: Represent lists and tags as Lua table keys instead of Lua arrays for
+  #349.
+- **INCOMPATIBLE CHANGE**: Removed text size from settings. It's much easier and more flexible to
+  set it from Lua.
 
 - Added application wide configuration using Lua. Fixes #349. See help for details.
 
-- Re-use filter export format (JSON) to store active filter in preferences. This will reset the filter after the updateCache.
+- Re-use filter export format (JSON) to store active filter in preferences. This will reset the
+  filter after the updateCache.
 - Recreate activity when some changing preferences, fixes #435.
 - Sort checked tags and lists to top when updating. Implements #180.
 - Added a font size between large and huge.
@@ -750,15 +749,16 @@ Nextcloud only emergency release
 - Reorganized settings thanks to smichel17. Fixes #401.
 - Updated icons to new material colors and sizes.
 - Moved checkboxes in AddTask to overflow menu. Fixes #409.
-- Removed `Back saves` setting. Back always saves. The new left corner icon can be used to cancel. Fixes #389.
+- Removed `Back saves` setting. Back always saves. The new left corner icon can be used to cancel.
+  Fixes #389.
 - Show current selected values in settings. Fixes #404.
-
 
 7.1.1
 -----
 
 - Updated to Kotlin 1.0.1.
-- Export and import saved filters in `saved_filters.txt` in the same directory as the `todo.txt` file. Fixes #101.
+- Export and import saved filters in `saved_filters.txt` in the same directory as the `todo.txt`
+  file. Fixes #101.
 - Move Floating Action Button in AddTask to fix #397.
 - Move version information to Debug screen. Fixes #403.
 
@@ -772,7 +772,8 @@ Nextcloud only emergency release
 
 - Merged: Updated German translation (twckr #422).
 - Add tristate buttons for lists and tags selection. Fixes #149.
-- Indicate connectivity and Dropbox pending changes with UI elements instead of chatty toasts. Implements #388.
+- Indicate connectivity and Dropbox pending changes with UI elements instead of chatty toasts.
+  Implements #388.
 - Add a task with a Floating Action Button. Implements #385.
 - Allow linking to any shareable content. Implements #393.
 
@@ -829,8 +830,7 @@ Nextcloud only emergency release
 
 - Merged: Updated German translation (twckr #356).
 - Don't calculate the current date for every tasks. Greatly improves performance. Fixes #359.
-- Several Kotlin transition related bug fixes. 
-
+- Several Kotlin transition related bug fixes.
 
 7.0.7
 -----
@@ -842,7 +842,8 @@ Nextcloud only emergency release
 -----
 
 - Fix off by one errors when editing priority from the edit screen. Fixes #352.
-- Don't show cancel button in Edit task screen to prevent accidental data loss. Cancel is now in the menu.
+- Don't show cancel button in Edit task screen to prevent accidental data loss. Cancel is now in the
+  menu.
 
 7.0.5
 -----
@@ -895,13 +896,13 @@ Nextcloud only emergency release
 - Fix bug in pending changes handling for Dropbox, which could lead to data loss.
 - Show a small red bar if there are unsaved changes.
 - Name both versions Simpletask. Simpletask Cloudless looks ugly in a launcher.
-- Add a setting to use the `created date` when sorting by threshold date and the threshold date is empty.
+- Add a setting to use the `created date` when sorting by threshold date and the threshold date is
+  empty.
 - Extend Dropbox polling timeout. Should reduce battery usage.
 - Don't change create date on updated tasks, fixes #337.
 - Refresh views and clear logs at midnight. Fixes #93.
 - Merged: Completed German translation (twckr #335).
 - Remove partial `Select parts` functionality when sharing tasks for now.
-
 
 6.3.4
 -----
@@ -919,7 +920,8 @@ Nextcloud only emergency release
 6.3.2
 -----
 
-- Don't crash if todolist not initialized (for instance when launching from widget and Simpletask is not running)
+- Don't crash if todolist not initialized (for instance when launching from widget and Simpletask is
+  not running)
 - Revert use of create date as threshold date, it had unintended consequences in the UI.
 
 6.3.1
@@ -940,7 +942,6 @@ Nextcloud only emergency release
 - Switch parts of the code to Kotlin for better null safety and less verbose code.
 - Removed Guava dependency and replace with kotlin code.
 - Merged: Refactored calendar sync error handling (vojtechkral #330)
-
 
 6.2.0
 -----
@@ -963,10 +964,9 @@ Nextcloud only emergency release
 
 - Merged use of all day events for calendar sync (vojtechkral).
 - Merged updated settings and default for calendar sync (vojtechkral).
-- Give proper focus to SearchView so keyboard pops up. Fixes #318. 
+- Give proper focus to SearchView so keyboard pops up. Fixes #318.
 - Add preference for fast scrolling of task view. Fixes #319.
 - Merged updated German translation (twckr).
-
 
 6.0.9
 -----
@@ -979,7 +979,7 @@ Nextcloud only emergency release
 
 - Fix crash with `Share all`.
 - Add support for Dropbox App Folder permissions.
-- Save todo file after acrhive.  Fixes #290
+- Save todo file after acrhive. Fixes #290
 
 6.0.7
 -----
@@ -992,14 +992,14 @@ Nextcloud only emergency release
 -----
 
 - Fix some punctuation errors. (Shayne Holmes)
-- Don't save todo list after a reloadLuaConfig. This should prevent another case of conflicts on Dropbox.
-- Hide last empty header if `show empty headers` is disabled.  Fixes #283
+- Don't save todo list after a reloadLuaConfig. This should prevent another case of conflicts on
+  Dropbox.
+- Hide last empty header if `show empty headers` is disabled. Fixes #283
 - Fix NPE in broadcast receiver.
 - Link to the topydo project rather than the (obsoleted) todo.txt-tools. (Bram Schoenmakers)
 - Don't hide FAB, removes required external dependency.
 - Properly split multiline texts added in background. Possible fix for #277.
 - Don't add empty tasks in the background. Possible fix for #277.
-
 
 6.0.5
 -----
@@ -1022,8 +1022,7 @@ Nextcloud only emergency release
 
 - Add a setting to hide creation date if this is the only specified date. Fixes #272
 - Fix widget colors.
-- Add setting to use `context` and `project` instead of `list` and `tag` to match `todo.txt`.  #242
-
+- Add setting to use `context` and `project` instead of `list` and `tag` to match `todo.txt`. #242
 
 6.0.1
 -----
@@ -1033,13 +1032,15 @@ Nextcloud only emergency release
 6.0.0
 -----
 
-- Material, material, material. Material themes only also on KitKat, Jellybean and Ice Cream Sandwich.
+- Material, material, material. Material themes only also on KitKat, Jellybean and Ice Cream
+  Sandwich.
 - Always enable script filter support.
 - Introduced floating action button.
 - View and share application logging (From settings).
 - View and clear todo file history database (From settings).
 - Improved Dropbox background polling.
-- Changed the way adding tasks in the background is handled. You can configure a string to append to these tasks. So for example `+background` will allow easy filtering. 
+- Changed the way adding tasks in the background is handled. You can configure a string to append to
+  these tasks. So for example `+background` will allow easy filtering.
 - Don't scroll filter drawer list if item is checked.
 - Use `rec:+` to mean recur from original date instead of a using setting. Fixes #29
 
@@ -1052,7 +1053,6 @@ Nextcloud only emergency release
 - Don't clear todolist if reloading a file failed.
 - Queue todo list and file system actions to fix some weird race conditions.
 - Properly save tasks in the cache if offline. Fixes lost tasks after coming online again.
-
 
 5.5.7
 
@@ -1090,7 +1090,8 @@ Nextcloud only emergency release
 - Fix issue with Dropbox chnages not being detected after having been offline.
 - Show toasts on main thread.
 - Add a setting to share the internal backup SQLite database.
-- Fix issue with `keep prio`. If unset while completing a recurring taks, the new task had the prio unset instead of the completed task.
+- Fix issue with `keep prio`. If unset while completing a recurring taks, the new task had the prio
+  unset instead of the completed task.
 - Added huge (36sp) font size.
 
 5.5.1
@@ -1104,12 +1105,14 @@ Nextcloud only emergency release
 
 - Redid the file loading feedback. If a file is loading the UI is locked.
 - Fixed file ordering (I hope for real now).
-- Improved connection detection and conflict handling for Dropbox. A `(conflicted file)` is automatically created and opened.
+- Improved connection detection and conflict handling for Dropbox. A `(conflicted file)` is
+  automatically created and opened.
 - Keep the list position after modifying tasks.
 - Properly refresh the navigation drawer if lists/tags are added or removed.
 - Fixed a filter issue with empty Lua filter scripts being treated as false.
 
-- Store last two days of todo.txt version in an internal database. This allows recovery in case of bugs.
+- Store last two days of todo.txt version in an internal database. This allows recovery in case of
+  bugs.
 - Redid task memory backend. Fixes #252.
 - Don't use AsyncTask if not necessary. This make background activity much more robust.
 - Switched back to Dropbox Core API. The Sync API is not supported anymore.
@@ -1117,13 +1120,10 @@ Nextcloud only emergency release
 - Major refactoring for updated performance and easier debugging.
 - Show cached todo if Dropbox/device is offline.
 
-
-
 5.4.7
 -----
 
 - Fix issue with crash in landscape mode if `landscape drawers` is enabled.
-
 
 5.4.6
 -----
@@ -1142,7 +1142,6 @@ Nextcloud only emergency release
 
 - Fix broken File Order sort #248.
 - Fix possible NPE while handling threshold dates.
-
 
 5.4.3
 -----
@@ -1164,7 +1163,8 @@ Nextcloud only emergency release
 
 - Add support for todo://... to link to different todo files.
 - Show todo file path in the titlebar (enable in settings).
-- Updated back button behavior to switch to previous file if next file was openend via todo://... link.
+- Updated back button behavior to switch to previous file if next file was openend via todo://...
+  link.
 - When creating a widget pre-fill it with the current active application filter.
 - Observe case sensitive sorting setting in all sorts, partial fix for #239.
 - Added Spanish translation of help. (courtesy Martin Laclaustra)
@@ -1175,12 +1175,14 @@ Nextcloud only emergency release
 - Added Material theme for Lollipop devices.
 - Fixed issue with appending to done.txt not adding a new line in the beginning.
 - Observe split action bar setting in all activities.
-- Notes with an action (email, phone-number or link) will trigger a popup when clicked instead of adding a menu item. This makes launching actions easier. Long click always selects.
+- Notes with an action (email, phone-number or link) will trigger a popup when clicked instead of
+  adding a menu item. This makes launching actions easier. Long click always selects.
 
 5.3.2
 -----
 
-- Don't remind for tasks in the past when enabling calendar sync. Fixes [#222] (https://github.com/mpcjanssen/simpletask-android/issues/222). 
+- Don't remind for tasks in the past when enabling calendar sync.
+  Fixes [#222] (https://github.com/mpcjanssen/simpletask-android/issues/222).
 - Prevent NPE while handling `Load from script` filter menu item.
 
 5.3.1
@@ -1197,7 +1199,8 @@ Nextcloud only emergency release
 -----
 
 - Added calendar sync. Many thanks to Vojtech Kral for implenenting this.
-- Switched to Lua for scripting. It's less verbose to write and performs better. Plus it works without having to keep a copy of the source in the simpletask repository.
+- Switched to Lua for scripting. It's less verbose to write and performs better. Plus it works
+  without having to keep a copy of the source in the simpletask repository.
 
 5.2.18
 ------
@@ -1212,7 +1215,8 @@ Nextcloud only emergency release
 5.2.16
 ------
 
-- Use atomic file in Cloudless build. Fixes[#205] (https://github.com/mpcjanssen/simpletask-android/issues/205).
+- Use atomic file in Cloudless build.
+  Fixes[#205] (https://github.com/mpcjanssen/simpletask-android/issues/205).
 
 5.2.15
 ------
@@ -1242,9 +1246,9 @@ Nextcloud only emergency release
 
 - Added Italian translation (thanks to Carlo D.)
 - Fix link to issue tracker.
-- Observe .txt only setting for Cloudless build.  Fixes #154.
+- Observe .txt only setting for Cloudless build. Fixes #154.
 - Updated Dropbox API to 3.1.1. Possible fix for Lollipop issues #163.
-	
+
 5.2.11
 ------
 
@@ -1255,7 +1259,6 @@ Nextcloud only emergency release
 
 - Fix a rare NPE in text search.
 - Add a setting to remove the prio of completed tasks. Fixes #137.
-
 
 5.2.9
 -----
@@ -1277,7 +1280,6 @@ Nextcloud only emergency release
 - Better filter description. Fixes #120.
 - Expanded Javascript filtering documentation.
 - Expose task parser information to Javascript.
-
 
 5.2.5
 -----
@@ -1319,7 +1321,8 @@ Nextcloud only emergency release
 -----
 
 - Finish files with EOL on Cloudless. Possible fix for #103
-5.1.7
+  5.1.7
+
 -----
 
 - Updated German translations.
@@ -1366,7 +1369,8 @@ Nextcloud only emergency release
 5.0.9
 -----
 
-- Don't updateCache UI if loading the file from Dropbox failed. Fixes infinite loops and crashes when not authenticated.
+- Don't updateCache UI if loading the file from Dropbox failed. Fixes infinite loops and crashes
+  when not authenticated.
 
 5.0.8
 -----
@@ -1418,7 +1422,8 @@ Nextcloud only emergency release
 
 - New icons courtesy of Robert Chudy.
 - Performance improvements, performance is snappy with lists with hundreds of tasks.
-- Dropbox: switched to Dropbox Sync API. Changes on Dropbox are immediately reflected if you are connected.
+- Dropbox: switched to Dropbox Sync API. Changes on Dropbox are immediately reflected if you are
+  connected.
 - Incremental text search.
 - After changing application theme, apply it without restart.
 - Updated German translations.
@@ -1426,13 +1431,15 @@ Nextcloud only emergency release
 4.2.5
 -----
 
-- Don't cache done.txt from Dropbox. This should fix issues with done.txt being overwritten ([#58](http://mpcjanssen.nl/tracker/issues/58)).
+- Don't cache done.txt from Dropbox. This should fix issues with done.txt being
+  overwritten ([#58](http://mpcjanssen.nl/tracker/issues/58)).
 
 4.2.4
 -----
 
 - Updated German translations thanks to Christian Orjeda.
-- Don't show spurious whitespace when hiding tags or lists (fixes [#50](http://mpcjanssen.nl/tracker/issues/50))
+- Don't show spurious whitespace when hiding tags or lists (
+  fixes [#50](http://mpcjanssen.nl/tracker/issues/50))
 
 4.2.3
 -----
@@ -1464,7 +1471,8 @@ Nextcloud only emergency release
 4.1.19
 ------
 
-- Fixed issue with sort resetting in Filter activity when switching tabs (Fixes [#89](http://mpcjanssen.nl/tracker/issues/89))
+- Fixed issue with sort resetting in Filter activity when switching tabs (
+  Fixes [#89](http://mpcjanssen.nl/tracker/issues/89))
 
 4.1.18
 ------
@@ -1476,418 +1484,439 @@ Nextcloud only emergency release
 4.1.17
 ------
 
--   Fixed issue with filter activity not applying.
--   Fixed issue with launching from widget.
+- Fixed issue with filter activity not applying.
+- Fixed issue with launching from widget.
 
 4.1.16
 ------
 
--   Retain task selection when rotating the device.
+- Retain task selection when rotating the device.
 
 4.1.15
 ------
 
--   Fix an issue with widgets not refreshing when changing the todo.txt in the background (cloudless only).
--   Fix issues with syncing with dropbox not working.
+- Fix an issue with widgets not refreshing when changing the todo.txt in the background (cloudless
+  only).
+- Fix issues with syncing with dropbox not working.
 
 4.1.14
 ------
 
--   Possible fix for truncated done.txt files.
--   Select correct task when opening from widget (Fixes part of \#78).
--   Fix crash when incorrectly calling AddTask intent from for example tasker.
+- Possible fix for truncated done.txt files.
+- Select correct task when opening from widget (Fixes part of \#78).
+- Fix crash when incorrectly calling AddTask intent from for example tasker.
 
 4.1.13
 ------
 
--   Scaled down launcher icons to satisfy lint.
+- Scaled down launcher icons to satisfy lint.
 
 4.1.12
 ------
 
--   Updated launcher icons thanks to Robert Chudy.
+- Updated launcher icons thanks to Robert Chudy.
 
 4.1.11
 ------
 
--   Document todo.txt extensions on main help page.
+- Document todo.txt extensions on main help page.
 
 4.1.10
 ------
 
--   Fix crash with "Archive now" from settings.
--   Moved donation and tracker links to Help screen. (\#75)
+- Fix crash with "Archive now" from settings.
+- Moved donation and tracker links to Help screen. (\#75)
 
 4.1.9
 -----
 
--   Possible fix for crash when using Android "Share…" mechanism to add task.
--   Added Holo Light theme.
--   App doesn't have to be restarted for theme change.
+- Possible fix for crash when using Android "Share…" mechanism to add task.
+- Added Holo Light theme.
+- App doesn't have to be restarted for theme change.
 
 4.1.8
 -----
 
--   Added in app documentation.
--   Switched to Android plugin 0.8 (requires gradle 1.10).
+- Added in app documentation.
+- Switched to Android plugin 0.8 (requires gradle 1.10).
 
 4.1.7
 -----
 
--   Added setting to hide the checkboxes for completing tasks.
--   Fix grouping by threshold date.
+- Added setting to hide the checkboxes for completing tasks.
+- Fix grouping by threshold date.
 
 4.1.6
 -----
 
--   Set correct create date for recurring tasks. Fixes [b5608a1a97](http://mpcjanssen.nl/fossil/simpletask/tktview?name%3Db5608a1a97).
--   Fixed website URL (Thanks Kyle)
--   Fixed cursor position when adding a task with prefilled list or tag.
--   Recognize dates at beginning of task. Fixes [\#46](http://mpcjanssen.nl/tracker/issues/46).
+- Set correct create date for recurring tasks.
+  Fixes [b5608a1a97](http://mpcjanssen.nl/fossil/simpletask/tktview?name%3Db5608a1a97).
+- Fixed website URL (Thanks Kyle)
+- Fixed cursor position when adding a task with prefilled list or tag.
+- Recognize dates at beginning of task. Fixes [\#46](http://mpcjanssen.nl/tracker/issues/46).
 
 4.1.5
 -----
 
--   Fix crash when removing priority and cursor in last position.
+- Fix crash when removing priority and cursor in last position.
 
 4.1.4
 -----
 
--   Added setting to only display `.txt` files in todo file browser.
--   ChangeLog is viewable from inside the help menu.
--   Add tasks from locksreen widget without unlocking.
--   Setting to add new tasks at beginning of todo.txt.
--   Allow completing and uncompleting of tasks from CAB.
--   Speed up task archiving and possible fix for [\#58](http://mpcjanssen.nl/tracker/issues/58).
+- Added setting to only display `.txt` files in todo file browser.
+- ChangeLog is viewable from inside the help menu.
+- Add tasks from locksreen widget without unlocking.
+- Setting to add new tasks at beginning of todo.txt.
+- Allow completing and uncompleting of tasks from CAB.
+- Speed up task archiving and possible fix for [\#58](http://mpcjanssen.nl/tracker/issues/58).
 
 4.1.3
 -----
 
--   Removed Dropbox dependency of cloudless version. Only released through FDroid.
+- Removed Dropbox dependency of cloudless version. Only released through FDroid.
 
 4.1.2
 -----
 
--   Archive selected tasks only.
--   Edit multiple tasks at once.
--   Re-added donation link for f-droid users.
--   Changed default wordwrapping in `AddTask` to on.
+- Archive selected tasks only.
+- Edit multiple tasks at once.
+- Re-added donation link for f-droid users.
+- Changed default wordwrapping in `AddTask` to on.
 
 4.1.1
 -----
 
--   Fix crashes with invalid dates such as `2013-11-31`.
--   Refactored header handling.
--   Setting to hide headers with only hidden tasks.
+- Fix crashes with invalid dates such as `2013-11-31`.
+- Refactored header handling.
+- Setting to hide headers with only hidden tasks.
 
 4.1.0
 -----
 
--   Support hidden tasks (with h:1). This allows persistent list/tags. Tasks can be unhidden from the settings.
+- Support hidden tasks (with h:1). This allows persistent list/tags. Tasks can be unhidden from the
+  settings.
 
 4.0.10
 ------
 
--   Don't crash on a `++tag` when show tags is unchecked. Fixes [9c5902](http://mpcjanssen.nl/fossil/simpletask/tktview?name=9c5902).
+- Don't crash on a `++tag` when show tags is unchecked.
+  Fixes [9c5902](http://mpcjanssen.nl/fossil/simpletask/tktview?name=9c5902).
 
 4.0.9
 -----
 
--   Add setting to capitalize tasks.
--   Sort list and tag popups in AddTask screen.
--   Add option to toggle wordwrap when adding tasks.
--   Add filter option to hide tags and lists on task display.
+- Add setting to capitalize tasks.
+- Sort list and tag popups in AddTask screen.
+- Add option to toggle wordwrap when adding tasks.
+- Add filter option to hide tags and lists on task display.
 
 4.0.8
 -----
 
--   When using "Share" with simpletask, just add the task. You can restore the old behavior of showing the edit activity in the settings.
+- When using "Share" with simpletask, just add the task. You can restore the old behavior of showing
+  the edit activity in the settings.
 
 4.0.7
 -----
 
--   Configure widget transparency.
+- Configure widget transparency.
 
 4.0.6
 -----
 
--   Fix rare crash when starting app.
+- Fix rare crash when starting app.
 
 4.0.5
 -----
 
--   Fix recurring tasks.
+- Fix recurring tasks.
 
 4.0.4
 -----
 
--   Fix issue with unsorted or duplicate headers.
+- Fix issue with unsorted or duplicate headers.
 
 4.0.3
 -----
 
--   Save text search in saved filter.
+- Save text search in saved filter.
 
 4.0.2
 -----
 
--   Revert left drawer to checked views.
--   Allow renaming and updating of saved filters.
+- Revert left drawer to checked views.
+- Allow renaming and updating of saved filters.
 
 4.0.1
 -----
 
--   Fix dark theme for AddTask.
+- Fix dark theme for AddTask.
 
 4.0.0
 -----
 
--   Big updateCache which should make starting with Simpletask more intuitive:
--   Merged tag and list navigation drawer into the left drawer.
--   Click tag or list header to invert the filter.
--   Right drawer with favourite filters.
--   Long click saved filter to create homescreen shortcut.
--   Checkboxes in tasklist to quickly complete/uncomplete tasks.
--   Improved tag and list selection dialogs where you can also add new items.
--   Updated priority colors to reflect urgency better.
--   Added 'expert' user settings "hide hints" and "hide confirmation dialogs"
--   Keep priority when completing tasks.
--   Remember last used filter tab.
+- Big updateCache which should make starting with Simpletask more intuitive:
+- Merged tag and list navigation drawer into the left drawer.
+- Click tag or list header to invert the filter.
+- Right drawer with favourite filters.
+- Long click saved filter to create homescreen shortcut.
+- Checkboxes in tasklist to quickly complete/uncomplete tasks.
+- Improved tag and list selection dialogs where you can also add new items.
+- Updated priority colors to reflect urgency better.
+- Added 'expert' user settings "hide hints" and "hide confirmation dialogs"
+- Keep priority when completing tasks.
+- Remember last used filter tab.
 
 3.2.3
 -----
 
--   Simplified version numbering.
+- Simplified version numbering.
 
 3.2.2
 -----
 
--   Make landscape mode configurable between fixed and sliding drawers.
+- Make landscape mode configurable between fixed and sliding drawers.
 
 3.2.1
 -----
 
--   Fix issues when adding tasks with some soft keyboards such as Swype.
+- Fix issues when adding tasks with some soft keyboards such as Swype.
 
 3.2.0
 -----
 
--   Show tasks in widget as they are displayed in the main screen. One line view is still available as setting.
+- Show tasks in widget as they are displayed in the main screen. One line view is still available as
+  setting.
 
 3.1.0
 -----
 
--   New setting for recurring to use the original due or threshold date instead of today. (Default is true)
+- New setting for recurring to use the original due or threshold date instead of today. (Default is
+  true)
 
 3.0.12
 ------
 
--   Also change threshold date for the new task when completing a recurring task.
+- Also change threshold date for the new task when completing a recurring task.
 
 3.0.11
 ------
 
--   Fixed issue with recurring tasks if auto archive is active.
+- Fixed issue with recurring tasks if auto archive is active.
 
 3.0.10
 ------
 
--   Remove spurious padding of widgets.
--   Use more space for navigation drawers.
--   Keep priority on recurring tasks.
+- Remove spurious padding of widgets.
+- Use more space for navigation drawers.
+- Keep priority on recurring tasks.
 
 3.0.9
 -----
 
--   Make extended left drawer configurable.
+- Make extended left drawer configurable.
 
 3.0.8
 -----
 
--   Show/Hide completed and future tasks from left navigation drawer.
+- Show/Hide completed and future tasks from left navigation drawer.
 
 3.0.7
 -----
 
--   Improve relative date display around month boundaries. 30 sep - 1 oct is 1 day not 1 month.
+- Improve relative date display around month boundaries. 30 sep - 1 oct is 1 day not 1 month.
 
 3.0.6
 -----
 
--   Replace existing due and threshold dates in Add Task screen, also prevents duplication caused by Android DatePicker bug <http://code.google.com/p/android/issues/detail?id=34860>.
+- Replace existing due and threshold dates in Add Task screen, also prevents duplication caused by
+  Android DatePicker bug <http://code.google.com/p/android/issues/detail?id=34860>.
 
 3.0.5
 -----
 
--   Back button configuration to apply filter.
--   Don't reset `Other` filters when clearing filter.
+- Back button configuration to apply filter.
+- Don't reset `Other` filters when clearing filter.
 
 3.0.4
 -----
 
--   Redid defer dialogs to require only one click.
--   Setting to save todos when pressing back key from Add Task screen.
+- Redid defer dialogs to require only one click.
+- Setting to save todos when pressing back key from Add Task screen.
 
 3.0.3
 -----
 
--   Fix widget filters using inverted List filters.
--   Track file events on correct path after opening a different todo file.
+- Fix widget filters using inverted List filters.
+- Track file events on correct path after opening a different todo file.
 
 3.0.2
 -----
 
--   Fix FC on start.
+- Fix FC on start.
 
 3.0.1
 -----
 
--   Fix FCs when trying to open another todo file.
--   Add setting for automatic sync when opening app.
+- Fix FCs when trying to open another todo file.
+- Add setting for automatic sync when opening app.
 
 3.0.0
 -----
 
--   Enable switching of todo files `Menu->Open todo file`.
+- Enable switching of todo files `Menu->Open todo file`.
 
 2.9.1
 -----
 
--   Make the todo.txt extensions case insensitive, e.g. `Due:` or `due:` or `DUE:` now all work
--   Make use of the Split Action Bar configurable to have either easily reachable buttons or more screen real estate.
--   Don't add empty tasks from Add Task screen.
+- Make the todo.txt extensions case insensitive, e.g. `Due:` or `due:` or `DUE:` now all work
+- Make use of the Split Action Bar configurable to have either easily reachable buttons or more
+  screen real estate.
+- Don't add empty tasks from Add Task screen.
 
 2.9.0
 -----
 
--   Set due and threshold date for selected tasks from main screen.
--   Insert due or threshold date from Add Task screen.
--   Updated Add Task screen.
--   Create recurring tasks with the `rec:[0-9]+[mwd]` format. See <http://github.com/bram85/todo.txt-tools/wiki/Recurrence>
--   Removed setting for deferrable due date, both due date and threshold date can be set and deferred from the main menu now so this setting is not needed anymore.
+- Set due and threshold date for selected tasks from main screen.
+- Insert due or threshold date from Add Task screen.
+- Updated Add Task screen.
+- Create recurring tasks with the `rec:[0-9]+[mwd]` format.
+  See <http://github.com/bram85/todo.txt-tools/wiki/Recurrence>
+- Removed setting for deferrable due date, both due date and threshold date can be set and deferred
+  from the main menu now so this setting is not needed anymore.
 
 2.8.2
 -----
 
--   Allow 1x1 widget size.
--   Filter completed tasks and tasks with threshold date in future. 1MTD/MYN is fully supported now.
+- Allow 1x1 widget size.
+- Filter completed tasks and tasks with threshold date in future. 1MTD/MYN is fully supported now.
 
 2.8.1
 -----
 
--   Solved issue which could lead to Dropbox login loops.
+- Solved issue which could lead to Dropbox login loops.
 
 2.8.0
 -----
 
--   Use long click to start drag and drop in sort screen. Old arrows can still be enabled in settings.
+- Use long click to start drag and drop in sort screen. Old arrows can still be enabled in settings.
 
 2.7.11
 ------
 
--   Fix FC in share task logging.
+- Fix FC in share task logging.
 
 2.7.10
 ------
 
--   Fix FC in add task screen.
--   Split drawers on tablet landscape to better use space.
+- Fix FC in add task screen.
+- Split drawers on tablet landscape to better use space.
 
 2.7.9
 -----
 
--   Fix coloring of tasks if it contains creation, due or threshold date.
+- Fix coloring of tasks if it contains creation, due or threshold date.
 
 2.7.8
 -----
 
--   Display due and threshold dates below task. Due dates can be colored (setting).
--   Removed work offline option, you should at least log in into dropbox once. If that's not wanted, then use Simpletask Cloudless.
--   Show warning when logging out of dropbox that unsaved changes will be lost.
--   Don't prefill new task when filter is inverted.
--   Quick access to filter and sort from actionbar.
+- Display due and threshold dates below task. Due dates can be colored (setting).
+- Removed work offline option, you should at least log in into dropbox once. If that's not wanted,
+  then use Simpletask Cloudless.
+- Show warning when logging out of dropbox that unsaved changes will be lost.
+- Don't prefill new task when filter is inverted.
+- Quick access to filter and sort from actionbar.
 
 2.7.7
 -----
 
--   Fixed crash when installing for the first time.
+- Fixed crash when installing for the first time.
 
 2.7.6
 -----
 
--   Updates to intent handling for easier automation with tasker or am shell scripts. See website for documentation.
--   Clean up widget configuration when removing a widget from the homescreen.
+- Updates to intent handling for easier automation with tasker or am shell scripts. See website for
+  documentation.
+- Clean up widget configuration when removing a widget from the homescreen.
 
 2.7.5
 -----
 
--   Fix issue with changing widget theme show "Loading" or nothing at all after switching.
--   Refactored Filter handling in a separate class.
--   Change detection of newline in todo.txt.
--   Do not trim whitespace from tasks.
+- Fix issue with changing widget theme show "Loading" or nothing at all after switching.
+- Refactored Filter handling in a separate class.
+- Change detection of newline in todo.txt.
+- Do not trim whitespace from tasks.
 
 2.7.4
 -----
 
--   Explicitly set task reminder start date to prevent 1970 tasks.
--   Reinitialize due and threshold date after updating a task. This fixes weird sort and defer issues.
--   Allow adding tasks while updating an existing task and use same enter behaviour as with Add Task.
+- Explicitly set task reminder start date to prevent 1970 tasks.
+- Reinitialize due and threshold date after updating a task. This fixes weird sort and defer issues.
+- Allow adding tasks while updating an existing task and use same enter behaviour as with Add Task.
 
 2.7.3
 -----
 
--   Add checkbox when adding multiple tasks to copy tags and lists from the previous line.
--   Better handling of {Enter} in the Add Task screen. It will always insert a new line regardless of position in the current line.
--   Add Intent to create task for automation tools such as tasker see [help](intents.en.md).
--   Make application intents package specific so you can install different simpletask versions at the same time.
--   Integrate cloudless build so all versions are based on same source code
--   Add Archive to context menu so you don't have to go to preferences to archive your tasks
--   Changed complete icons to avoid confusion with CAB dismiss
+- Add checkbox when adding multiple tasks to copy tags and lists from the previous line.
+- Better handling of {Enter} in the Add Task screen. It will always insert a new line regardless of
+  position in the current line.
+- Add Intent to create task for automation tools such as tasker see [help](intents.en.md).
+- Make application intents package specific so you can install different simpletask versions at the
+  same time.
+- Integrate cloudless build so all versions are based on same source code
+- Add Archive to context menu so you don't have to go to preferences to archive your tasks
+- Changed complete icons to avoid confusion with CAB dismiss
 
 2.7.2
 -----
 
--   Don't crash while demo-ing navigation drawers.
+- Don't crash while demo-ing navigation drawers.
 
 2.7.1
 -----
 
--   Added black theme for widgets. Widget and app theme can be configured separately.
--   Remove custom font size deltas, it kills performance (and thus battery). Will be re-added if there is a better way.
+- Added black theme for widgets. Widget and app theme can be configured separately.
+- Remove custom font size deltas, it kills performance (and thus battery). Will be re-added if there
+  is a better way.
 
 2.7.0
 -----
 
--   Support for a Holo Dark theme. Can be configured from the Preferences.
--   Added grouping by threshold date and priority.
--   Demonstrate Navigation drawers on first run.
--   Properly initialize side drawers after first sync with Dropbox.
--   Do not reset preferences to default after logging out of Dropbox and logging in again.
--   Fixed some sorting issues caused by bug in Alphabetical sort.
--   Refactored header functionality so it will be easier to add new groupings.
+- Support for a Holo Dark theme. Can be configured from the Preferences.
+- Added grouping by threshold date and priority.
+- Demonstrate Navigation drawers on first run.
+- Properly initialize side drawers after first sync with Dropbox.
+- Do not reset preferences to default after logging out of Dropbox and logging in again.
+- Fixed some sorting issues caused by bug in Alphabetical sort.
+- Refactored header functionality so it will be easier to add new groupings.
 
 2.6.10
 ------
 
--   Fix issues with widgets where the PendingIntents were not correctly filled. This cause the title click and + click to misbehave.
+- Fix issues with widgets where the PendingIntents were not correctly filled. This cause the title
+  click and + click to misbehave.
 
 2.6.8
 -----
 
--   Refresh the task view when updating task(s) through the drawer.
+- Refresh the task view when updating task(s) through the drawer.
 
 2.6.7
 -----
 
--   Automatically detect the line break used when opening a todo file and make that the default. Your line endings will now stay the same without need to configure anything. If you want to change the used linebreak to windows () or linux (), you can still do so in the settings.
+- Automatically detect the line break used when opening a todo file and make that the default. Your
+  line endings will now stay the same without need to configure anything. If you want to change the
+  used linebreak to windows () or linux (), you can still do so in the settings.
 
 2.6.6
 -----
 
--   Fixed a bug which could lead to duplication of tasks when editing them from Simpletask.
+- Fixed a bug which could lead to duplication of tasks when editing them from Simpletask.
 
 2.6.5
 -----
 
--   Removed the donate button from the free version and created a separate paid version. This also makes Simpletask suitable for [Google Play for Education](http://developer.android.com/distribute/googleplay/edu/index.html)
+- Removed the donate button from the free version and created a separate paid version. This also
+  makes Simpletask suitable
+  for [Google Play for Education](http://developer.android.com/distribute/googleplay/edu/index.html)
 

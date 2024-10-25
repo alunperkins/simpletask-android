@@ -37,7 +37,11 @@ class DebugInfoScreen : ThemedActionBarActivity() {
     }
 
     private fun sendLog() {
-        shareText(this@DebugInfoScreen, "${appVersion(this)} log", LogCat.getLog().joinToString("\n"))
+        shareText(
+            this@DebugInfoScreen,
+            "${appVersion(this)} log",
+            LogCat.getLog().joinToString("\n")
+        )
     }
 
     fun initToolbar(): Boolean {
@@ -50,7 +54,7 @@ class DebugInfoScreen : ThemedActionBarActivity() {
         inflater.inflate(R.menu.log_menu, toolbarMenu)
         toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
             when (item.itemId) {
-            // Respond to the action bar's Up/Home button
+                // Respond to the action bar's Up/Home button
 
                 R.id.menu_share -> {
                     sendLog()

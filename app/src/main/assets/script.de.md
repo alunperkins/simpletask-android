@@ -1,19 +1,25 @@
 Scripten mit Lua
 ====================
 
-Simpletask hat eine eingebaute Engine für Lua-Skripte, die für die Konfiguration und für Callbacks verwendet werden kann.
-Die Konfiguration wird gelesen, wenn Sie die App neu starten oder wenn Sie sie im Lua-Konfigurationsbildschirm ändern.
+Simpletask hat eine eingebaute Engine für Lua-Skripte, die für die Konfiguration und für Callbacks
+verwendet werden kann.
+Die Konfiguration wird gelesen, wenn Sie die App neu starten oder wenn Sie sie im
+Lua-Konfigurationsbildschirm ändern.
 Callbacks werden ausgeführt, wenn bestimmte Ereignisse eintreten (z.B. Filtern der Liste).
-Sowohl die Konfiguration als auch die Callbacks rufen bestimmte Lua-Funktionen auf. Details zu den unterstützten Callbacks finden Sie weiter unten.
+Sowohl die Konfiguration als auch die Callbacks rufen bestimmte Lua-Funktionen auf. Details zu den
+unterstützten Callbacks finden Sie weiter unten.
 
-Jeglicher Code (sowohl für Konfiguration als auch für Callbacks) wird im selben Lua-Interpreter ausgeführt.
-Auf diese Weise können Sie Helferfunktionen in der Konfiguration definieren und sie anschließend in Callbacks verwenden. *
+Jeglicher Code (sowohl für Konfiguration als auch für Callbacks) wird im selben Lua-Interpreter
+ausgeführt.
+Auf diese Weise können Sie Helferfunktionen in der Konfiguration definieren und sie anschließend in
+Callbacks verwenden. *
 
 **Anmerkung: Der Callback für Filter wurde in der Version 8.0 geändert (siehe unten).*
 
 Um bestehende Filter in App oder Widgets in das 8.0-Format zu übertragen, gehen Sie wie folgt vor:
 
-Fügen Sie am Anfang des Skriptes `function onFilter(t,f,e)` ein und an dessen Ende `end`. Stellen Sie allen Feldern ein `f.` voran: `due` wird zu `f.due` usw. Ein Beispiel:
+Fügen Sie am Anfang des Skriptes `function onFilter(t,f,e)` ein und an dessen Ende `end`. Stellen
+Sie allen Feldern ein `f.` voran: `due` wird zu `f.due` usw. Ein Beispiel:
 
 aus
 
@@ -33,7 +39,6 @@ wird
         return false;
     end
 
-
 Helferfunktionen
 ================
 
@@ -44,7 +49,6 @@ Zeigt `string` als einen Android Toast an. Nützlich für das Debuggen von Skrip
 ### `log (string) -> nil`
 
 Logs `string` to the Android logcat logging with info level and tag `LuaInterp`.
-
 
 #### Hinweis
 
@@ -61,20 +65,27 @@ Wird beim Filtern der Aufgabenliste für jede einzelne Aufgabe aufgerufen.
 #### Parameter
 
 * `task`: Die Aufgabe als Zeichenkette (String).
-* `fields`: Teile der Aufgabe, die in verschiedene Typen umgewandelt wurden (z. B. ein Zeitstempel für `createdate`)
+* `fields`: Teile der Aufgabe, die in verschiedene Typen umgewandelt wurden (z. B. ein Zeitstempel
+  für `createdate`)
     * `completed`: Boolean (Schaltvariable), die anzeigt, ob die Aufgabe erledigt ist.
-    * `completiondate`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
+    * `completiondate`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht
+      gesetzt.
     * `createdate`: Das Erstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
     * `due`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
-    * `lists`: Eine Tabelle mit den Listen der Aufgabe als Werte. `fields.lists` selbst wird niemals `nil` sein.
+    * `lists`: Eine Tabelle mit den Listen der Aufgabe als Werte. `fields.lists` selbst wird
+      niemals `nil` sein.
     * `priority`: Die Priorität der Aufgabe als String.
     * `recurrence`: Das Wiederholungsmuster der Aufgabe als String oder `nil`, wenn nicht gesetzt.
-    * `tags`: Eine Tabelle mit den Tags der Aufgabe als Schlüssel. `fields.tags` selbst wird niemals `nil` sein.
+    * `tags`: Eine Tabelle mit den Tags der Aufgabe als Schlüssel. `fields.tags` selbst wird
+      niemals `nil` sein.
     * `task`: Die gesamte Aufgabe als String.
     * `threshold`: Das Anfangsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
     * `tasktext`:
-* `extensions`: Eine Tabelle mit den Todo.txt Erweiterungen (`key:val`) der Aufgabe als Schlüssel-Wert-Paare. Für jeden Schlüssel gibt es nur einen Eintrag, um die Anwendung einfach zu halten.
-Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können Sie die Aufgabe in Lua parsen.
+* `extensions`: Eine Tabelle mit den Todo.txt Erweiterungen (`key:val`) der Aufgabe als
+  Schlüssel-Wert-Paare. Für jeden Schlüssel gibt es nur einen Eintrag, um die Anwendung einfach zu
+  halten.
+  Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können Sie die Aufgabe in
+  Lua parsen.
 
 #### Rückgabewerte
 
@@ -84,8 +95,12 @@ Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können
 #### Hinweise
 
 * Wenn der Callback einen Lua-Fehler enthält, wird `true` zurückgeben.
-* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android verursachen.
-* Sie sollten die Funktion "onFilter" im Filter definieren, nicht in der Konfiguration. Sie in der Hauptkonfiguration zu definieren funktioniert nicht, wenn das Filter-Skript leer ist, bleibt die Funktion `onFilter` undefiniert.
+* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell
+  sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android
+  verursachen.
+* Sie sollten die Funktion "onFilter" im Filter definieren, nicht in der Konfiguration. Sie in der
+  Hauptkonfiguration zu definieren funktioniert nicht, wenn das Filter-Skript leer ist, bleibt die
+  Funktion `onFilter` undefiniert.
 
 ## `onGroup (task, fields, extensions) -> String`
 
@@ -94,20 +109,27 @@ Wird beim Filtern der Aufgabenliste für jede einzelne Aufgabe aufgerufen.
 #### Parameter
 
 * `task`: Die Aufgabe als Zeichenkette (String).
-* `fields`: Teile der Aufgabe, die in verschiedene Typen umgewandelt wurden (z. B. ein Zeitstempel für `createdate`)
+* `fields`: Teile der Aufgabe, die in verschiedene Typen umgewandelt wurden (z. B. ein Zeitstempel
+  für `createdate`)
     * `completed`: Boolean, die anzeigt, ob die Aufgabe erledigt ist.
-    * `completiondate`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
+    * `completiondate`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht
+      gesetzt.
     * `createdate`: Das Erstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
     * `due`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
-    * `lists`: Eine Tabelle mit den Listen der Aufgabe als Werte. `fields.lists` selbst wird niemals `nil` sein.
+    * `lists`: Eine Tabelle mit den Listen der Aufgabe als Werte. `fields.lists` selbst wird
+      niemals `nil` sein.
     * `priority`: Die Priorität der Aufgabe als String.
     * `recurrence`: Das Wiederholungsmuster der Aufgabe als String oder `nil`, wenn nicht gesetzt.
-    * `tags`: Eine Tabelle mit den Tags der Aufgabe als Schlüssel. `fields.tags` selbst wird niemals `nil` sein.
+    * `tags`: Eine Tabelle mit den Tags der Aufgabe als Schlüssel. `fields.tags` selbst wird
+      niemals `nil` sein.
     * `task`: Die gesamte Aufgabe als String.
     * `threshold`: Das Anfangsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
     * `tasktext`:
-* `extensions`: Eine Tabelle mit den Todo.txt Erweiterungen (`key:val`) der Aufgabe als Schlüssel-Wert-Paare. Für jeden Schlüssel gibt es nur einen Eintrag, um die Anwendung einfach zu halten.
-Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können Sie die Aufgabe in Lua parsen.
+* `extensions`: Eine Tabelle mit den Todo.txt Erweiterungen (`key:val`) der Aufgabe als
+  Schlüssel-Wert-Paare. Für jeden Schlüssel gibt es nur einen Eintrag, um die Anwendung einfach zu
+  halten.
+  Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können Sie die Aufgabe in
+  Lua parsen.
 
 #### Rückgabewerte
 
@@ -116,8 +138,12 @@ Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können
 #### Hinweise
 
 * Wenn der Callback einen Lua-Fehler enthält, wird `true` zurückgegeben.
-* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android verursachen.
-* Sie sollten die Funktion `onGroup` im Filter definieren, nicht in der Konfiguration. Sie in der Hauptkonfiguration zu definieren funktioniert nicht, wenn das Filter-Skript leer ist, bleibt die Funktion `onGroup` undefiniert.
+* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell
+  sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android
+  verursachen.
+* Sie sollten die Funktion `onGroup` im Filter definieren, nicht in der Konfiguration. Sie in der
+  Hauptkonfiguration zu definieren funktioniert nicht, wenn das Filter-Skript leer ist, bleibt die
+  Funktion `onGroup` undefiniert.
 
 ## `onDisplay (task, fields, extensions) -> String`
 
@@ -126,20 +152,27 @@ Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können
 #### Parameter
 
 * `task`: Die Aufgabe als Zeichenkette (String).
-* `fields`: Teile der Aufgabe, die in verschiedene Typen umgewandelt wurden (z. B. ein Zeitstempel für `createdate`)
+* `fields`: Teile der Aufgabe, die in verschiedene Typen umgewandelt wurden (z. B. ein Zeitstempel
+  für `createdate`)
     * `completed`: Boolean, die anzeigt, ob die Aufgabe erledigt ist.
-    * `completiondate`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
+    * `completiondate`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht
+      gesetzt.
     * `createdate`: Das Erstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
     * `due`: Das Fertigstellungsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
-    * `lists`: Eine Tabelle mit den Listen der Aufgabe als Werte. `fields.lists` selbst wird niemals `nil` sein.
+    * `lists`: Eine Tabelle mit den Listen der Aufgabe als Werte. `fields.lists` selbst wird
+      niemals `nil` sein.
     * `priority`: Die Priorität der Aufgabe als String.
     * `recurrence`: Das Wiederholungsmuster der Aufgabe als String oder `nil`, wenn nicht gesetzt.
-    * `tags`: Eine Tabelle mit den Tags der Aufgabe als Schlüssel. `fields.tags` selbst wird niemals `nil` sein.
+    * `tags`: Eine Tabelle mit den Tags der Aufgabe als Schlüssel. `fields.tags` selbst wird
+      niemals `nil` sein.
     * `task`: Die gesamte Aufgabe als String.
     * `threshold`: Das Anfangsdatum der Aufgabe in Sekunden oder `nil`, wenn nicht gesetzt.
     * `tasktext`:
-* `extensions`: Eine Tabelle mit den Todo.txt Erweiterungen (`key:val`) der Aufgabe als Schlüssel-Wert-Paare. Für jeden Schlüssel gibt es nur einen Eintrag, um die Anwendung einfach zu halten.
-Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können Sie die Aufgabe in Lua parsen.
+* `extensions`: Eine Tabelle mit den Todo.txt Erweiterungen (`key:val`) der Aufgabe als
+  Schlüssel-Wert-Paare. Für jeden Schlüssel gibt es nur einen Eintrag, um die Anwendung einfach zu
+  halten.
+  Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können Sie die Aufgabe in
+  Lua parsen.
 
 #### Rückgabewerte
 
@@ -150,8 +183,12 @@ Wenn Sie mehrere `key:val`-Paare mit dem gleichen Schlüssel benötigen, können
 #### Hinweise
 
 * Wenn der Callback einen Lua-Fehler enthält, wird `true` zurückgegeben.
-* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android verursachen.
-* Sie sollten die Funktion `onDisplay` im Filter definieren, nicht in der Konfiguration. Sie in der Hauptkonfiguration zu definieren funktioniert nicht, wenn das Filter-Skript leer ist, bleibt die Funktion `onDisplay` undefiniert.
+* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell
+  sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android
+  verursachen.
+* Sie sollten die Funktion `onDisplay` im Filter definieren, nicht in der Konfiguration. Sie in der
+  Hauptkonfiguration zu definieren funktioniert nicht, wenn das Filter-Skript leer ist, bleibt die
+  Funktion `onDisplay` undefiniert.
 
 ## `onTextSearch (taskText, caseSensitive) -> Boolean`
 
@@ -161,7 +198,8 @@ Wird bei der Volltextsuche für jede einzelne Aufgabe aufgerufen.
 
 * `TaskText`: Der Text der Aufgabe, wie er in der `todo.txt`-Datei erscheint
 * `SearchText`: Der Text, nach dem gesucht werden soll.
-* `caseSensitive`: `true` wenn in den Einstellungen konfiguriert ist, dass beim Suchen die Groß-/Kleinschreibung berücksichtigt werden soll.
+* `caseSensitive`: `true` wenn in den Einstellungen konfiguriert ist, dass beim Suchen die
+  Groß-/Kleinschreibung berücksichtigt werden soll.
 
 #### Rückgabewerte
 
@@ -171,17 +209,20 @@ Wird bei der Volltextsuche für jede einzelne Aufgabe aufgerufen.
 #### Hinweise
 
 * Wenn der Callback einen Lua-Fehler enthält, wird `true` zurückgegeben.
-* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android verursachen.
+* Da diese Funktion sehr oft aufgerufen wird (für jede Aufgabe in der Liste) sollte sie schnell
+  sein. Wenn sie zu langsam ist, kann dies "Application not Responding"-Meldungen in Android
+  verursachen.
 
 Konfiguration
 =============
 
-Die Konfiguration wird beim Start von Simpletask gelesen oder wenn sie geändert oder im Lua-Konfigurationsbildschirm ausgeführt wird.
+Die Konfiguration wird beim Start von Simpletask gelesen oder wenn sie geändert oder im
+Lua-Konfigurationsbildschirm ausgeführt wird.
 Die Lua-Konfiguration überschreibt immer die Werte aus den Einstellungen (Lua gewinnt).
 
 ## `theme () -> String`
 
-Ändert das Design-Thema der Benutzeroberfläche 
+Ändert das Design-Thema der Benutzeroberfläche
 
 #### Parameter
 
@@ -195,7 +236,8 @@ Keine
 
 #### Hinweise
 
-* Erfordert einen Neustart der Anwendung, um wirksam zu werden (genauer gesagt muss sie die Aktivität neu erstellen)
+* Erfordert einen Neustart der Anwendung, um wirksam zu werden (genauer gesagt muss sie die
+  Aktivität neu erstellen)
 
 ## `tasklistTextSize () -> Float`
 
@@ -209,13 +251,15 @@ Keine
 
 #### Notes
 
-* Erfordert einen Neustart der Anwendung um wirksam zu werden (genauer gesagt muss sie die Aktivität neu erstellen)
+* Erfordert einen Neustart der Anwendung um wirksam zu werden (genauer gesagt muss sie die Aktivität
+  neu erstellen)
 * Die Standard-Schriftgröße in Android ist momentan `14sp`
 
 Beispiele
 =========
 
-Der folgende Code zeigt nur überfällige Aufgaben. Aufgaben ohne Fälligkeitsdatum werden ausgeblendet.
+Der folgende Code zeigt nur überfällige Aufgaben. Aufgaben ohne Fälligkeitsdatum werden
+ausgeblendet.
 
     function onFilter(t,f,e)
        if f.due~=nil then
@@ -280,7 +324,8 @@ Gruppiere überhaupt nicht und blende die Titelzeilen aus (unabhängig von der S
 Lua lernen
 ==========
 
-Mit googeln findet man viele gute Quellen. [*Programmierung in Lua*](https://www.lua.org/pil/contents.html) sollte so gut wie alle Fragen beantworten.
+Mit googeln findet man viele gute Quellen. [*Programmierung in
+Lua*](https://www.lua.org/pil/contents.html) sollte so gut wie alle Fragen beantworten.
 
 
 
