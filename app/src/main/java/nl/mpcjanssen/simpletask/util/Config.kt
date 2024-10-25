@@ -86,7 +86,7 @@ class Config(app: TodoApplication) {
             savedQueriesJSONString = jsonFilters.toString(2)
         }
     var savedQueriesJSONString: String =
-        "" // I think this is a string preference containing one's custom LUA code?
+        "{}" // I think this is a string preference containing one's custom LUA code?
     val TAG = "Config"
     var luaConfig: String = ""
     val isBlackTheme: Boolean = false
