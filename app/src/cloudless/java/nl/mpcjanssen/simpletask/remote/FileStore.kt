@@ -15,7 +15,8 @@ import java.util.*
 import kotlin.reflect.KClass
 
 object FileStore : IFileStore {
-    private var lastSeenRemoteId by TodoApplication.config.StringOrNullPreference(R.string.file_current_version_id)
+//    private var lastSeenRemoteId by TodoApplication.confirStringOrNullPreference(R.string.file_current_version_id)
+    private var lastSeenRemoteId = "TODO lastSeenRemoteId"
 
 
     override val isOnline = true

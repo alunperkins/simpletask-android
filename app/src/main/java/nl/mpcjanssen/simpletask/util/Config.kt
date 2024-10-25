@@ -1,236 +1,35 @@
 package nl.mpcjanssen.simpletask.util
 
-import android.os.Build
+//import android.os.Build
+//import android.util.Log
+//import androidx.annotation.RequiresApi
+//import nl.mpcjanssen.simpletask.*
+//import nl.mpcjanssen.simpletask.remote.FileStore
+//import nl.mpcjanssen.simpletask.task.Task
+//import org.json.JSONObject
+//import java.io.File
+//import java.util.*
+
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.annotation.RequiresApi
-import nl.mpcjanssen.simpletask.*
+import androidx.preference.PreferenceManager
+import nl.mpcjanssen.simpletask.NamedQuery
+import nl.mpcjanssen.simpletask.Query
+import nl.mpcjanssen.simpletask.R
+import nl.mpcjanssen.simpletask.TodoApplication
 import nl.mpcjanssen.simpletask.remote.FileStore
 import nl.mpcjanssen.simpletask.task.Task
 import org.json.JSONObject
 import java.io.File
-import java.util.*
 
-class Config(app: TodoApplication) : Preferences(app) {
-
-    val TAG = "Config"
-
-    init {
-        registerCallbacks(listOf<String>(
-                getString(R.string.widget_theme_pref_key),
-                getString(R.string.widget_extended_pref_key),
-                getString(R.string.widget_background_transparency),
-                getString(R.string.widget_header_transparency)
-        )) {
-            TodoApplication.app.redrawWidgets()
-        }
-        registerCallbacks(listOf<String>(
-                getString(R.string.calendar_sync_dues),
-                getString(R.string.calendar_sync_thresholds),
-                getString(R.string.calendar_reminder_days),
-                getString(R.string.calendar_reminder_time)
-        )) {
-            CalendarSync.updatedSyncTypes()
-        }
-    }
-
-    val useTodoTxtTerms by BooleanPreference(R.string.ui_todotxt_terms, false)
-
-    val showTxtOnly by BooleanPreference(R.string.show_txt_only, false)
-
-    val _syncDues by BooleanPreference(R.string.calendar_sync_dues, false)
-    val isSyncDues: Boolean
-        get() = TodoApplication.atLeastAPI(16) && _syncDues
-
-    val _syncThresholds by BooleanPreference(R.string.calendar_sync_thresholds, false)
-    val isSyncThresholds: Boolean
-        get() = TodoApplication.atLeastAPI(16) && _syncThresholds
-
-    val reminderDays by IntPreference(R.string.calendar_reminder_days, 1)
-
-    val reminderTime by IntPreference(R.string.calendar_reminder_time, 720)
-
-    val listTerm: String
-        get() {
-            if (useTodoTxtTerms) {
-                return getString(R.string.context_prompt_todotxt)
-            } else {
-                return getString(R.string.context_prompt)
-            }
-        }
-
-    val tagTerm: String
-        get() {
-            if (useTodoTxtTerms) {
-                return getString(R.string.project_prompt_todotxt)
-            } else {
-                return getString(R.string.project_prompt)
-            }
-        }
-
-    var lastScrollPosition by IntPreference(R.string.ui_last_scroll_position, -1)
-
-    var lastScrollOffset by IntPreference(R.string.ui_last_scroll_offset, -1)
-
-    var luaConfig by StringPreference(R.string.lua_config, "")
-
-    var isWordWrap by BooleanPreference(R.string.word_wrap_key, true)
-
-    var isCapitalizeTasks by BooleanPreference(R.string.capitalize_tasks, true)
-
-    val showTodoPath by BooleanPreference(R.string.show_todo_path, false)
-
-    val backClearsFilter by BooleanPreference(R.string.back_clears_filter, false)
-
-    val sortCaseSensitive by BooleanPreference(R.string.ui_sort_case_sensitive, true)
-
-    private val _windowsEOL by BooleanPreference(R.string.line_breaks_pref_key, false)
-    val eol: String
-        get() = if (_windowsEOL) "\r\n" else "\n"
-
-    val hasAppendAtEnd by BooleanPreference(R.string.append_tasks_at_end, true)
-
-    // Takes an argument f, an expression that maps theme strings to IDs
-    val activeTheme: Int
-        get() {
-            return when (activeThemeString) {
-                "dark" -> R.style.AppTheme_NoActionBar
-                "black" -> R.style.AppTheme_Black_NoActionBar
-                else -> R.style.AppTheme_Light_NoActionBar
-            }
-        }
-
-    val activeActionBarTheme: Int
-        get() {
-            return when (activeThemeString) {
-                "dark" -> R.style.AppTheme_ActionBar
-                "black" -> R.style.AppTheme_Black_ActionBar
-                else -> R.style.AppTheme_Light_DarkActionBar
-            }
-        }
-
-    val activePopupTheme: Int
-        get() {
-            return if (isDarkTheme || isBlackTheme) {
-                R.style.AppTheme_ActionBar
-            } else {
-                R.style.AppTheme_Black_ActionBar
-            }
-        }
-
-    val isDarkTheme: Boolean
-        get() {
-            return when (activeThemeString) {
-                "dark" -> true
-                else -> false
-            }
-        }
-
-    val isBlackTheme: Boolean
-        get() {
-            return when (activeThemeString) {
-                "black" -> true
-                else -> false
-            }
-        }
-
-    private val _widgetTheme by StringPreference(R.string.widget_theme_pref_key, "light_darkactionbar")
-    val isDarkWidgetTheme: Boolean
-        get() = _widgetTheme == "dark"
-
-    private val _activeTheme by StringPreference(R.string.theme_pref_key, "light_darkactionbar")
-    private val activeThemeString: String
-        get() = Interpreter.configTheme() ?: _activeTheme
-
-    // Only used in Dropbox build
-    @Suppress("unused")
-    var fullDropBoxAccess by BooleanPreference(R.string.dropbox_full_access, true)
-
-    private val dateBarSize by IntPreference(R.string.datebar_relative_size, 80)
-    val dateBarRelativeSize: Float
-        get() = dateBarSize / 100.0f
-
-    val showCalendar by BooleanPreference(R.string.ui_show_calendarview, false)
-
-    val tasklistTextSize: Float
-        get() {
-            val luaValue = Interpreter.tasklistTextSize()
-            if (luaValue != null) {
-                return luaValue
-            }
-            val customSize by BooleanPreference(R.string.custom_font_size, false)
-            if (!customSize) {
-                return 14.0f
-            }
-            val fontSize by IntPreference(R.string.font_size, 14)
-            return fontSize.toFloat()
-        }
-
-    val hasShareTaskShowsEdit by BooleanPreference(R.string.share_task_show_edit, false)
-
-    val useListAndTagIcons by BooleanPreference(R.string.use_list_and_tags_icons, true)
-
-    val hasExtendedTaskView by BooleanPreference(R.string.taskview_extended_pref_key, true)
-
-    val showCompleteCheckbox by BooleanPreference(R.string.ui_complete_checkbox, true)
-
-    val showConfirmationDialogs by BooleanPreference(R.string.ui_show_confirmation_dialogs, true)
-
-    val defaultSorts: Array<String>
-        get() = TodoApplication.app.resources.getStringArray(R.array.sortKeys)
-
-    private var _todoFileName by StringOrNullPreference(R.string.todo_file_key)
-    val todoFile: File
-        get()  = _todoFileName?.let { File(it )} ?: FileStore.getDefaultFile()
-
-
-
-    fun setTodoFile(file: File?) {
-        _todoFileName = file?.path
-        clearCache()
-    }
-
-    val doneFile: File
-        @RequiresApi(Build.VERSION_CODES.M)
-        get() {
-            val filename = if (FileStore.isEncrypted) "done.txt.jenc"  else "done.txt"
-            return File(todoFile.parentFile, filename)
-        }
-
-    fun clearCache() {
-        cachedContents = null
-        todoList = null
-        FileStore.todoNameChanged()
-    }
-
-    val isAutoArchive by BooleanPreference(R.string.auto_archive_pref_key, false)
-
-    val hasPrependDate by BooleanPreference(R.string.prepend_date_pref_key, true)
-
-    val hasKeepSelection by BooleanPreference(R.string.keep_selection, false)
-
-    val hasKeepPrio by BooleanPreference(R.string.keep_prio, true)
-
-    val hasTaskDrag by BooleanPreference(R.string.task_drag, false)
-
-    val shareAppendText by StringPreference(R.string.share_task_append_text, " +background")
-
-    var latestChangelogShown by IntPreference(R.string.latest_changelog_shown, 0)
-
-    var rightDrawerDemonstrated by BooleanPreference(R.string.right_drawer_demonstrated, false)
-
-    val localFileRoot by StringPreference(R.string.local_file_root, this.context.getExternalFilesDir(null)!!.canonicalPath)
-
-    val hasColorDueDates by BooleanPreference(R.string.color_due_date_key, true)
-
-    private var cachedContents by StringOrNullPreference(R.string.cached_todo_file)
-
+class Config(app: TodoApplication) {
+    val hasColorDueDates: Boolean = true
+    val idleBeforeSaveSeconds: Int = 5
     var todoList: List<Task>?
         get() = cachedContents?.let {
             val lines = it.lines()
             Log.i(TAG, "Getting ${lines.size} items todoList from cache")
-            ArrayList<Task>().apply {
-                addAll(lines.map { line -> Task(line) })
-            }
+            ArrayList<Task>().apply { addAll(lines.map { line -> Task(line) }) }
         }
         set(items) {
             Log.i(TAG, "Updating todoList cache with ${items?.size} tasks")
@@ -240,58 +39,24 @@ class Config(app: TodoApplication) : Preferences(app) {
                 cachedContents = items.joinToString("\n") { it.inFileFormat(useUUIDs) }
             }
         }
-    var changesPending by BooleanPreference(R.string.changes_pending, false)
-    var forceEnglish by BooleanPreference(R.string.force_english, false)
-    var useUUIDs by BooleanPreference(R.string.use_uuids, false)
+    private var cachedContents: String? = getString(R.string.cached_todo_file)
+    val activeActionBarTheme: Int = R.style.AppTheme_Light_DarkActionBar
 
-    fun legacyQueryStoreJson() : String   {
-        val queries = LegacyQueryStore.ids().map {
-            LegacyQueryStore.get(it)
+    //    private val _windowsEOL by BooleanPreference(R.string.line_breaks_pref_key, false)
+    private val _windowsEOL = false
+    val eol: String
+        get() = if (_windowsEOL) "\r\n" else "\n"
+    val showConfirmationDialogs: Boolean = true
+    val isAutoArchive: Boolean = false
+    val hasKeepSelection: Boolean = false
+    val doneFile: File
+        get() {
+            val filename = if (FileStore.isEncrypted) "done.txt.jenc" else "done.txt"
+            return File(todoFile.parentFile, filename)
         }
-        val jsonObject = queries.fold(JSONObject()) { acc, query ->
-            acc.put(query.name, query.query.saveInJSON())
-        }
-        return jsonObject.toString(2)
-    }
-
-    var savedQueriesJSONString by StringPreference(R.string.query_store, legacyQueryStoreJson())
-
-    var savedQueries : List<NamedQuery>
-    get() {
-        val queries = ArrayList<NamedQuery>()
-        val jsonFilters = JSONObject(savedQueriesJSONString)
-        jsonFilters.keys().forEach { name ->
-            val json = jsonFilters.getJSONObject(name)
-            val newQuery = NamedQuery(name, Query(json, luaModule = "mainui"))
-            queries.add(newQuery)
-        }
-        return queries
-    }
-    set(queries) {
-        val jsonFilters = queries.fold(JSONObject()) { acc, query ->
-            acc.put(query.name, query.query.saveInJSON())
-        }
-        savedQueriesJSONString = jsonFilters.toString(2)
-    }
-
-    fun getSortString(key: String): String {
-        if (useTodoTxtTerms) {
-            if ("by_context" == key) {
-                return getString(R.string.by_context_todotxt)
-            }
-            if ("by_project" == key) {
-                return getString(R.string.by_project_todotxt)
-            }
-        }
-        val keys = Arrays.asList(*TodoApplication.app.resources.getStringArray(R.array.sortKeys))
-        val values = TodoApplication.app.resources.getStringArray(R.array.sort)
-        val index = keys.indexOf(key)
-        if (index == -1) {
-            return getString(R.string.none)
-        }
-        return values[index]
-    }
-
+    val hasKeepPrio: Boolean = true
+    val showTodoPath: Boolean = false
+    val backClearsFilter: Boolean = false
     var mainQuery: Query
         get() = Query(this.prefs, luaModule = "mainui")
         set(value) {
@@ -300,9 +65,394 @@ class Config(app: TodoApplication) : Preferences(app) {
             value.saveInPrefs(prefs)
             TodoApplication.config.lastScrollPosition = -1
         }
+    var rightDrawerDemonstrated: Boolean = false
+    var latestChangelogShown: Int = 0
+    val localFileRoot: String = app.applicationContext.getExternalFilesDir(null)!!.canonicalPath
+    var savedQueries: List<NamedQuery>
+        get() {
+            val queries = ArrayList<NamedQuery>()
+            val jsonFilters = JSONObject(savedQueriesJSONString)
+            jsonFilters.keys().forEach { name ->
+                val json = jsonFilters.getJSONObject(name)
+                val newQuery = NamedQuery(name, Query(json, luaModule = "mainui"))
+                queries.add(newQuery)
+            }
+            return queries
+        }
+        set(queries) {
+            val jsonFilters = queries.fold(JSONObject()) { acc, query ->
+                acc.put(query.name, query.query.saveInJSON())
+            }
+            savedQueriesJSONString = jsonFilters.toString(2)
+        }
+    var savedQueriesJSONString: String =
+        "" // I think this is a string preference containing one's custom LUA code?
+    val TAG = "Config"
+    var luaConfig: String = ""
+    val isBlackTheme: Boolean = false
+    val isDarkTheme: Boolean = false
+    val defaultSorts: Array<String>
+        get() = TodoApplication.app.resources.getStringArray(R.array.sortKeys)
+    val reminderTime: Int = 720
+    val reminderDays: Int = 1
+    val isDarkWidgetTheme: Boolean = false
+    private val useTodoTxtTerms: Boolean = false
+    val listTerm: String
+        get() = getString(if (useTodoTxtTerms) R.string.context_prompt_todotxt else R.string.context_prompt)
+    val tagTerm: String
+        get() = getString(if (useTodoTxtTerms) R.string.project_prompt_todotxt else R.string.project_prompt)
+    val showCalendar: Boolean = false
+    var isCapitalizeTasks: Boolean = true
+    var isWordWrap: Boolean = true
+    val useUUIDs: Boolean = false
+    val useListAndTagIcons: Boolean = true
+    val activeTheme: Int = R.style.AppTheme_Light_NoActionBar
+    var changesPending: Boolean = false
+    val dateBarRelativeSize: Float = 0.8f
+    val forceEnglish: Boolean = true
+    val hasAppendAtEnd: Boolean = true
+    val hasExtendedTaskView: Boolean = true
+    val hasPrependDate: Boolean = true
+    val hasShareTaskShowsEdit: Boolean = false
+    val hasTaskDrag: Boolean = false
+    val isSyncDues: Boolean = false
+    val isSyncThresholds: Boolean = false
+    var lastScrollOffset: Int = -1
+    var lastScrollPosition: Int = -1
+    val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)
+    val shareAppendText: String = " +background"
+    val showCompleteCheckbox: Boolean = true
+    val sortCaseSensitive: Boolean = true
+    val tasklistTextSize: Float = 14.0f
+    val uppercaseHeaders: Boolean = true
+    fun clearCache() {
+        cachedContents = null
+        todoList = null
+        FileStore.todoNameChanged()
+    }
 
-    val idleBeforeSaveSeconds by IntPreference(R.string.idle_before_save, 5)
+    private var _todoFileName: String? = getString(R.string.todo_file_key)
 
-    var uppercaseHeaders by BooleanPreference(R.string.uppercase_headers, true)
+    //    val todoFile: File = FileStore.getDefaultFile()
+    val todoFile: File
+        get() = _todoFileName?.let { File(it) } ?: FileStore.getDefaultFile()
+
+    fun setTodoFile(file: File?) {
+        _todoFileName = file?.path
+        clearCache()
+    }
+
+    fun getSortString(key: String): String {
+        if (useTodoTxtTerms) {
+            when (key) {
+                "by_context" -> return getString(R.string.by_context_todotxt)
+                "by_project" -> return getString(R.string.by_project_todotxt)
+            }
+        }
+        val keys = listOf(*TodoApplication.app.resources.getStringArray(R.array.sortKeys))
+        if (keys.contains(key)) {
+            val values = TodoApplication.app.resources.getStringArray(R.array.sort)
+            return values[keys.indexOf(key)]
+        } else {
+            return getString(R.string.none)
+        }
+    }
 
 }
+
+//class Config(app: TodoApplication) : Preferences(app) {
+//
+//    val TAG = "Config"
+//
+//    init {
+//        registerCallbacks(listOf<String>(
+//                getString(R.string.widget_theme_pref_key),
+//                getString(R.string.widget_extended_pref_key),
+//                getString(R.string.widget_background_transparency),
+//                getString(R.string.widget_header_transparency)
+//        )) {
+//            TodoApplication.app.redrawWidgets()
+//        }
+//        registerCallbacks(listOf<String>(
+//                getString(R.string.calendar_sync_dues),
+//                getString(R.string.calendar_sync_thresholds),
+//                getString(R.string.calendar_reminder_days),
+//                getString(R.string.calendar_reminder_time)
+//        )) {
+//            CalendarSync.updatedSyncTypes()
+//        }
+//    }
+//
+//    val useTodoTxtTerms by BooleanPreference(R.string.ui_todotxt_terms, false)
+//
+//    val showTxtOnly by BooleanPreference(R.string.show_txt_only, false)
+//
+//    val _syncDues by BooleanPreference(R.string.calendar_sync_dues, false)
+//    val isSyncDues: Boolean
+//        get() = TodoApplication.atLeastAPI(16) && _syncDues
+//
+//    val _syncThresholds by BooleanPreference(R.string.calendar_sync_thresholds, false)
+//    val isSyncThresholds: Boolean
+//        get() = TodoApplication.atLeastAPI(16) && _syncThresholds
+//
+//    val reminderDays by IntPreference(R.string.calendar_reminder_days, 1)
+//
+//    val reminderTime by IntPreference(R.string.calendar_reminder_time, 720)
+//
+//    val listTerm: String
+//        get() {
+//            if (useTodoTxtTerms) {
+//                return getString(R.string.context_prompt_todotxt)
+//            } else {
+//                return getString(R.string.context_prompt)
+//            }
+//        }
+//
+//    val tagTerm: String
+//        get() {
+//            if (useTodoTxtTerms) {
+//                return getString(R.string.project_prompt_todotxt)
+//            } else {
+//                return getString(R.string.project_prompt)
+//            }
+//        }
+//
+//    var lastScrollPosition by IntPreference(R.string.ui_last_scroll_position, -1)
+//
+//    var lastScrollOffset by IntPreference(R.string.ui_last_scroll_offset, -1)
+//
+//    var luaConfig by StringPreference(R.string.lua_config, "")
+//
+//    var isWordWrap by BooleanPreference(R.string.word_wrap_key, true)
+//
+//    var isCapitalizeTasks by BooleanPreference(R.string.capitalize_tasks, true)
+//
+//    val showTodoPath by BooleanPreference(R.string.show_todo_path, false)
+//
+//    val backClearsFilter by BooleanPreference(R.string.back_clears_filter, false)
+//
+//    val sortCaseSensitive by BooleanPreference(R.string.ui_sort_case_sensitive, true)
+//
+//    private val _windowsEOL by BooleanPreference(R.string.line_breaks_pref_key, false)
+//    val eol: String
+//        get() = if (_windowsEOL) "\r\n" else "\n"
+//
+//    val hasAppendAtEnd by BooleanPreference(R.string.append_tasks_at_end, true)
+//
+//    // Takes an argument f, an expression that maps theme strings to IDs
+//    val activeTheme: Int
+//        get() {
+//            return when (activeThemeString) {
+//                "dark" -> R.style.AppTheme_NoActionBar
+//                "black" -> R.style.AppTheme_Black_NoActionBar
+//                else -> R.style.AppTheme_Light_NoActionBar
+//            }
+//        }
+//
+//    val activeActionBarTheme: Int
+//        get() {
+//            return when (activeThemeString) {
+//                "dark" -> R.style.AppTheme_ActionBar
+//                "black" -> R.style.AppTheme_Black_ActionBar
+//                else -> R.style.AppTheme_Light_DarkActionBar
+//            }
+//        }
+//
+//    val activePopupTheme: Int
+//        get() {
+//            return if (isDarkTheme || isBlackTheme) {
+//                R.style.AppTheme_ActionBar
+//            } else {
+//                R.style.AppTheme_Black_ActionBar
+//            }
+//        }
+//
+//    val isDarkTheme: Boolean
+//        get() {
+//            return when (activeThemeString) {
+//                "dark" -> true
+//                else -> false
+//            }
+//        }
+//
+//    val isBlackTheme: Boolean
+//        get() {
+//            return when (activeThemeString) {
+//                "black" -> true
+//                else -> false
+//            }
+//        }
+//
+//    private val _widgetTheme by StringPreference(R.string.widget_theme_pref_key, "light_darkactionbar")
+//    val isDarkWidgetTheme: Boolean
+//        get() = _widgetTheme == "dark"
+//
+//    private val _activeTheme by StringPreference(R.string.theme_pref_key, "light_darkactionbar")
+//    private val activeThemeString: String
+//        get() = Interpreter.configTheme() ?: _activeTheme
+//
+//    // Only used in Dropbox build
+//    @Suppress("unused")
+//    var fullDropBoxAccess by BooleanPreference(R.string.dropbox_full_access, true)
+//
+//    private val dateBarSize by IntPreference(R.string.datebar_relative_size, 80)
+//    val dateBarRelativeSize: Float
+//        get() = dateBarSize / 100.0f
+//
+//    val showCalendar by BooleanPreference(R.string.ui_show_calendarview, false)
+//
+//    val tasklistTextSize: Float
+//        get() {
+//            val luaValue = Interpreter.tasklistTextSize()
+//            if (luaValue != null) {
+//                return luaValue
+//            }
+//            val customSize by BooleanPreference(R.string.custom_font_size, false)
+//            if (!customSize) {
+//                return 14.0f
+//            }
+//            val fontSize by IntPreference(R.string.font_size, 14)
+//            return fontSize.toFloat()
+//        }
+//
+//    val hasShareTaskShowsEdit by BooleanPreference(R.string.share_task_show_edit, false)
+//
+//    val useListAndTagIcons by BooleanPreference(R.string.use_list_and_tags_icons, true)
+//
+//    val hasExtendedTaskView by BooleanPreference(R.string.taskview_extended_pref_key, true)
+//
+//    val showCompleteCheckbox by BooleanPreference(R.string.ui_complete_checkbox, true)
+//
+//    val showConfirmationDialogs by BooleanPreference(R.string.ui_show_confirmation_dialogs, true)
+//
+//    val defaultSorts: Array<String>
+//        get() = TodoApplication.app.resources.getStringArray(R.array.sortKeys)
+//
+//    private var _todoFileName by StringOrNullPreference(R.string.todo_file_key)
+//    val todoFile: File
+//        get()  = _todoFileName?.let { File(it )} ?: FileStore.getDefaultFile()
+//
+//
+//
+//    fun setTodoFile(file: File?) {
+//        _todoFileName = file?.path
+//        clearCache()
+//    }
+//
+//    val doneFile: File
+//        @RequiresApi(Build.VERSION_CODES.M)
+//        get() {
+//            val filename = if (FileStore.isEncrypted) "done.txt.jenc"  else "done.txt"
+//            return File(todoFile.parentFile, filename)
+//        }
+//
+//    fun clearCache() {
+//        cachedContents = null
+//        todoList = null
+//        FileStore.todoNameChanged()
+//    }
+//
+//    val isAutoArchive by BooleanPreference(R.string.auto_archive_pref_key, false)
+//
+//    val hasPrependDate by BooleanPreference(R.string.prepend_date_pref_key, true)
+//
+//    val hasKeepSelection by BooleanPreference(R.string.keep_selection, false)
+//
+//    val hasKeepPrio by BooleanPreference(R.string.keep_prio, true)
+//
+//    val hasTaskDrag by BooleanPreference(R.string.task_drag, false)
+//
+//    val shareAppendText by StringPreference(R.string.share_task_append_text, " +background")
+//
+//    var latestChangelogShown by IntPreference(R.string.latest_changelog_shown, 0)
+//
+//    var rightDrawerDemonstrated by BooleanPreference(R.string.right_drawer_demonstrated, false)
+//
+//    val localFileRoot by StringPreference(R.string.local_file_root, this.context.getExternalFilesDir(null)!!.canonicalPath)
+//
+//    val hasColorDueDates by BooleanPreference(R.string.color_due_date_key, true)
+//
+//    private var cachedContents by StringOrNullPreference(R.string.cached_todo_file)
+//
+//    var todoList: List<Task>?
+//        get() = cachedContents?.let {
+//            val lines = it.lines()
+//            Log.i(TAG, "Getting ${lines.size} items todoList from cache")
+//            ArrayList<Task>().apply {
+//                addAll(lines.map { line -> Task(line) })
+//            }
+//        }
+//        set(items) {
+//            Log.i(TAG, "Updating todoList cache with ${items?.size} tasks")
+//            if (items == null) {
+//                prefs.edit().remove(getString(R.string.cached_todo_file)).apply()
+//            } else {
+//                cachedContents = items.joinToString("\n") { it.inFileFormat(useUUIDs) }
+//            }
+//        }
+//    var changesPending by BooleanPreference(R.string.changes_pending, false)
+//    var forceEnglish by BooleanPreference(R.string.force_english, false)
+//    var useUUIDs by BooleanPreference(R.string.use_uuids, false)
+//
+//    fun legacyQueryStoreJson() : String   {
+//        val queries = LegacyQueryStore.ids().map {
+//            LegacyQueryStore.get(it)
+//        }
+//        val jsonObject = queries.fold(JSONObject()) { acc, query ->
+//            acc.put(query.name, query.query.saveInJSON())
+//        }
+//        return jsonObject.toString(2)
+//    }
+//
+//    var savedQueriesJSONString by StringPreference(R.string.query_store, legacyQueryStoreJson())
+//
+//    var savedQueries : List<NamedQuery>
+//    get() {
+//        val queries = ArrayList<NamedQuery>()
+//        val jsonFilters = JSONObject(savedQueriesJSONString)
+//        jsonFilters.keys().forEach { name ->
+//            val json = jsonFilters.getJSONObject(name)
+//            val newQuery = NamedQuery(name, Query(json, luaModule = "mainui"))
+//            queries.add(newQuery)
+//        }
+//        return queries
+//    }
+//    set(queries) {
+//        val jsonFilters = queries.fold(JSONObject()) { acc, query ->
+//            acc.put(query.name, query.query.saveInJSON())
+//        }
+//        savedQueriesJSONString = jsonFilters.toString(2)
+//    }
+//
+//    fun getSortString(key: String): String {
+//        if (useTodoTxtTerms) {
+//            if ("by_context" == key) {
+//                return getString(R.string.by_context_todotxt)
+//            }
+//            if ("by_project" == key) {
+//                return getString(R.string.by_project_todotxt)
+//            }
+//        }
+//        val keys = Arrays.asList(*TodoApplication.app.resources.getStringArray(R.array.sortKeys))
+//        val values = TodoApplication.app.resources.getStringArray(R.array.sort)
+//        val index = keys.indexOf(key)
+//        if (index == -1) {
+//            return getString(R.string.none)
+//        }
+//        return values[index]
+//    }
+//
+//    var mainQuery: Query
+//        get() = Query(this.prefs, luaModule = "mainui")
+//        set(value) {
+//            // Update the intent so we wont get the old applyFilter after
+//            // switching back to app later. Fixes [1c5271ee2e
+//            value.saveInPrefs(prefs)
+//            TodoApplication.config.lastScrollPosition = -1
+//        }
+//
+//    val idleBeforeSaveSeconds by IntPreference(R.string.idle_before_save, 5)
+//
+//    var uppercaseHeaders by BooleanPreference(R.string.uppercase_headers, true)
+//
+//}

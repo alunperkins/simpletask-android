@@ -51,7 +51,6 @@ import nl.mpcjanssen.simpletask.dao.AppDatabase
 import nl.mpcjanssen.simpletask.dao.DB_FILE
 import nl.mpcjanssen.simpletask.dao.TodoFile
 import nl.mpcjanssen.simpletask.remote.BackupInterface
-import nl.mpcjanssen.simpletask.remote.FileDialog
 import nl.mpcjanssen.simpletask.remote.FileStore
 import nl.mpcjanssen.simpletask.task.TodoList
 import nl.mpcjanssen.simpletask.util.Config
@@ -251,16 +250,17 @@ class TodoApplication : Application() {
 
     fun browseForNewFile(act: Activity) {
         val fileStore = FileStore
-        FileDialog.browseForNewFile(
-                act,
-                fileStore,
-                config.todoFile.parentFile,
-                object : FileDialog.FileSelectedListener {
-                    override fun fileSelected(file: File) {
-                        switchTodoFile(file)
-                    }
-                },
-                config.showTxtOnly)
+//        TODO FileDialog.browseForNewFile(
+//                act,
+//                fileStore,
+//                config.todoFile.parentFile,
+//                object : FileDialog.FileSelectedListener {
+//                    override fun fileSelected(file: File) {
+//                        switchTodoFile(file)
+//                    }
+//                },
+//                config.showTxtOnly
+//        )
     }
 
     private fun createNotificationChannel() {

@@ -371,11 +371,12 @@ class TaskAdapter(val completeAction: (Task) -> Unit,
             TodoApplication.todoList.moveAbove(toTask, fromTask)
         }
 
-        TodoApplication.todoList.notifyTasklistChanged(
-                TodoApplication.config.todoFile,
-                save = true,
-                refreshMainUI = true,
-                forceKeepSelection = true);
+//        TODO TodoApplication.todoList.notifyTasklistChanged(
+//                TodoApplication.config.todoFile,
+//                save = true,
+//                refreshMainUI = true,
+//                forceKeepSelection = true
+//        );
     }
 }
 
